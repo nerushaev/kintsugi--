@@ -43,7 +43,7 @@ export const updateProduct = createAsyncThunk(
   async (updateData, ThunkAPI) => {
     const { _id } = updateData;
     try {
-      const { data } = await instance.put(`/api/products/${_id}`, updateData);
+      await instance.put(`/api/products/${_id}`, updateData);
       return updateData;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);

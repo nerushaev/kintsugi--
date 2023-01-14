@@ -1,4 +1,4 @@
-import Title from "../components/Main/Title/Title";
+import Title from "../components/Home/Title/Title";
 
 export default function Delivery() {
   return (

@@ -1,4 +1,4 @@
-import SharedLayout from './components/Main/SharedLayout/SharedLayout'
+import SharedLayout from './components/Home/SharedLayout/SharedLayout'
 import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 // import {GoodsDetails} from './components/Main/Products/GoodsDetails/GoodsDetails';

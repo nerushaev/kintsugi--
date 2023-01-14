@@ -12,7 +12,7 @@ export default function FormAddProducts() {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('wigs');
+  const [category, setCategory] = useState('Перука');
   const [price, setPrice] = useState('');
   const [_id, setId] = useState('');
   const isAdminLogin = useAuth();
@@ -50,44 +50,47 @@ export default function FormAddProducts() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!_id) {
-      console.log(!_id);
-      dispatch(addProducts({ name, amount, description, category, price }));
-      setName('');
-      setAmount('');
-      setDescription('');
-      setCategory('wigs');
-      setPrice('');
-      setId('');
-    } else {
-      dispatch(updateProduct({ _id, name, amount, description, category, price }));
-      setName('');
-      setAmount('');
-      setDescription('');
-      setCategory('wigs');
-      setPrice('');
-      setId('');
-    }
+    const formData = new FormData(e.target);
+    
+    // if (!_id) {
+    //   console.log(!_id);
+    //   dispatch(addProducts({ name, amount, description, category, price }));
+    //   setName('');
+    //   setAmount('');
+    //   setDescription('');
+    //   setCategory('wigs');
+    //   setPrice('');
+    //   setId('');
+    // } else {
+    //   dispatch(updateProduct({ _id, name, amount, description, category, price }));
+    //   setName('');
+    //   setAmount('');
+    //   setDescription('');
+    //   setCategory('wigs');
+    //   setPrice('');
+    //   setId('');
+    // }
   }
 
   const inputId = nanoid();
 
   return (
     <>
-    <Form onSubmit={handleSubmit}>
-      <FieldContainer>
+    <Form name="form" method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
+      {/* <FieldContainer> */}
         <Label>Product name</Label>
         <Input
         name="name"
-        id={inputId}
+        // id={inputId}
+        id="formName"
         type="text"
         value={name}
         onChange={handleChange}
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Hu-Tao Wig"
         required />
-      </FieldContainer>
-      <FieldContainer>
+      {/* </FieldContainer>
+      <FieldContainer> */}
         <Label>Category</Label>
         <Select
           value={category}
@@ -99,8 +102,8 @@ export default function FormAddProducts() {
           <Option name="accessories">Аксессуар</Option>
           <Option name="other">Іньше</Option>
         </Select>
-      </FieldContainer>
-      <FieldContainer>
+      {/* </FieldContainer>
+      <FieldContainer> */}
         <Label>Amount</Label>
         <Input
         value={amount}
@@ -109,8 +112,8 @@ export default function FormAddProducts() {
         onChange={handleChange}
         type="number"
         required />
-      </FieldContainer>
-      <FieldContainer>
+      {/* </FieldContainer>
+      <FieldContainer> */}
         <Label>Price per one</Label>
         <Input
         value={price}
@@ -119,8 +122,8 @@ export default function FormAddProducts() {
         id={inputId}
         type="number"
         required />
-      </FieldContainer>
-      <FieldContainer>
+      {/* </FieldContainer>
+      <FieldContainer> */}
         <Label>Description</Label>
         <Input
         value={description}
@@ -129,16 +132,16 @@ export default function FormAddProducts() {
         id={inputId}
         type="text"
         required />
-      </FieldContainer>
-      <FieldContainer>
+      {/* </FieldContainer>
+      <FieldContainer> */}
         <Label>Image</Label>
         <Input
         name="image"
         id={inputId}
         type="file"
         />
-      </FieldContainer>
-      <FieldContainer>
+      {/* </FieldContainer>
+      <FieldContainer> */}
         <Label>Id</Label>
         <Input
         name="id"
@@ -147,7 +150,7 @@ export default function FormAddProducts() {
         id={inputId}
         type="text"
         />
-      </FieldContainer>
+      {/* </FieldContainer> */}
       <Button>Add product</Button>
       </Form>
       </>

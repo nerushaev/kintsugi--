@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { ctrlWrapper, validation } = require('../middleware');
+const { ctrlWrapper, validation, upload } = require('../middleware');
 const { productSchema } = require('../schemas');
 
 const validateMiddleware = validation(productSchema);
@@ -14,7 +14,7 @@ router.get('/:productId', ctrlWrapper(productCtrl.getProductById));
 
 router.delete('/:productId', ctrlWrapper(productCtrl.removeProductById));
 
-router.post('/', validateMiddleware, ctrlWrapper(productCtrl.addProduct));
+router.post('/', validateMiddleware, upload.single("image"), ctrlWrapper(productCtrl.addProduct));
 
 router.put('/:productId', ctrlWrapper(productCtrl.updateProductById));
 
