@@ -8,27 +8,33 @@ const { SECRET_KEY } = process.env;
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const userData = await User.findOne({ email });
 
   if (!email) {
     throw createHttpError(401, 'Email invalid...')
   };
 
-  const passwordCompare = bcrypt.compare(password, user.password);
+  const passwordCompare = bcrypt.compare(password, userData.password);
 
   if (!passwordCompare) {
     throw createHttpError(401, "Password invalid...");
   };
 
   const payload = {
-    id: user._id,
+    id: userData._id,
   };
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
-  await User.findByIdAndUpdate(user._id, { token });
+  await User.findByIdAndUpdate(userData._id, { token });
+
+  const { name } = userData;
 
   res.json({
-    token
+    token,
+    user: {
+      email,
+      name
+    }
   })
 };
 

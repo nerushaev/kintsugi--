@@ -1,36 +1,49 @@
 import { nanoid } from 'nanoid';
-import { useEffect, useState } from 'react';
-import { getCurrent, login } from '../../API/api';
-import { Form, Label, Input, Button, Select, FieldContainer, Option } from '../Admin/Fields';
+import { current, login } from '../../redux/auth/auth-operations';
+import { Form, Label, Input, Button, FieldContainer } from '../Admin/Fields';
+import { useMemo, useState } from 'react';
 import { Navigate } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { getError, getIsLogin } from '../../redux/auth/auth-selectors';
+import { useEffect } from 'react';
 
 export default function LoginAdmin() {
-  const [token, setToken] = useState()
-  const [isUserLogin, setIsUserLogin] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const error = useSelector(getError);
+  // const [adminToken, setAdminToken] = useState('');
 
-  const emailId = nanoid();
-  const passwordId = nanoid()
+  const emailId = useMemo(() => nanoid(), []);
+  const passwordId = useMemo(() => nanoid(), []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const email = e.target.elements.email.value;
-    const password = e.target.elements.password.value;
+  const isUserLogin = useSelector(getIsLogin);
 
-    const loginData = {
-      email,
-      password
-    }
-    try {
-      const result = await login(JSON.stringify(loginData));
-      setToken(result.data.token);
-      localStorage.setItem('kintsugi-token', JSON.stringify(result.data.token));
-    } catch (error) {
-      console.log(error.message);
+  useEffect(() => {
+    dispatch(current());
+  }, [dispatch])
+
+  if (isUserLogin) {
+    return <Navigate to="/admin" />
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    switch (name) {
+      case "email":
+        return setEmail(value);
+      case "password":
+        return setPassword(value);
+      default:
+        return;
     }
   }
 
-    if (isUserLogin) {
-    return <Navigate to="/admin" />
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login({email, password}))
+      setEmail('');
+      setPassword('');
   }
 
   return (
@@ -39,6 +52,8 @@ export default function LoginAdmin() {
       <FieldContainer>
         <Label>Email</Label>
         <Input
+          onChange={handleChange}
+          value={email}
           name="email"
           type="email"
           id={emailId}
@@ -48,6 +63,8 @@ export default function LoginAdmin() {
       <FieldContainer>
         <Label>Password</Label>
         <Input
+          onChange={handleChange}
+          value={password}
           name="password"
           type="password"
           id={passwordId}

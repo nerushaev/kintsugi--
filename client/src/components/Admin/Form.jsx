@@ -1,36 +1,29 @@
 import { Form, Label, Input, Button, Select, FieldContainer, Option } from '../Admin/Fields';
 import { nanoid } from 'nanoid';
-import { useEffect, useState } from 'react';
-import { addItem, getCurrent } from '../../API/api';
+import { useState } from 'react';
 import { Navigate } from 'react-router';
+import { useAuth } from '../../hooks/useAuth';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { current } from '../../redux/auth/auth-operations';
+import { addProducts, updateProduct } from '../../redux/products/products-operation';
 
 export default function FormAddProducts() {
   const [name, setName] = useState('');
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('wigs');
   const [price, setPrice] = useState('');
+  const [_id, setId] = useState('');
+  const isAdminLogin = useAuth();
 
-  const [isUserLogin, setIsUserLogin] = useState();
-
-  const adminToken = localStorage.getItem('kintsugi-token');
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    async function currentUser() {
-      try {
-      const isLoggin = await getCurrent(adminToken);
-        if (isLoggin) {
-        setIsUserLogin(true);
-      }
-    } catch (error) {
-      setIsUserLogin(false);
-      console.log(error.message);
-    }
-    }
-    currentUser(adminToken)
-  }, [])
-  
-  if (!isUserLogin) {
+    dispatch(current());
+  }, [dispatch])
+
+  if (!isAdminLogin) {
     return <Navigate to="/login" />
   }
 
@@ -48,34 +41,32 @@ export default function FormAddProducts() {
       return setCategory(value);
     case "price":
       return setPrice(value);
+    case "id":
+      return setId(value);
     default:
       return;
     };
   };
 
-  const handleSubmit = async(e) => {
-    e.preventDefault()
-
-    const newProduct = {
-      name,
-      amount,
-      description,
-      category,
-      price,
-    };
-
-    try {
-      const result = await addItem(JSON.stringify(newProduct));
-      if (result) {
-        setName('');
-        setAmount('');
-        setDescription('');
-        setCategory('wigs');
-        setPrice('');
-        return result;
-      }
-    } catch (error) {
-      console.log(error.message);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!_id) {
+      console.log(!_id);
+      dispatch(addProducts({ name, amount, description, category, price }));
+      setName('');
+      setAmount('');
+      setDescription('');
+      setCategory('wigs');
+      setPrice('');
+      setId('');
+    } else {
+      dispatch(updateProduct({ _id, name, amount, description, category, price }));
+      setName('');
+      setAmount('');
+      setDescription('');
+      setCategory('wigs');
+      setPrice('');
+      setId('');
     }
   }
 
@@ -83,7 +74,7 @@ export default function FormAddProducts() {
 
   return (
     <>
-    <Form form-action={handleSubmit} onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <FieldContainer>
         <Label>Product name</Label>
         <Input
@@ -145,6 +136,16 @@ export default function FormAddProducts() {
         name="image"
         id={inputId}
         type="file"
+        />
+      </FieldContainer>
+      <FieldContainer>
+        <Label>Id</Label>
+        <Input
+        name="id"
+        value={_id}
+        onChange={handleChange}
+        id={inputId}
+        type="text"
         />
       </FieldContainer>
       <Button>Add product</Button>

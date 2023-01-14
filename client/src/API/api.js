@@ -1,15 +1,14 @@
 import axios from 'axios'
 
-const instance = axios.create({
+export const instance = axios.create({
   headers: {"Content-Type": "application/json"},
 })
 
-const setToken = (token) => {
+export const setToken = (token) => {
   if (token) {
     return instance.defaults.headers.common.authorization = `Bearer ${token}`;
   }
   instance.defaults.headers.common.authorization = ``;
-
 }
 
 export const getItems = async () => {
@@ -22,11 +21,10 @@ export const addItem = async (data) => {
   return result;
 };
 
-export const login = async (data) => {
-  const result = await instance.post('/api/auth/login', data);
-  setToken(result.data.token)
-  console.log(result);
-  return result;
+export const login = async (userData) => {
+  const { data } = await instance.post('/api/auth/login', userData);
+  setToken(data.token);
+  return data;
 };
 
 export const getCurrent = async (token) => {

@@ -5,18 +5,10 @@ const removeProductById = async (req, res) => {
 
   const result = await Product.findByIdAndRemove(productId);
 
-    if (!result) {
-      throw NotFound(`Contact with id=${productId} not found...`);
-    }
+  if (!result) {
+    throw NotFound(`Contact with id=${productId} not found...`);
+  }
   
-    res.json({
-      status: "success",
-      code: 200,
-      message: "Product delete",
-      data: {
-        result
-      }
-    })
-};
-
+  res.json(result);
+}
 module.exports = removeProductById;
