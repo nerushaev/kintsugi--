@@ -3,6 +3,7 @@ import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 import storage from 'redux-persist/lib/storage';
 import authReducer from './auth/auth-slice';
 import { productsReducer } from './products/products-slice';
+import { filterReducer } from './filter/filter-slice';
 
 const persistConfig = {
   key: "token",
@@ -16,6 +17,7 @@ export const store = configureStore({
   reducer: {
     auth: persistedReducer,
     products: productsReducer,
+    filter: filterReducer,
   },
   middleware: (getDefaultMiddleware) =>
   getDefaultMiddleware({

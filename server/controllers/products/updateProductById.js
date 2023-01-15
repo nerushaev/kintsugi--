@@ -1,10 +1,8 @@
 const Product = require('../../models/product');
 
 const updateProductById = async (req, res) => {
-  const { productId } = req.params;
-
+    const { productId } = req.params;
     const result = await Product.findByIdAndUpdate(productId, req.body);
-
     if (!result) {
       throw NotFound(`Contact with id=${productId} not found...`);
     }

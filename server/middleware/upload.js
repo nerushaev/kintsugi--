@@ -1,10 +1,7 @@
 const multer = require('multer');
 const path = require('path');
-const randomId = require('random-id');
 
 const len = 15;
-
-console.log(('Here'));
 
 const tempDir = path.join(__dirname, "../", "temp");
 

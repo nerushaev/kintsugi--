@@ -6,8 +6,7 @@ export const getProducts = createAsyncThunk(
   async (_, ThunkAPI) => {
     try {
       const { data } = await instance.get("/api/products/");
-      const products = data.flat();
-      return products;
+      return data.products;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);
     }

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../../../redux/products/products-operation';
 import { useEffect } from "react";
-import { getStateProducts } from '../../../../redux/products/products-selectors';
+import { getFilteredProducts, getStateProducts } from '../../../../redux/products/products-selectors';
 
 const List = styled.ul`
 	margin-bottom: -30px;
@@ -19,17 +19,19 @@ const List = styled.ul`
 
 const ProductsList = () => {
   const dispatch = useDispatch();
-  const product = useSelector(getStateProducts);
+  const product = useSelector(getFilteredProducts);
 
   useEffect(() => {
     dispatch(getProducts())
   }, [dispatch])
 
   return (
-      <List>
+    <>
+    <List>
         <ProductsItem data={product} />
         {/* {error && <p>Somethink wrong...</p>} */}
       </List>
+      </>
   )
 }
 

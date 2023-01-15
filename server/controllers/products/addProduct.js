@@ -11,8 +11,6 @@ cloudinary.config = ({
 });
 
 const addProduct = async (req, res) => {
-  console.log(req.body);
-  console.log(req.file);
   const { path: tempUpload, originalname } = req.file;
 
   const options = {
@@ -21,20 +19,19 @@ const addProduct = async (req, res) => {
       overwrite: true,
     };
   
-  const result = await cloudinary.uploader.upload(tempUpload, options);
+  try {
+    const result = await cloudinary.uploader.upload(tempUpload, options);
+    const product = await Product.create({ ...req.body, image: result.url });
+    res.json(product)
+    fs.unlink(tempUpload);
+  } catch (error) {
+    console.log(error.message);
+  }
   
+  // const result = await cloudinary.uploader.upload(tempUpload, options);
+  
+  // const product = await Product.create({...req.body, image: result.url});
 
-  // const image = await Jimp.read(tempUpload);
-  // image.resize(250, 250).write(tempUpload);
-
-  // const filename = `${randomId()}_${originalname}`;
-  // const resultUpload = path.join(avatarsDir, filename);
-  // await fs.rename(tempUpload, resultUpload);
-  // const avatarURL = path.join("productsImage", filename);
-
-  const product = await Product.create({...req.body, image: result.url});
-
-  res.json(product)
 };
 
 module.exports = addProduct;

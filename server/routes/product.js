@@ -14,8 +14,8 @@ router.get('/:productId', ctrlWrapper(productCtrl.getProductById));
 
 router.delete('/:productId', ctrlWrapper(productCtrl.removeProductById));
 
-router.post('/', upload.single("image"), ctrlWrapper(productCtrl.addProduct));
+router.post('/', upload.single("image"), validateMiddleware, ctrlWrapper(productCtrl.addProduct));
 
-router.put('/:productId', validateMiddleware, ctrlWrapper(productCtrl.updateProductById));
+router.put('/:productId', ctrlWrapper(productCtrl.updateProductById));
 
 module.exports = router;

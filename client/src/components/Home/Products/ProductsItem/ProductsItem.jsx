@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { Item, Image, Title, AddButton, Price, Description } from './ProductsItem.styled';
 
 // export const Button = styled.button`
@@ -21,8 +22,9 @@ import { Item, Image, Title, AddButton, Price, Description } from './ProductsIte
 
 export const ProductsItem = ({ data }) => {
   return data.map(({ name, description, id, image, amount, price }) => {
+    const itemId = nanoid()
     return (
-      <Item>
+      <Item key={itemId}>
           <Image src={image} alt="" />
           <Title>{name}</Title>
           <Price>{price}грн.</Price>
