@@ -6,7 +6,7 @@ export default function Home() {
 
   return (
     <>
-      <Title text="Свайпай нові товари" />
+      <Title text="Акції та знижки" />
     <Slider />
       <ProductsList />
       </>

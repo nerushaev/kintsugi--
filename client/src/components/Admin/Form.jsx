@@ -51,7 +51,7 @@ export default function FormAddProducts() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    
+    dispatch(addProducts(formData));
     // if (!_id) {
     //   console.log(!_id);
     //   dispatch(addProducts({ name, amount, description, category, price }));

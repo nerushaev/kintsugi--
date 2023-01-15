@@ -6,9 +6,15 @@ import { useEffect } from "react";
 import { getStateProducts } from '../../../../redux/products/products-selectors';
 
 const List = styled.ul`
-  display: flex;
-  flex-direction: column;
+	margin-bottom: -30px;
   align-items: center;
+  @media (min-width: 480px) {
+    display: flex;
+		flex-wrap: wrap;
+		margin-left: -15px;
+		margin-right: -15px;
+    margin-bottom: 30px;
+  }
 `;
 
 const ProductsList = () => {

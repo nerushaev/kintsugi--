@@ -4,9 +4,9 @@ const productSchema = Joi.object({
   name: Joi.string().required(),
   category: Joi.string().required(),
   amount: Joi.string().required(),
-  image: Joi.string(),
   description: Joi.string().required(),
   price: Joi.string().required(),
+  id: Joi.string(),
 })
 
 module.exports = productSchema;

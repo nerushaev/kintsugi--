@@ -1,12 +1,16 @@
 import axios from 'axios'
 
 export const instance = axios.create({
+  headers: {"Content-Type": "multipart/form-data"},
+})
+
+const AuthInstance = axios.create({
   headers: {"Content-Type": "application/json"},
 })
 
 export const setToken = (token) => {
   if (token) {
-    return instance.defaults.headers.common.authorization = `Bearer ${token}`;
+    return AuthInstance.defaults.headers.common.authorization = `Bearer ${token}`;
   }
   instance.defaults.headers.common.authorization = ``;
 }
@@ -22,7 +26,7 @@ export const addItem = async (data) => {
 };
 
 export const login = async (userData) => {
-  const { data } = await instance.post('/api/auth/login', userData);
+  const { data } = await AuthInstance.post('/api/auth/login', userData);
   setToken(data.token);
   return data;
 };
@@ -30,7 +34,7 @@ export const login = async (userData) => {
 export const getCurrent = async (token) => {
   try {
     setToken(token);
-    const { data } = await instance.get("/api/auth/current");
+    const { data } = await AuthInstance.get("/api/auth/current");
     return data;
   } catch (error) {
     setToken();

@@ -12,10 +12,12 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
 app.use(cors());
 app.use(logger(formatsLogger));
-app.use(express.json());
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
-app.use('/api/products/', productsRouter);
 app.use('/api/auth/', authRouter)
+app.use('/api/products/', productsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' })
