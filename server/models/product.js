@@ -23,6 +23,9 @@ const productSchema = new Schema({
   price: {
     type: String,
     required: true,
+  },
+  comingSoon: {
+    type: String,
   }
 });
 

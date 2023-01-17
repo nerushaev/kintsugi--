@@ -5,12 +5,12 @@ const FooterWrapper = styled.footer`
   amrgin-top: auto;
   padding-bottom: 20px;
   padding-top: 20px;
-  background-color: rgb(72,61,139);
+  background-color: rgba(255, 200, 221, 1);
 `;
 
 const Text = styled.p`
   text-align: center;
-  color: white;
+  color: black;
 `;
 
 const Footer = () => {

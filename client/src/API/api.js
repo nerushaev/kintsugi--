@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const instance = axios.create({
-  headers: {"Content-Type": "multipart/form-data"},
+  headers: {"Content-Type": "application/x-www-form-urlencoded"},
 })
 
 const AuthInstance = axios.create({

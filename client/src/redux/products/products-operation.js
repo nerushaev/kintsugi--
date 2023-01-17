@@ -3,10 +3,45 @@ import { instance } from '../../API/api';
 
 export const getProducts = createAsyncThunk(
   '/products/get',
+  async (requestData, ThunkAPI) => {
+    const { page, filter } = requestData;
+    if (filter) {
+      try {
+        const { data } = await instance.get(`/api/products?page=${page}&category=${filter}`);
+        return data;
+      } catch (error) {
+        return ThunkAPI.rejectWithValue(error.message);
+      }
+    } else {
+        try {
+          const { data } = await instance.get(`/api/products?page=${page}`);
+        return data;
+      } catch (error) {
+        return ThunkAPI.rejectWithValue(error.message);
+      }
+      }
+  }
+);
+
+export const getFilteredProducts = createAsyncThunk(
+  '/products/get/filtered',
+  async (category, ThunkAPI) => {
+    try {
+      const { data } = await instance.get(`/api/products?category=${category}`);
+      return data;
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getAllProducts = createAsyncThunk(
+  '/products/get/all',
   async (_, ThunkAPI) => {
     try {
-      const { data } = await instance.get("/api/products/");
-      return data.products;
+      const { data } = await instance.get('/api/products/all');
+      console.log(data);
+      return data;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);
     }
@@ -16,6 +51,9 @@ export const getProducts = createAsyncThunk(
 export const addProducts = createAsyncThunk(
   '/products/add',
   async (newProduct, ThunkAPI) => {
+    newProduct.forEach((value, key) => {
+      console.log(`key:${key}, value:${value}`);
+    })
     try {
       const { data } = await instance.post("/api/products/", newProduct);
       return data;
@@ -40,10 +78,23 @@ export const removeProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   '/products/update',
   async (updateData, ThunkAPI) => {
-    const { _id } = updateData;
+    const id = updateData.get('_id');
+    updateData.delete('_id')
     try {
-      await instance.put(`/api/products/${_id}`, updateData);
-      return updateData;
+      const { data } = await instance.put(`/api/products/${id}`, updateData);
+      return data;
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getComingSoonProducts = createAsyncThunk(
+  '/products/get/filtered',
+  async (_, ThunkAPI) => {
+    try {
+      const { data } = await instance.get(`/api/products/comingSoon`);
+      return data.products;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);
     }

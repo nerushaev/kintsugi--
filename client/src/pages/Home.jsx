@@ -1,17 +1,17 @@
 import ProductsList from "../components/Home/Products/ProductsList/ProductsList";
 import Slider from "../components/Home/Swiper/Swiper";
 import Title from "../components/Home/Title/Title";
-import FilterPanel from "../components/Home/FilterPanel/FilterPanel";
+import ComingSoonList from '../components/Home/Products/ComingSoonList/ComingSoonList';
 
 export default function Home() {
-
   return (
     <>
-      <Title text="Акції та знижки" />
+      <Title text="Нові пропозиції" />
       <Slider />
       <Title text="Рекомендуємо" />
-      <FilterPanel />
       <ProductsList />
+      <Title text="Cкоро в наявності" />
+      <ComingSoonList />
       </>
   )
 }

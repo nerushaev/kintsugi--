@@ -1,19 +1,14 @@
-import { Form, Label, Input, Button, Select, FieldContainer, Option } from '../Admin/Fields';
+import { Form, Label, Input, Select, FieldContainer, Option } from '../Admin/Fields';
 import { nanoid } from 'nanoid';
 import { Navigate } from 'react-router';
 import { useAuth } from '../../hooks/useAuth';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { current } from '../../redux/auth/auth-operations';
-import { addProducts } from '../../redux/products/products-operation';
+import { addProducts, updateProduct } from '../../redux/products/products-operation';
+import { ButtonWrapper, Button } from '../Buttons/Buttons';
 
 export default function FormAddProducts() {
-  // const [name, setName] = useState('');
-  // const [amount, setAmount] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [category, setCategory] = useState('Перука');
-  // const [price, setPrice] = useState('');
-  // const [_id, setId] = useState('');
   const isAdminLogin = useAuth();
 
   const dispatch = useDispatch();
@@ -26,32 +21,11 @@ export default function FormAddProducts() {
     return <Navigate to="/login" />
   }
 
-  // const handleChange = (e) => {
-  // const { name, value } = e.target;
-
-  // switch (name) {
-  //   case "name":
-  //     return setName(value);
-  //   case "amount":
-  //     return setAmount(value);
-  //   case "description":
-  //     return setDescription(value);
-  //   case "category":
-  //     return setCategory(value);
-  //   case "price":
-  //     return setPrice(value);
-  //   case "id":
-  //     return setId(value);
-  //   default:
-  //     return;
-  //   };
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     for (let k of formData) {
-      if (k[0] === 'id' & k[1] === '') {
+      if (k[0] === '_id' & k[1] === '') {
         formData.delete(k[0])
       }
     }
@@ -59,6 +33,19 @@ export default function FormAddProducts() {
     for (let item of e.target) {
       item.value = '';
     }
+  }
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    console.log(e.target.form);
+    const formData = new FormData(e.target.form);
+    formData.forEach((value, key) => {
+      console.log(`key:${key}, value:${value}`)
+    })
+    dispatch(updateProduct(formData));
+    // for (let item of e.target.form) {
+    //   item.value = '';
+    // }
   }
 
   const inputId = nanoid();
@@ -72,8 +59,6 @@ export default function FormAddProducts() {
           name="name"
           id="formName"
           type="text"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Hu-Tao Wig"
           required
         />
       </FieldContainer>
@@ -107,7 +92,8 @@ export default function FormAddProducts() {
       </FieldContainer>
       <FieldContainer>
         <Label>Description</Label>
-        <Input
+          <Input
+          maxLength="96"
           name="description"
           id={inputId}
           type="text"
@@ -124,12 +110,23 @@ export default function FormAddProducts() {
       <FieldContainer>
         <Label>Id</Label>
         <Input
-          name="id"
+          name="_id"
           id={inputId}
           type="text"
         />
       </FieldContainer>
-      <Button>Add product</Button>
+        <FieldContainer>
+          <Label>Товар в дорозі</Label>
+          <Input
+            name="comingSoon"
+            type="checkbox"
+            id={inputId}
+          />
+      </FieldContainer>
+      <ButtonWrapper>
+        <Button type="submit">Add product</Button>
+        <Button onClick={handleUpdate}>Update product</Button>
+      </ButtonWrapper>
       </Form>
       </>
   )

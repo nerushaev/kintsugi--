@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const productsRouter = require('./routes/product');
@@ -12,9 +13,9 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
 app.use(cors());
 app.use(logger(formatsLogger));
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+// app.use(express.static("public"));
 
 app.use('/api/auth/', authRouter)
 app.use('/api/products/', productsRouter);

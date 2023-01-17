@@ -1,10 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getProducts, addProducts, removeProduct, updateProduct } from './products-operation';
+import { getProducts, addProducts, removeProduct, updateProduct, getAllProducts, getComingSoonProducts } from './products-operation';
 
 const productsInitialState = {
   items: [],
   isLoading: false,
   error: null,
+  currentPage: 1,
+  totalPages: 1,
+  comingSoonProducts: [],
 };
 
 const handlePending = state => {
@@ -24,7 +27,9 @@ const productsSlice = createSlice({
     [getProducts.fulfilled](state, action) {
       state.isLoading = false;
       state.error = null;
-      state.items = action.payload;
+      state.items = action.payload.products;
+      state.currentPage = action.payload.currentPage;
+      state.totalPages = action.payload.totalPages;
     },
     [getProducts.rejected]: handleRejected,
     [addProducts.pending]: handlePending,
@@ -51,6 +56,22 @@ const productsSlice = createSlice({
       state.items = state.items.map(product => product._id === action.payload._id ? action.payload : product);
     },
     [updateProduct.rejected]: handleRejected,
+    [getAllProducts.pending]: handlePending,
+    [getAllProducts.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.items = action.payload.products;
+    },
+    [getAllProducts.rejected]: handleRejected,
+    [getComingSoonProducts.pending]: handleRejected,
+    [getComingSoonProducts.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.comingSoonProducts = action.payload;
+      // state.currentPage = action.payload.currentPage;
+      // state.totalPages = action.payload.totalPages;
+    },
+    [getComingSoonProducts.rejected]: handleRejected,
   },
 });
 

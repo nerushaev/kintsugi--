@@ -10,12 +10,16 @@ const productCtrl = require('../controllers/products');
 
 router.get('/', productCtrl.getProducts);
 
+router.get('/all', ctrlWrapper(productCtrl.getAllProducts));
+
+router.get('/comingSoon', ctrlWrapper(productCtrl.getComingSoonProducts));
+
 router.get('/:productId', ctrlWrapper(productCtrl.getProductById));
 
 router.delete('/:productId', ctrlWrapper(productCtrl.removeProductById));
 
 router.post('/', upload.single("image"), validateMiddleware, ctrlWrapper(productCtrl.addProduct));
 
-router.put('/:productId', ctrlWrapper(productCtrl.updateProductById));
+router.put('/:productId', upload.single("image"), validateMiddleware, ctrlWrapper(productCtrl.updateProductById));
 
 module.exports = router;

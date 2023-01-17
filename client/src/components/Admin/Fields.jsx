@@ -30,6 +30,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
+  margin-right: 15px;
   display: inline-block;
   font-weight: 500;
   border: none;
@@ -57,4 +58,9 @@ export const Option = styled.option`
 
 export const FieldContainer = styled.div`
   margin-bottom: 10px;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `;

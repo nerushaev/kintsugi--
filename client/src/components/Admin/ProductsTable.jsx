@@ -16,7 +16,6 @@ export default function ProductsTable() {
 
   const handleUpdate = (e) => {
     const elementId = e.target.id;
-    // Создание буфера и копирование данных 
     const tempInput = document.createElement("input");  
     tempInput.value = elementId;  
     document.body.appendChild(tempInput);
