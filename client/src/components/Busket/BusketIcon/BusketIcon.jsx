@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useBusket } from '../../../context/busketState';
 
 const BusketContainer = styled.div`
   width: 70px;
@@ -30,12 +29,11 @@ const BusketAmount = styled.p`
 `;
 
 export default function Busket() {
-  const { busket } = useBusket();
 
   return (
     <Link to="/busket">
     <BusketContainer>
-    <BusketAmount>{busket.length}</BusketAmount>
+    <BusketAmount></BusketAmount>
     <BusketImg src={require("../../../images/shopping-busket.png")} alt="" />
     </BusketContainer>
     </Link>

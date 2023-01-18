@@ -67,7 +67,7 @@ SideMenu.defaultProps = {
   children: (
     <>
       <MenuLink to="/" end href="/">Головна</MenuLink>
-      <MenuLink to="/catalog">Каталог</MenuLink>
+      {/* <MenuLink to="/catalog">Каталог</MenuLink> */}
       <MenuLink to="/delivery">Доставка</MenuLink>
       <MenuLink to="/busket">Корзина</MenuLink>
       <MenuLink to="about" href="/about">Про нас</MenuLink>

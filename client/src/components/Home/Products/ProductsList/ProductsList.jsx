@@ -2,7 +2,7 @@ import { ProductsItem } from "../ProductsItem/ProductsItem";
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../../../redux/products/products-operation';
 import { useEffect, useRef, useState } from "react";
-import { getStateProducts, getTotalPages, getFilteredProducts, selectIsLoading } from '../../../../redux/products/products-selectors';
+import { getTotalPages, getFilteredProducts, selectIsLoading } from '../../../../redux/products/products-selectors';
 import { ButtonWrapper, Button } from '../../../Buttons/Buttons';
 import { getFilter } from "../../../../redux/filter/filter-selectors";
 import { setFilter } from "../../../../redux/filter/filter-slice";
@@ -25,7 +25,7 @@ const ProductsList = () => {
     } else {
       dispatch(getProducts({ page, filter: filter }));
     }
-  }, [page, filter]);
+  }, [page, filter, dispatch]);
 
   const handlePagePrev = (e) => {
     e.preventDefault();

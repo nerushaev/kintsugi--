@@ -12,6 +12,8 @@ export const getCurrentPage = state => state.products.currentPage;
 
 export const getTotalPages = state => state.products.totalPages;
 
+export const getBusket = state => state.products.busket;
+
 export const getFilteredProducts = state => {
   const filter = getFilter(state);
   const products = getStateProducts(state);

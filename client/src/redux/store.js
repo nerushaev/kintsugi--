@@ -5,18 +5,25 @@ import authReducer from './auth/auth-slice';
 import { productsReducer } from './products/products-slice';
 import { filterReducer } from './filter/filter-slice';
 
-const persistConfig = {
-  key: "token",
+const persistAuthConfig = {
+  key: ["token"],
   storage,
   whitelist: ["token"]
 }
 
-const persistedReducer = persistReducer(persistConfig, authReducer)
+const persistProductsConfig = {
+  key: ["busket"],
+  storage,
+  whitelist: ["busket"]
+}
+
+const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer);
+const persistedProductsReducer = persistReducer(persistProductsConfig, productsReducer);
 
 export const store = configureStore({
   reducer: {
-    auth: persistedReducer,
-    products: productsReducer,
+    auth: persistedAuthReducer,
+    products: persistedProductsReducer,
     filter: filterReducer,
   },
   middleware: (getDefaultMiddleware) =>

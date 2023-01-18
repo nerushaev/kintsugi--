@@ -1,23 +1,22 @@
-const Product = require('../../models/product');
+// const Product = require('../../models/product');
+// const mongoose = require('mongoose');
 
-const getProductById = async (req, res) => {
-  const { productId } = req.params;
-  const { page = 1, limit = 10 } = req.query;
-  const skip = (page - 1) * limit;
+// const getProductById = async (req, res) => {
+//   const productsId = req.params;
+//   console.log(productsId.productId);
+//   const parseData = productsId.productId.split("_id=");
+//   const product = await Product.find({
+//     '_id': {
+//       $in: [
+//         elements
+//       ]
+//     }
+//   });
+//   if (!product) {
+//     throw NotFound(`Contact with id=${elements} not found...`);
+//   }
   
-  const product = await Product.findById(productId);
+//     res.json({result: product})
+// };
 
-  if (!product) {
-    throw NotFound(`Contact with id=${productId} not found...`);
-  }
-  
-    res.json({
-      status: "success",
-      code: 200,
-      data: {
-        result: product
-      }
-    })
-};
-
-module.exports = getProductById;
+// module.exports = getProductById;

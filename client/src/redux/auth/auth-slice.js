@@ -7,6 +7,7 @@ const initialState = {
   isLogin: false,
   loading: false,
   error: null,
+  busket: [],
 };
 
 const authSlice = createSlice({

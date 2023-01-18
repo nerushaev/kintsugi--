@@ -4,7 +4,7 @@ export const instance = axios.create({
   headers: {"Content-Type": "application/x-www-form-urlencoded"},
 })
 
-const AuthInstance = axios.create({
+export const AuthInstance = axios.create({
   headers: {"Content-Type": "application/json"},
 })
 

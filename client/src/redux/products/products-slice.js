@@ -8,6 +8,7 @@ const productsInitialState = {
   currentPage: 1,
   totalPages: 1,
   comingSoonProducts: [],
+  busket: [],
 };
 
 const handlePending = state => {
@@ -22,6 +23,16 @@ const handleRejected = (state, action) => {
 const productsSlice = createSlice({
   name: 'products',
   initialState: productsInitialState,
+  reducers: {
+    addToBusket(state, action) {
+      const itemInCart = state.busket.find((item) => item._id === action.payload._id);
+      if (itemInCart) {
+      itemInCart.quantity++;
+      } else {
+        state.busket.push({ ...action.payload, quantity: 1 });
+      }
+    }
+  },
   extraReducers: {
     [getProducts.pending]: handlePending,
     [getProducts.fulfilled](state, action) {
@@ -63,7 +74,7 @@ const productsSlice = createSlice({
       state.items = action.payload.products;
     },
     [getAllProducts.rejected]: handleRejected,
-    [getComingSoonProducts.pending]: handleRejected,
+    [getComingSoonProducts.pending]: handlePending,
     [getComingSoonProducts.fulfilled](state, action) {
       state.isLoading = false;
       state.error = null;
@@ -75,4 +86,5 @@ const productsSlice = createSlice({
   },
 });
 
+export const { addToBusket } = productsSlice.actions;
 export const productsReducer = productsSlice.reducer;
