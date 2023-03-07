@@ -73,6 +73,13 @@ export default function FormAddProducts() {
           <Option name="wigs">Перука</Option>
           <Option name="costume">Костюм</Option>
           <Option name="accessories">Аксессуар</Option>
+          <Option name="small-stand">Маленький стенд</Option>
+          <Option name="big-stand">Великий стенд</Option>
+          <Option name="pendant">Кулон</Option>
+          <Option name="pin">Пін</Option>
+          <Option name="hairpins">Шпилька</Option>
+          <Option name="earrings">Сережки</Option>
+          <Option name="tapestries">Гобелен</Option>
           <Option name="other">Іньше</Option>
         </Select>
       </FieldContainer>
