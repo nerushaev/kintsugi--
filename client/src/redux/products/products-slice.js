@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getProducts, addProducts, removeProduct, updateProduct, getAllProducts, getComingSoonProducts } from './products-operation';
+import { getProducts, addProducts, removeProduct, updateProduct, getAllProducts, getComingSoonProducts, getProductsById } from './products-operation';
 
 const productsInitialState = {
   items: [],
@@ -9,6 +9,7 @@ const productsInitialState = {
   totalPages: 1,
   comingSoonProducts: [],
   busket: [],
+  details: [],
 };
 
 const handlePending = state => {
@@ -31,7 +32,20 @@ const productsSlice = createSlice({
       } else {
         state.busket.push({ ...action.payload, quantity: 1 });
       }
-    }
+    },
+    incrementQuantity: (state, action) => {
+      const item = state.busket.find((item) => item._id === action.payload);
+      item.quantity++;
+    },
+    decrementQuantity: (state, action) => {
+      const item = state.busket.find((item) => item._id === action.payload);
+      if (item.quantity === 1) {
+        const removeItem = state.busket.filter((item) => item._id !== action.payload);
+        state.busket = removeItem;
+      } else {
+        item.quantity--;
+      }
+    },
   },
   extraReducers: {
     [getProducts.pending]: handlePending,
@@ -57,7 +71,7 @@ const productsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.items = state.items.filter(
-        product => product._id !== action.payload._id
+        product => product._id !== action.payload
       );
     },
     [updateProduct.pending]: handlePending,
@@ -83,8 +97,15 @@ const productsSlice = createSlice({
       // state.totalPages = action.payload.totalPages;
     },
     [getComingSoonProducts.rejected]: handleRejected,
+    [getProductsById.pending]: handlePending,
+    [getProductsById.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.details = action.payload;
+    },
+    [getProductsById.rejected]: handleRejected,
   },
 });
 
-export const { addToBusket } = productsSlice.actions;
+export const { addToBusket, incrementQuantity, decrementQuantity } = productsSlice.actions;
 export const productsReducer = productsSlice.reducer;

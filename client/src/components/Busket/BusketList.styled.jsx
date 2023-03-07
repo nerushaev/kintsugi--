@@ -43,5 +43,27 @@ export const Text = styled.p`
 export const List = styled.ul`
 `;
 
+export const IncrementButton = styled.span`
+    width: 16px;
+    height: 16px;
+  @media (min-width: 700px) {
+    width: 32px;
+    height: 32px;
+  }
+  left: 85%;
+  right: 50%;
+  position: absolute;
+`;
 
+export const DecrementButton = styled.span`
+    width: 16px;
+    height: 16px;
+  @media (min-width: 700px) {
+    width: 32px;
+    height: 32px;
+  }
+  left: 90%;
+  right: 50%;
+  position: absolute;
+`;
 

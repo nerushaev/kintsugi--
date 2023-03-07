@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 import { Item, Image, Title, AddButton, Price, Description } from '../ListItem.styled';
 import { useDispatch } from 'react-redux';
 import { addToBusket } from '../../../../redux/products/products-slice';
+import { Link } from 'react-router-dom';
 
 export const ProductsItem = ({ data }) => {
   const dispatch = useDispatch();
@@ -14,7 +15,9 @@ export const ProductsItem = ({ data }) => {
     const itemId = nanoid()
     return (
       <Item key={itemId}>
+          <Link to={_id}>
           <Image src={image} alt="" />
+          </Link>
           <Title>{name}</Title>
           <Price>{price}грн.</Price>
           <Description>{description}</Description>

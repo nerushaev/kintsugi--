@@ -14,7 +14,7 @@ router.get('/all', ctrlWrapper(productCtrl.getAllProducts));
 
 router.get('/comingSoon', ctrlWrapper(productCtrl.getComingSoonProducts));
 
-// router.get('/:productId', ctrlWrapper(productCtrl.getProductById));
+router.get('/:_id', ctrlWrapper(productCtrl.getProductById));
 
 router.delete('/:productId', ctrlWrapper(productCtrl.removeProductById));
 

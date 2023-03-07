@@ -45,7 +45,6 @@ const ProductsList = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(e.target.id);
     dispatch(setFilter(e.target.id));
     setPage(1);
   }

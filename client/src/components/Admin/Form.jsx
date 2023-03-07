@@ -2,15 +2,17 @@ import { Form, Label, Input, Select, FieldContainer, Option } from '../Admin/Fie
 import { nanoid } from 'nanoid';
 import { Navigate } from 'react-router';
 import { useAuth } from '../../hooks/useAuth';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { current } from '../../redux/auth/auth-operations';
 import { addProducts, updateProduct } from '../../redux/products/products-operation';
-import { ButtonWrapper, Button } from '../Buttons/Buttons';
+import { ButtonWrapper, Button, LoadingButtonWrapper } from '../Buttons/Buttons';
+import { selectIsLoading } from '../../redux/products/products-selectors';
 
 export default function FormAddProducts() {
   const isAdminLogin = useAuth();
-
+  // const loading = useSelector(selectIsLoading);
+  const loading = true;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -124,7 +126,7 @@ export default function FormAddProducts() {
           />
       </FieldContainer>
       <ButtonWrapper>
-        <Button type="submit">Add product</Button>
+        <Button isLoading={loading} type="submit">Add product</Button>
         <Button onClick={handleUpdate}>Update product</Button>
       </ButtonWrapper>
       </Form>

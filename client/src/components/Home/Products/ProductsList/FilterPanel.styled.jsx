@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const FilterWrapper = styled.div`
+  margin-bottom: 30px;
   @media (min-width: 480px) {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 30px;
   justify-content: space-around;
   }
 `;
