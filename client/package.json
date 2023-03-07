@@ -1,6 +1,6 @@
 {
   "name": "kintsugi-test-react-redux",
-  "homepage": "https://kintsugi-black.vercel.app/kintsugi",
+  "homepage": "https://kintsugi-black.vercel.app/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
