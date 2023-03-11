@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react"
 import {
-  AllFilterWrapper,
-  FlexFilterWrapper, 
-  AllFilterBtn, 
   FilterPanelWrapper, 
-  SortFilterWrapper, 
   FilterBtn, 
   PriceFilterWrapper,
   PriceBtn,
@@ -40,26 +36,24 @@ export default function FilterPanel() {
     dispatch(setFilter(filters))
   }, [filters, dispatch]);
 
-  const handlePriceFilterBtn = () => {
-    setPriceFilter(!priceFilter);
-  }
-
-  const handlePriceFilter = (e) => {
+  const filterButtonsClick = (e) => {
     const { id } = e.target;
     switch (id) {
-      case "low":
-        setFilters(prev => { return { ...prev, low: true, high: false } });
+      case "price":
+        setPriceFilter(!priceFilter);
+        if (allFilter) {
+          setAllFilter(false);
+        }
         return;
-      case "high":
-        setFilters(prev => { return { ...prev, high: true, low: false } });
+      case "filter":
+        setAllFilter(!allFilter);
+        if (priceFilter) {
+          setPriceFilter(false);
+        }
         return;
       default:
         return;
     }
-  }
-
-  const handleAllFilterBtn = () => {
-    setAllFilter(!allFilter)
   }
 
   const handleAllFilter = (e) => {
@@ -72,18 +66,10 @@ export default function FilterPanel() {
     })
   }
 
-  return (
-    <Section>
-    <FilterPanelWrapper allFilter={allFilter}>
-      <SortFilterWrapper>
-        <FilterBtn active={priceFilter} onClick={handlePriceFilterBtn}>
-          Сортувати за ціною
-          <FilterIcon width="18" height="18">
-            <use xlinkHref={`${svg}#icon-price`}></use>
-          </FilterIcon>
-        </FilterBtn>
-        {priceFilter && 
-        <PriceFilterWrapper onClick={handlePriceFilter}>
+  let Child = undefined;
+  if (priceFilter) {
+    Child = (
+      <PriceFilterWrapper onClick={handleAllFilter}>
           <PriceBtn id="low" active={filters.low}>
             По-зростанню
           </PriceBtn>
@@ -91,17 +77,10 @@ export default function FilterPanel() {
             По-зменьшенню
           </PriceBtn>
         </PriceFilterWrapper>
-        }
-      </SortFilterWrapper>
-      <AllFilterWrapper>
-        <FilterBtn filter="true" active={allFilter} onClick={handleAllFilterBtn}>
-          Фільтр
-          <FilterIcon width="18" height="18">
-            <use xlinkHref={`${svg}#icon-filter`}></use>
-          </FilterIcon>
-        </FilterBtn>
-        {allFilter && 
-          <PriceFilterWrapper allFilter onClick={handleAllFilter}>
+    );
+  } else if (allFilter) {
+    Child = (
+      <PriceFilterWrapper allFilter onClick={handleAllFilter}>
           <PriceBtn active={filters.wigs} id="wigs">
             Перука
           </PriceBtn>
@@ -136,9 +115,31 @@ export default function FilterPanel() {
             Інше
           </PriceBtn>
         </PriceFilterWrapper>
-        }
-      </AllFilterWrapper>
+    );
+  }
+
+  return (
+    <Section>
+      <FilterPanelWrapper onClick={filterButtonsClick} allFilter={allFilter}>
+        <FilterBtn id="price" active={priceFilter}>
+          Сортувати за ціною
+            <FilterIcon width="18" height="18">
+              <use xlinkHref={`${svg}#icon-price`}></use>
+            </FilterIcon>
+          </FilterBtn>
+          <FilterBtn id="filter" filter="true" active={allFilter}>
+            Фільтр
+          <FilterIcon width="18" height="18">
+              <use xlinkHref={`${svg}#icon-filter`}></use>
+          </FilterIcon>
+        </FilterBtn>
       </FilterPanelWrapper>
+      {Child}
     </Section>
   )
 }
+
+
+
+
+

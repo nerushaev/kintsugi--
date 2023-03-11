@@ -5,33 +5,17 @@ export const FilterPanelWrapper = styled.div`
   justify-content: flex-start;
 `;
 
-export const SortFilterWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;
-
 export const FilterBtn = styled.button`
   display: flex;
   align-items: center;
   position: relative;
   color: ${props => props.active ? "red" : "black"};
-  padding: 0px 10px;
   height: 30px;
+  padding: 0;
   font-size: 16px;
   &:first-child {
-    margin-right: 18px;
+    margin-right: 15px;
   }
-`;
-
-export const AllFilterBtn = styled.button`
-  background-color: ${props => props.active ? "rgba(255, 175, 204, 1)" : "rgba(162,210,255,1)"};
-`;
-
-export const AllFilterWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 `;
 
 export const PriceFilterWrapper = styled.div`
@@ -42,10 +26,6 @@ export const PriceFilterWrapper = styled.div`
   overflow: scroll;
 `;
 
-export const FlexFilterWrapper = styled.div`
-  
-`;
-
 export const PriceBtn = styled.button`
   text-align: start;
   position: relative;
@@ -54,6 +34,7 @@ export const PriceBtn = styled.button`
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 12px;
+  margin-left: -10px;
   &::before {
     content: '';
     width: 12px;
