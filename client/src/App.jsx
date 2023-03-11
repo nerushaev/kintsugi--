@@ -15,7 +15,6 @@ function App() {
         <Route index element={<Home />} />
         <Route path=":_id" element={<Product />} />
         <Route path="/about" element={<About />} />
-        {/* <Route path="/catalog" element={<Catalog />} /> */}
         <Route path="/delivery" element={<Delivery />} />
         <Route path="/busket" element={<BusketPage />} />
         <Route path="/admin" element={<Admin />} />

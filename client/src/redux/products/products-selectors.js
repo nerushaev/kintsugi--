@@ -38,5 +38,5 @@ export const getFilteredProducts = state => {
     return result;
   });
 
-  return filteredProducts;
+  return products;
 }

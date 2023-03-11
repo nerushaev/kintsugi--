@@ -71,7 +71,7 @@ const productsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.items = state.items.filter(
-        product => product._id !== action.payload
+        product => product._id !== action.payload._id
       );
     },
     [updateProduct.pending]: handlePending,

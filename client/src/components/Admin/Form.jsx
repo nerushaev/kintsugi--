@@ -2,16 +2,14 @@ import { Form, Label, Input, Select, FieldContainer, Option } from '../Admin/Fie
 import { nanoid } from 'nanoid';
 import { Navigate } from 'react-router';
 import { useAuth } from '../../hooks/useAuth';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { current } from '../../redux/auth/auth-operations';
 import { addProducts, updateProduct } from '../../redux/products/products-operation';
-import { ButtonWrapper, Button, LoadingButtonWrapper } from '../Buttons/Buttons';
-import { selectIsLoading } from '../../redux/products/products-selectors';
+import { ButtonWrapper, Button } from '../Buttons/Buttons';
 
 export default function FormAddProducts() {
   const isAdminLogin = useAuth();
-  // const loading = useSelector(selectIsLoading);
   const loading = true;
   const dispatch = useDispatch();
 
@@ -45,9 +43,6 @@ export default function FormAddProducts() {
       console.log(`key:${key}, value:${value}`)
     })
     dispatch(updateProduct(formData));
-    // for (let item of e.target.form) {
-    //   item.value = '';
-    // }
   }
 
   const inputId = nanoid();
@@ -70,17 +65,17 @@ export default function FormAddProducts() {
           title="Перука"
           name="category"
         >
-          <Option name="wigs">Перука</Option>
-          <Option name="costume">Костюм</Option>
-          <Option name="accessories">Аксессуар</Option>
-          <Option name="small-stand">Маленький стенд</Option>
-          <Option name="big-stand">Великий стенд</Option>
-          <Option name="pendant">Кулон</Option>
-          <Option name="pin">Пін</Option>
-          <Option name="hairpins">Шпилька</Option>
-          <Option name="earrings">Сережки</Option>
-          <Option name="tapestries">Гобелен</Option>
-          <Option name="other">Іньше</Option>
+          <Option name="wigs">wigs</Option>
+          <Option name="costume">costume</Option>
+          <Option name="accessories">accessories</Option>
+          <Option name="smallStand">smallStand</Option>
+          <Option name="bigStand">bigStand</Option>
+          <Option name="pendant">pendant</Option>
+          <Option name="pin">pin</Option>
+          <Option name="hairpins">hairpins</Option>
+          <Option name="earrings">earrings</Option>
+          <Option name="tapestries">tapestries</Option>
+          <Option name="other">other</Option>
         </Select>
       </FieldContainer>
       <FieldContainer>
