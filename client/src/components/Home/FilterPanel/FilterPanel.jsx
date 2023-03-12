@@ -57,15 +57,34 @@ export default function FilterPanel() {
   }
 
   const handleAllFilter = (e) => {
-    const { id } = e.target;
-        setFilters(prev => {
-          return {
-            ...prev,
-            [id]: !prev[id]
-          }
-    })
-  }
-
+  const { id } = e.target;
+    if (id === "low" && filters.high) {
+      setFilters(prev => {
+        return {
+        ...prev,
+        low: true,
+        high: false
+      };
+      })
+      return;
+    } else if (id === "high" && filters.low) {
+      setFilters(prev => {
+        return {
+          ...prev,
+          low: false,
+          high: true
+        };
+      });
+    } else {
+      setFilters(prev => {
+        return {
+        ...prev,
+        [id]: !prev[id]
+      };
+      })
+    }
+  };
+  
   let Child = undefined;
   if (priceFilter) {
     Child = (
