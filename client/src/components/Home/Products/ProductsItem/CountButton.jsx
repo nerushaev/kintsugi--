@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import svg from '../../../../images/filterIcons.svg';
 import { decrementQuantity, incrementQuantity } from '../../../../redux/products/products-slice';
 
-
 const CountWrapper = styled.div`
   display: flex;
   width: 100%;
@@ -21,8 +20,6 @@ const CountText = styled.p`
   font-size: 16px;
   padding: 0 5px;
 `;
-
-
 
 export default function CountButton({ quantity, _id }) {
   const dispatch = useDispatch();
