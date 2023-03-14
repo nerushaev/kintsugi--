@@ -1,6 +1,6 @@
 import { ProductsItem } from "../ProductsItem/ProductsItem";
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../../../redux/products/products-operation';
+import { getProducts, getProductsByName } from '../../../../redux/products/products-operation';
 import { useEffect, useRef, useState } from "react";
 import { getTotalPages, getFilteredProducts, selectIsLoading } from '../../../../redux/products/products-selectors';
 import { ButtonWrapper, Button } from '../../../Buttons/Buttons';
@@ -10,6 +10,7 @@ import { List, ListWrapper } from '../List.styled';
 import Loader from "../../../Loader/Loader";
 import FilterPanel from "../../FilterPanel/FilterPanel";
 import Pagination from "../../Pagination/Pagination";
+import { getSearch } from "../../../../redux/search/search-selectors";
 
 const ProductsList = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,8 @@ const ProductsList = () => {
   const filter = useSelector(getFilter);
   const loading = useSelector(selectIsLoading);
   const scrollPosition = useRef(null);
+  const search = useSelector(getSearch);
+
 
   function getObjectKeysString(obj) {
     let keys = Object.keys(obj);
@@ -31,14 +34,17 @@ const ProductsList = () => {
     return result;
   }
 
+
   useEffect(() => {
-    if (!filter || !Object.values(filter).includes(true)) {
+    if (!search && !Object.values(filter).includes(true)) {
       dispatch(getProducts({page}));
-    } else {
+    } else if (search) {
+      dispatch(getProductsByName({ page: 1, search: search }));
+    } else if (filter) {
       const result = getObjectKeysString(filter);
       dispatch(getProducts({ page, filter: result }));
     }
-  }, [page, filter, dispatch]);
+  }, [page, filter, search, dispatch]);
 
   const handlePagination = (e) => {
     e.preventDefault();

@@ -23,6 +23,25 @@ export const getProducts = createAsyncThunk(
   }
 );
 
+export const getProductsByName = createAsyncThunk(
+  '/products/search',
+  async (requestData, ThunkAPI) => {
+    const { page, search } = requestData;
+    if (search) {
+      try {
+        const { data } = await instance.get(`/api/products/search/${search}/?page=${page}`);
+        if (data.length < 1) {
+          return ThunkAPI.rejectWithValue("empty");
+        }
+        console.log(data);
+        return data;
+      } catch (error) {
+        return ThunkAPI.rejectWithValue(error.message);
+      }
+    }
+  }
+)
+
 export const getFilteredProducts = createAsyncThunk(
   '/products/get/filtered',
   async (category, ThunkAPI) => {

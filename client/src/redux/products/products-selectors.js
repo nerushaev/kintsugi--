@@ -33,10 +33,10 @@ export const getFilteredProducts = state => {
     return products;
   }
 
-  const filteredProducts = products.filter(({ category }) => {
-    const result = category.includes(filter);
-    return result;
-  });
+  // const filteredProducts = products.filter(({ category }) => {
+  //   const result = category.includes(filter);
+  //   return result;
+  // });
 
   return products;
 }
