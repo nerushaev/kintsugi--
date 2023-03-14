@@ -38,12 +38,10 @@ const ProductsList = () => {
   useEffect(() => {
     if (!search && !Object.values(filter).includes(true)) {
       dispatch(getProducts({page}));
-    } else if (search) {
-      dispatch(getProductsByName({ page: 1, search: search }));
-    } else if (filter) {
+    } else if (search || filter) {
       const result = getObjectKeysString(filter);
-      dispatch(getProducts({ page, filter: result }));
-    }
+      dispatch(getProducts({ page: 1, search: search, filter: result }));
+    } 
   }, [page, filter, search, dispatch]);
 
   const handlePagination = (e) => {

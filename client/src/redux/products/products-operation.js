@@ -4,22 +4,17 @@ import { instance } from '../../API/api';
 export const getProducts = createAsyncThunk(
   '/products/get',
   async (requestData, ThunkAPI) => {
-    const { page, filter } = requestData;
-    if (filter) {
+    const { page, filter, search } = requestData;
+    if (filter || search || page) {
       try {
-        const { data } = await instance.get(`/api/products?page=${page}&category=${filter}`);
+        const { data } = await instance.get(
+          `/api/products?page=${page}${filter ? `&category=${filter}` : ''}${search ? `&search=${search}` : ''}`
+        );
         return data;
       } catch (error) {
         return ThunkAPI.rejectWithValue(error.message);
       }
-    } else {
-        try {
-          const { data } = await instance.get(`/api/products?page=${page}`);
-        return data;
-      } catch (error) {
-        return ThunkAPI.rejectWithValue(error.message);
-      }
-      }
+    }
   }
 );
 
