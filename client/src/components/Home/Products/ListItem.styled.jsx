@@ -61,7 +61,8 @@ export const AddButton = styled.button`
   width: 100%;
   font-size: 12px;
   padding: 10px 0;
-  background-color: #EFCFE3;
+  background-color: ${props => props.disabled ? "#D6B2D9" : "#EFCFE3"};
+  color: #000;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
     &:hover, &:focus {
       background-color: #EAC3DB;

@@ -3,14 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProducts, getProductsByName } from '../../../../redux/products/products-operation';
 import { useEffect, useRef, useState } from "react";
 import { getTotalPages, getFilteredProducts, selectIsLoading } from '../../../../redux/products/products-selectors';
-import { ButtonWrapper, Button } from '../../../Buttons/Buttons';
 import { getFilter } from "../../../../redux/filter/filter-selectors";
-import { setFilter } from "../../../../redux/filter/filter-slice";
 import { List, ListWrapper } from '../List.styled';
 import Loader from "../../../Loader/Loader";
 import FilterPanel from "../../FilterPanel/FilterPanel";
 import Pagination from "../../Pagination/Pagination";
 import { getSearch } from "../../../../redux/search/search-selectors";
+import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 
 const ProductsList = () => {
   const dispatch = useDispatch();
@@ -50,19 +49,12 @@ const ProductsList = () => {
     scrollPosition.current.scrollIntoView({ block: "start", behavior: 'smooth' });
   }
 
-  // const handlePageNext = (e) => {
-  //   e.preventDefault();
-  //   if (page < totalPages) {
-  //     setPage(page + 1)
-  //   }
-  //   scrollPosition.current.scrollIntoView({ block: "start", behavior: 'smooth' });
-  // }
-
   return (
     <>
       <FilterPanel/>
         {loading && <Loader />}
       <ListWrapper>
+        {product.length < 1 && <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />}
         <List ref={scrollPosition}>
           <ProductsItem data={product} />
         </List>
