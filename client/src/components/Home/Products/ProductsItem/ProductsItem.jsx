@@ -15,7 +15,7 @@ export const ProductsItem = ({ data }) => {
     dispatch(addToBusket(newData));
   }
 
-  return data.map(({ name, description, _id, image, amount, price }) => {
+  return data.map(({ name, description, _id, image, price }) => {
     const isFromBusket = busket.find(item => item._id === _id);
     const item = busket.find(item => item._id === _id);
     const itemId = nanoid()

@@ -33,13 +33,17 @@ const ProductsList = () => {
     return result;
   }
 
-
   useEffect(() => {
     if (!search && !Object.values(filter).includes(true)) {
       dispatch(getProducts({page}));
     } else if (search || filter) {
+      if (page > 1) {
+        setPage(1);
+        const result = getObjectKeysString(filter);
+        dispatch(getProducts({ page: 1, search: search, filter: result }));
+      }
       const result = getObjectKeysString(filter);
-      dispatch(getProducts({ page: 1, search: search, filter: result }));
+      dispatch(getProducts({ page, search: search, filter: result }));
     } 
   }, [page, filter, search, dispatch]);
 
