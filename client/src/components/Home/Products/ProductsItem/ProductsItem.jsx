@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { Item, Image, Title, AddButton, Price, Description, CardIcon, CardInfoWrapper } from '../ListItem.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToBusket, decrementQuantity } from '../../../../redux/products/products-slice';
+import { addToBusket } from '../../../../redux/products/products-slice';
 import { Link } from 'react-router-dom';
 import svg from '../../../../images/filterIcons.svg';
 import { getBusket } from '../../../../redux/products/products-selectors';
@@ -15,14 +15,9 @@ export const ProductsItem = ({ data }) => {
     dispatch(addToBusket(newData));
   }
 
-  const handleRemove = (removeData) => {
-    dispatch(decrementQuantity(removeData))
-  }
-
   return data.map(({ name, description, _id, image, amount, price }) => {
     const isFromBusket = busket.find(item => item._id === _id);
-    const quantity = busket.find(item => item.quantity);
-    console.log(quantity);
+    const item = busket.find(item => item._id === _id);
     const itemId = nanoid()
     return (
       <Item key={itemId}>
@@ -36,7 +31,7 @@ export const ProductsItem = ({ data }) => {
         </CardInfoWrapper>
         {isFromBusket ? (
           <AddButton>
-            <CountButton quantity={quantity.quantity} _id={_id} />
+            <CountButton quantity={item.quantity} _id={_id} />
           </AddButton>
         ) : (
           <AddButton onClick={() => handleClick({ _id, name, description, image, price })}>
