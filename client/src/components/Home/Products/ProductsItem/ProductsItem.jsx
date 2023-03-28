@@ -26,7 +26,7 @@ export const ProductsItem = ({ data }) => {
           </Link>
           <CardInfoWrapper>
           <Title>{name}</Title>
-          <Price>{price}грн.</Price>
+          <Price>{price} грн.</Price>
           <Description>{description}</Description>
         </CardInfoWrapper>
         {isFromBusket ? (

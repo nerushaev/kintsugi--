@@ -2,7 +2,8 @@ import { useSelector } from 'react-redux';
 import { getBusket } from '../../redux/products/products-selectors';
 import { nanoid } from 'nanoid';
 import BusketItem from './BusketItem';
-import { List } from './BusketList.styled';
+import { List } from '../Home/Products/List.styled';
+import { ProductsItem } from '../Home/Products/ProductsItem/ProductsItem';
 
 export default function BusketList() {
   const products = useSelector(getBusket);
@@ -10,7 +11,7 @@ export default function BusketList() {
   const itemId = nanoid()
     return (
       <List key={itemId}>
-        <BusketItem data={products} />
+        <ProductsItem data={products} />
       </List>
     )
 };

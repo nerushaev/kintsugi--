@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   FilterPanelWrapper, 
   FilterBtn, 
@@ -10,6 +10,30 @@ import {
 import { useDispatch } from "react-redux";
 import { setFilter } from "../../../redux/filter/filter-slice";
 import svg from '../../../images/filterIcons.svg';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import styled from "styled-components";
+import { findDOMNode } from "react-dom";
+
+const Box = styled.div`
+
+  &.fade-enter {
+    opacity: 0;
+  }
+
+  &.fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms cubic-bezier(.17,.67,.83,.67);
+  }
+
+  &.fade-exit {
+    opacity: 1;
+  }
+
+  &.fade-exit-active {
+    opacity: 0;
+    transition: opacity 300ms cubic-bezier(.17,.67,.83,.67);
+  }
+}`;
 
 export default function FilterPanel() {
   const dispatch = useDispatch();
@@ -32,9 +56,13 @@ export default function FilterPanel() {
   //стейт для кнопки "Фильтр"
   const [allFilter, setAllFilter] = useState(false);
 
+  const nodeRef = useRef(null);
+  
+
   useEffect(() => {
     dispatch(setFilter(filters))
   }, [filters, dispatch]);
+
 
   const filterButtonsClick = (e) => {
     const { id } = e.target;
@@ -153,7 +181,16 @@ export default function FilterPanel() {
           </FilterIcon>
         </FilterBtn>
       </FilterPanelWrapper>
-      {Child}
+        <SwitchTransition>
+        <CSSTransition
+        key={priceFilter || allFilter ? "Price Filter" : "All Filter"}
+        classNames="fade"
+        nodeRef={nodeRef}
+        timeout={300}
+        >
+          {() => <Box ref={nodeRef}>{Child}</Box>}
+      </CSSTransition>
+      </SwitchTransition>
     </Section>
   )
 }

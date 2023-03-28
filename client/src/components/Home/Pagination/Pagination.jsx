@@ -14,7 +14,6 @@ export default function Pagination({ totalPages, currentPage, handlePagePrev }) 
   return (
   <PaginationWrapper>
       {paginationAmount.map((item) => {
-        console.log(currentPage);
         return <PaginationItem onClick={handlePagePrev} key={item} active={item == currentPage}>{item}</PaginationItem>
       })}
   </PaginationWrapper>
