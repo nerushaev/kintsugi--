@@ -22,7 +22,7 @@ const Box = styled.div`
 
   &.fade-enter-active {
     opacity: 1;
-    transition: opacity 300ms cubic-bezier(.17,.67,.83,.67);
+    transition: opacity 200ms cubic-bezier(.17,.67,.83,.67);
   }
 
   &.fade-exit {
@@ -31,7 +31,7 @@ const Box = styled.div`
 
   &.fade-exit-active {
     opacity: 0;
-    transition: opacity 300ms cubic-bezier(.17,.67,.83,.67);
+    transition: opacity 200ms cubic-bezier(.17,.67,.83,.67);
   }
 }`;
 
@@ -186,7 +186,7 @@ export default function FilterPanel() {
         key={priceFilter || allFilter ? "Price Filter" : "All Filter"}
         classNames="fade"
         nodeRef={nodeRef}
-        timeout={300}
+        timeout={200}
         >
           {() => <Box ref={nodeRef}>{Child}</Box>}
       </CSSTransition>

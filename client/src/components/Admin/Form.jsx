@@ -106,9 +106,10 @@ export default function FormAddProducts() {
       <FieldContainer>
         <Label>Image</Label>
         <Input
-          name="image"
-          id={inputId}
-          type="file"
+            name="image"
+            id={inputId}
+            type="file"
+            multiple
         />
       </FieldContainer>
       <FieldContainer>
