@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { instance } from '../../API/api';
+import { AuthInstance, instance } from '../../API/api';
 
 export const getProducts = createAsyncThunk(
   '/products/get',
@@ -100,10 +100,9 @@ export const removeProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   '/products/update',
   async (updateData, ThunkAPI) => {
-    const id = updateData.get('_id');
-    updateData.delete('_id')
+    const {_id} = updateData;
     try {
-      const { data } = await instance.put(`/api/products/${id}`, updateData);
+      const { data } = await AuthInstance.put(`/api/products/${_id}`, updateData);
       return data;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);

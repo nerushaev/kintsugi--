@@ -49,7 +49,7 @@ export const Button = styled.button`
 `;
 
 export const Select = styled.select`
-  min-width: 300px;
+  min-width: 280px;
 `;
 
 export const Option = styled.option`

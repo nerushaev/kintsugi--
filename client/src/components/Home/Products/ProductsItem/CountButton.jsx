@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import svg from '../../../../images/filterIcons.svg';
-import { decrementQuantity, incrementQuantity } from '../../../../redux/products/products-slice';
+import { decrementAmount, incrementAmount } from '../../../../redux/products/products-slice';
 
 const CountWrapper = styled.div`
   display: flex;
@@ -25,11 +25,11 @@ export default function CountButton({ quantity, _id }) {
   const dispatch = useDispatch();
   
   const handleIncrement = (_id) => {
-    dispatch(incrementQuantity(_id))
+    dispatch(incrementAmount(_id))
   }
   
   const handleDecrement = (_id) => {
-    dispatch(decrementQuantity(_id))
+    dispatch(decrementAmount(_id))
   }
 
   return (

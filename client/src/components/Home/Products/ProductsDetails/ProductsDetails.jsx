@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import Slider from '../../Swiper/Swiper';
 
 const GoBackLink = styled(NavLink)`
   margin-bottom: 20px;
@@ -15,7 +16,8 @@ export default function ProductsDetails({ data }) {
     <>
     <GoBackLink to="/">Go back</GoBackLink>
     <div>
-      <img alt="" src={image}></img>
+      {image ? <Slider images={image} /> : ""}
+      
       <p>{name}</p>
       <p>{description}</p>
       <p>{price}</p>

@@ -15,14 +15,14 @@ export const ProductsItem = ({ data }) => {
     dispatch(addToBusket(newData));
   }
 
-  return data.map(({ name, description, _id, image, price }) => {
+  return data.map(({ name, description, _id, image, price, amount, category }) => {
     const isFromBusket = busket.find(item => item._id === _id);
     const item = busket.find(item => item._id === _id);
     const itemId = nanoid()
     return (
       <Item key={itemId}>
           <Link to={_id}>
-          <Image src={image} alt="" />
+          <Image src={image[0]} alt="" />
           </Link>
           <CardInfoWrapper>
           <Title>{name}</Title>
@@ -31,10 +31,10 @@ export const ProductsItem = ({ data }) => {
         </CardInfoWrapper>
         {isFromBusket ? (
           <AddButton>
-            <CountButton quantity={item.quantity} _id={_id} />
+            <CountButton quantity={item.amount} _id={_id} />
           </AddButton>
         ) : (
-          <AddButton onClick={() => handleClick({ _id, name, description, image, price })}>
+          <AddButton onClick={() => handleClick({ _id, name, description, image, price, amount, category })}>
             Додати у кошик
           <CardIcon width="20" height="25">
               <use xlinkHref={`${svg}#icon-buy`} />

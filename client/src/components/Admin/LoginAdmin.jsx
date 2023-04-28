@@ -1,12 +1,16 @@
 import { nanoid } from 'nanoid';
 import { current, login } from '../../redux/auth/auth-operations';
-import { Form, Label, Input, Button, FieldContainer } from '../Admin/Fields';
+import { Form, Button } from '../Admin/Fields';
 import { useMemo, useState } from 'react';
 import { Navigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsLogin } from '../../redux/auth/auth-selectors';
 import { useEffect } from 'react';
-
+import {
+  Label,
+  FieldWrapper,
+  Input,
+} from '../../components/Fields/Fields.styled';
 export default function LoginAdmin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,7 +53,7 @@ export default function LoginAdmin() {
   return (
     <>
     <Form onSubmit={handleSubmit}>
-      <FieldContainer>
+      <FieldWrapper>
         <Label>Email</Label>
         <Input
           onChange={handleChange}
@@ -59,8 +63,8 @@ export default function LoginAdmin() {
           id={emailId}
           required
         />
-      </FieldContainer>
-      <FieldContainer>
+      </FieldWrapper>
+      <FieldWrapper>
         <Label>Password</Label>
         <Input
           onChange={handleChange}
@@ -70,7 +74,7 @@ export default function LoginAdmin() {
           id={passwordId}
           required
         />
-      </FieldContainer>
+      </FieldWrapper>
       <Button>Login</Button>
       </Form>
       </>

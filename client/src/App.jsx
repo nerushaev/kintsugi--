@@ -7,6 +7,7 @@ import Delivery from './pages/Delivery';
 import Admin from './pages/Admin';
 import LoginAdmin from './components/Admin/LoginAdmin';
 import Product from './pages/Product';
+import CheckoutPage from './components/Busket/CheckoutPage/CheckoutPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/delivery" element={<Delivery />} />
         <Route path="/busket" element={<BusketPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/login" element={<LoginAdmin />} />
       </Route>

@@ -1,4 +1,4 @@
-import { Form, Label, Input, Select, FieldContainer, Option } from '../Admin/Fields';
+import { Select, Option } from '../Admin/Fields';
 import { nanoid } from 'nanoid';
 import { Navigate } from 'react-router';
 import { useAuth } from '../../hooks/useAuth';
@@ -7,6 +7,11 @@ import { useEffect } from 'react';
 import { current } from '../../redux/auth/auth-operations';
 import { addProducts, updateProduct } from '../../redux/products/products-operation';
 import { ButtonWrapper, Button } from '../Buttons/Buttons';
+import {
+  Label,
+  FieldWrapper,
+  Input,
+} from '../../components/Fields/Fields.styled';
 
 export default function FormAddProducts() {
   const isAdminLogin = useAuth();
@@ -49,8 +54,8 @@ export default function FormAddProducts() {
 
   return (
     <>
-    <Form name="form" method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
-      <FieldContainer>
+    <form name="form" method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
+      <FieldWrapper>
         <Label>Product name</Label>
         <Input
           name="name"
@@ -58,8 +63,8 @@ export default function FormAddProducts() {
           type="text"
           required
         />
-      </FieldContainer>
-      <FieldContainer>
+      </FieldWrapper>
+      <FieldWrapper>
         <Label>Category</Label>
           <Select
           title="Перука"
@@ -77,24 +82,24 @@ export default function FormAddProducts() {
           <Option name="tapestries">tapestries</Option>
           <Option name="other">other</Option>
         </Select>
-      </FieldContainer>
-      <FieldContainer>
+      </FieldWrapper>
+      <FieldWrapper>
         <Label>Amount</Label>
         <Input
         name="amount"
         id={inputId}
         type="number"
         required />
-      </FieldContainer>
-      <FieldContainer>
+      </FieldWrapper>
+      <FieldWrapper>
         <Label>Price per one</Label>
         <Input
           name="price"
           id={inputId}
           type="number"
           required />
-      </FieldContainer>
-      <FieldContainer>
+      </FieldWrapper>
+      <FieldWrapper>
         <Label>Description</Label>
           <Input
           maxLength="96"
@@ -102,8 +107,8 @@ export default function FormAddProducts() {
           id={inputId}
           type="text"
           required />
-      </FieldContainer>
-      <FieldContainer>
+      </FieldWrapper>
+      <FieldWrapper>
         <Label>Image</Label>
         <Input
             name="image"
@@ -111,28 +116,28 @@ export default function FormAddProducts() {
             type="file"
             multiple
         />
-      </FieldContainer>
-      <FieldContainer>
+      </FieldWrapper>
+      <FieldWrapper>
         <Label>Id</Label>
         <Input
           name="_id"
           id={inputId}
           type="text"
         />
-      </FieldContainer>
-        <FieldContainer>
+      </FieldWrapper>
+        <FieldWrapper>
           <Label>Товар в дорозі</Label>
           <Input
             name="comingSoon"
             type="checkbox"
             id={inputId}
           />
-      </FieldContainer>
+      </FieldWrapper>
       <ButtonWrapper>
         <Button isLoading={loading} type="submit">Add product</Button>
         <Button onClick={handleUpdate}>Update product</Button>
       </ButtonWrapper>
-      </Form>
+      </form>
       </>
   )
 }
