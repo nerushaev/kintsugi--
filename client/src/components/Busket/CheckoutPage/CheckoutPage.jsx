@@ -14,7 +14,8 @@ import {
   Input,
   Text,
   Select,
-  Checkbox
+  Checkbox,
+  Form
 } from '../../Fields/Fields.styled';
 
 export default function CheckoutPage() {
@@ -67,12 +68,13 @@ export default function CheckoutPage() {
   
   
   return (
+    <>
     <OrderWrapper>
       <ProductsList>
       <Label>Ваше замовлення:</Label>
       {elements}
       </ProductsList>
-    <form onSubmit={handleSubmit} onChange={handleChange} onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} onChange={handleChange} onSubmit={handleSubmit}>
       <FieldWrapper>
           <Label
             htmlFor="phone">Ваш номер телефона:
@@ -118,10 +120,11 @@ export default function CheckoutPage() {
             <Checkbox />
           </Select>
         </FieldWrapper>
-      <ButtonWrapper>
+    </Form>
+    </OrderWrapper>
+    <ButtonWrapper>
         <Button type="submit">Оформити замовлення</Button>
       </ButtonWrapper>
-    </form>
-    </OrderWrapper>
+    </>
   )
 }
