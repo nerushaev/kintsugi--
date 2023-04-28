@@ -22,7 +22,7 @@ export const ProductsItem = ({ data }) => {
     return (
       <Item key={itemId}>
           <Link to={_id}>
-          <Image src={image[0]} alt="" />
+          <Image src={image[0] ? image[0] : image} alt="" />
           </Link>
           <CardInfoWrapper>
           <Title>{name}</Title>
