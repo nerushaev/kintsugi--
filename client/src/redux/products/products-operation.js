@@ -121,3 +121,15 @@ export const getComingSoonProducts = createAsyncThunk(
     }
   }
 );
+
+export const orderProducts = createAsyncThunk(
+  '/products/order',
+  async (formData, ThunkAPI) => {
+    try {
+      const { data } = await instance.put(`/api/products/order`, formData);
+      return data;
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error.message);
+    }
+  }
+)

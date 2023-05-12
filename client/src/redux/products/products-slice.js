@@ -7,7 +7,8 @@ import {
   getAllProducts,
   getComingSoonProducts,
   getProductsById,
-  getProductsByName
+  getProductsByName,
+  orderProducts
 } from './products-operation';
 
 const productsInitialState = {
@@ -124,6 +125,12 @@ const productsSlice = createSlice({
       state.details = action.payload;
     },
     [getProductsById.rejected]: handleRejected,
+    [orderProducts.pending]: handlePending,
+    [orderProducts.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+    },
+    [orderProducts.rejected]: handleRejected,
   },
 });
 

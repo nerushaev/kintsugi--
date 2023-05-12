@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateProduct } from '../../../redux/products/products-operation';
+import { orderProducts } from '../../../redux/products/products-operation';
 import { getBusket } from '../../../redux/products/products-selectors';
 import { ButtonWrapper, Button } from '../../Buttons/Buttons';
 import {
@@ -14,18 +14,18 @@ import {
   Input,
   Text,
   Select,
-  Checkbox,
-  Form
+  Form,
 } from '../../Fields/Fields.styled';
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
-  const [delivery, setDelivery] = useState('');
+  const [nova, setNova] = useState(true);
+  const [afina, setAfina] = useState(false);
+  const [cod, setCod] = useState(false);
+  const [liqpay, setLiqpay] = useState(true);
   const [adress, setAdress] = useState('');
-  const [payment, setPayment] = useState('');
-
   const busket = useSelector(getBusket);
 
   let elements;
@@ -49,21 +49,49 @@ export default function CheckoutPage() {
         return setPhone(value);
       case "name":
         return setName(value);
-      case "delivery":
-        return setDelivery(value);
       case "adress":
         return setAdress(value);
-      case "payment":
-        return setPayment(value);
+      case "nova":
+        if (nova) {
+          setAfina(true);
+          return setNova(false);
+        }
+          setAfina(false)
+          return setNova(true);
+      case "afina":
+        if (afina) {
+            setNova(true);
+            return setAfina(false);
+        }
+        setNova(false);
+        return setAfina(true);
+      case "cod":
+        if (cod) {
+          setLiqpay(true);
+          return setCod(false);
+        }
+          setLiqpay(false)
+        return setCod(true);
+      case "liqpay":
+        if (liqpay) {
+          setLiqpay(false);
+          return setCod(true);
+        }
+          setLiqpay(true)
+        return setCod(false);
     }
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    busket.map(item => {
-      console.log(item);
-      dispatch(updateProduct(item));
-    });
+    const formData = new FormData(e.target);
+    busket.map(({_id, amount}) => {
+      formData.append(_id, amount)
+    })
+    for(var pair of formData.entries()){
+        console.log(pair[0], pair[1]);
+    }
+    dispatch(orderProducts(formData));
   }
   
   
@@ -93,38 +121,35 @@ export default function CheckoutPage() {
             name="name"
             type="text"
             placeholder="Ім'я Прізвище" />
-      </FieldWrapper>
-      <FieldWrapper>
-          <Label htmlFor="delivery">Доставка:</Label>
-          <Select>
-            <Text value="nova">Нова Пошта</Text>
-            <Checkbox />
-          </Select>
-          <Select>
-            <Text value="afina">Самовівіз м.Одеса, ТЦ Афіна 4-й поверх</Text>
-            <Checkbox />
-          </Select>
-      </FieldWrapper>
-      <FieldWrapper>
+          </FieldWrapper>
+          <Text accent={true}>Доставка:</Text>
+          <FieldWrapper select>
+            <Label noMargin htmlFor="nova">Нова Пошта</Label>
+            <Select name="nova" type="checkbox" onChange={handleChange} checked={nova}></Select>
+          </FieldWrapper>
+          <FieldWrapper select>
+            <Label noMargin htmlFor="afina">Самовівіз м.Одеса, ТЦ Афіна 4-й поверх</Label>
+            <Select name="afina" type="checkbox" onChange={handleChange} checked={afina}></Select>
+          </FieldWrapper>
+          <FieldWrapper>
           <Label htmlFor="adress">Адреса:</Label>
-          <Input type="text" name="adress" />
-      </FieldWrapper>
-      <FieldWrapper>
-          <Label htmlFor="payment">Оплата:</Label>
-          <Select>
-            <Text value="ofline">Накаладений платіж</Text>
-            <Checkbox />
-          </Select>
-          <Select>
-            <Text value="online">Онлайн оплата LiqPay</Text>
-            <Checkbox />
-          </Select>
-        </FieldWrapper>
+          <Input placeholder="місто Одеса, відділення 43" type="text" name="adress" />
+          </FieldWrapper>
+          <Text accent={true}>Оплата:</Text>
+          <FieldWrapper select>
+            <Label noMargin htmlFor="cod">Накаладений платіж</Label>
+            <Select name="cod" type="checkbox" onChange={handleChange} checked={cod}></Select>
+          </FieldWrapper>
+          <FieldWrapper select>
+            <Label noMargin htmlFor="liqpay">Онлайн оплата LiqPay</Label>
+            <Select name="liqpay" type="checkbox" onChange={handleChange} checked={liqpay}></Select>
+          </FieldWrapper>
+          <ButtonWrapper>
+            <Button type="submit">Замовити</Button>
+          </ButtonWrapper>
     </Form>
     </OrderWrapper>
-    <ButtonWrapper>
-        <Button type="submit">Оформити замовлення</Button>
-      </ButtonWrapper>
+
     </>
   )
 }
