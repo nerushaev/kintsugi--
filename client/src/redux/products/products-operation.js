@@ -123,10 +123,10 @@ export const getComingSoonProducts = createAsyncThunk(
 );
 
 export const orderProducts = createAsyncThunk(
-  '/products/order',
+  '/order/addOrder',
   async (formData, ThunkAPI) => {
     try {
-      const { data } = await instance.put(`/api/products/order`, formData);
+      const { data } = await AuthInstance.post(`/api/orders/`, formData);
       return data;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);

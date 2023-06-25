@@ -1,5 +1,9 @@
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useRef } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { NOVA_API_KEY } from '../../../API/nova';
 import { orderProducts } from '../../../redux/products/products-operation';
 import { getBusket } from '../../../redux/products/products-selectors';
 import { ButtonWrapper, Button } from '../../Buttons/Buttons';
@@ -16,6 +20,7 @@ import {
   Select,
   Form,
 } from '../../Fields/Fields.styled';
+import { CityItem, CityList } from './DropdownMenu.styled';
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
@@ -27,6 +32,36 @@ export default function CheckoutPage() {
   const [liqpay, setLiqpay] = useState(true);
   const [adress, setAdress] = useState('');
   const busket = useSelector(getBusket);
+  const [cityList, setCityList] = useState([]);
+  const [city, setCity] = useState('');
+  const [departmentsList, setDepartmentsList] = useState([]);
+  const [warehouse, setWarehouse] = useState('');
+
+  const cityInputRef = useRef(null);
+  const departmentsInputRef = useRef(null);
+
+  const fetchDepartments = async () => {
+      try {
+        const { data } = await axios.post("https://api.novaposhta.ua/v2.0/json/", {
+        apiKey: NOVA_API_KEY,
+        modelName: "Address",
+        calledMethod: "getWarehouses",
+        methodProperties: {
+          CityName: city,
+          Limit: 10,
+          Page: 1,
+          WarehouseId: departmentsInputRef.current.value
+        }
+      });
+        setDepartmentsList(data.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  
+  useEffect(() => {
+    fetchDepartments();
+  }, [city])
 
   let elements;
   if (busket) { 
@@ -85,15 +120,55 @@ export default function CheckoutPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    busket.map(({_id, amount}) => {
-      formData.append(_id, amount)
+    busket.map(({ _id, amount }) => {
+      formData.append('product', `${_id} ${amount}`)
     })
     for(var pair of formData.entries()){
         console.log(pair[0], pair[1]);
     }
     dispatch(orderProducts(formData));
   }
-  
+
+  const handleAdress = async (e) => {
+    if (e.target.value.length > 2) {
+      try {
+      const { data } = await axios.post("https://api.novaposhta.ua/v2.0/json/", {
+        apiKey: NOVA_API_KEY,
+        modelName: "Address",
+        calledMethod: "searchSettlements",
+        methodProperties: {
+          CityName: e.target.value,
+          Limit: 5,
+          Page: 1
+        }
+      });
+      console.log(data.data[0].Addresses);
+      setCityList(data.data[0].Addresses);
+      setCity(data.data[0].Addresses.MainDescription);
+    } catch (error) {
+      console.log(error.message);
+    }
+    }
+  }
+      console.log(city);
+
+  const handleCity = (...args) => {
+    console.log(args);
+    cityInputRef.current.value = args[1];
+    setCityList([]);
+    setCity(args[0]);
+  }
+
+  const handleDepartments = () => {
+    fetchDepartments();
+  }
+
+  const handleDepartment = (...args) => {
+    console.log(args);
+    setWarehouse(warehouse);
+    departmentsInputRef.current.value = args[0];
+    setDepartmentsList([]);
+  }
   
   return (
     <>
@@ -114,11 +189,11 @@ export default function CheckoutPage() {
           />
       </FieldWrapper>
       <FieldWrapper>
-          <Label htmlFor="name">
+          <Label htmlFor="client">
             Ваше ім'я та прізвище:
           </Label>
           <Input
-            name="name"
+            name="client"
             type="text"
             placeholder="Ім'я Прізвище" />
           </FieldWrapper>
@@ -132,8 +207,27 @@ export default function CheckoutPage() {
             <Select name="afina" type="checkbox" onChange={handleChange} checked={afina}></Select>
           </FieldWrapper>
           <FieldWrapper>
-          <Label htmlFor="adress">Адреса:</Label>
-          <Input placeholder="місто Одеса, відділення 43" type="text" name="adress" />
+          <Label htmlFor="city">Адреса:</Label>
+            <Input ref={cityInputRef} onChange={handleAdress} placeholder="місто Одеса, відділення 43" type="text" name="city"/>
+            {cityList.length !== 0 && 
+            <CityList>
+              {cityList.map(item => {
+                return <CityItem key={item.Present} onClick={() => handleCity(item.MainDescription, item.Present)}>{item.Present}</CityItem>
+              })}
+            </CityList>
+            }
+          </FieldWrapper>
+          <Text accent={true}>Відділення:</Text>
+          <FieldWrapper>
+            <Input onChange={handleDepartments} ref={departmentsInputRef} placeholder="Відділення 45" type="text" name="warehouse" />
+            {city && departmentsList.length !== 0 && 
+              <CityList>
+              {departmentsList.map(item => {
+                console.log(item);
+                return <CityItem onClick={() => handleDepartment(item.Description)} key={item.Description}>{item.Description}</CityItem>
+                })}
+              </CityList>
+            }
           </FieldWrapper>
           <Text accent={true}>Оплата:</Text>
           <FieldWrapper select>

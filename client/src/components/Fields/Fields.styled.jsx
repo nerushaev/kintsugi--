@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const OrderWrapper = styled.div`
   @media (min-width: 768px) {
@@ -77,12 +77,31 @@ export const Label = styled.label`
   }
 `;
 
+export const ProductName = styled.h2`
+  display: inline-block;
+  font-size: 16px;
+  font-family: "Montserrat";
+  font-weight: 500;
+  line-height: 20px;
+  margin-bottom: ${props => props.noMargin ? "0" : "10px"};
+
+    @media (min-width: 768px) {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+    @media (min-width: 1200px) {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+`;
+
 export const Text = styled.p`
   font-size: 16px;
   font-family: "Montserrat";
   font-weight: ${props => props.accent ? "500" : "400"};
   line-height: 20px;
   max-width: 240px;
+  display: inline-block;
   &:not(:last-child) {
     margin-bottom: 10px;
   }

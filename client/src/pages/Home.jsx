@@ -17,8 +17,6 @@ export default function Home() {
       <Title text="Рекомендуємо" />
       <Search />
       <ProductsList />
-      <Title text="Cкоро в наявності" />
-      <ComingSoonList />
       </>
   )
 };

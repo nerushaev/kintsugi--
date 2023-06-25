@@ -45,7 +45,7 @@ export const Title = styled.p`
 
 export const Price = styled.p`
   font-weight: 500;
-  color: #342E37;
+  color: #FF5733;
   font-size: 14px;
   margin-bottom: 10px;
   max-height: 170px;
@@ -72,7 +72,7 @@ export const AddButton = styled.button`
 export const Description = styled.p`
   height: 30px;
   font-size: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   overflow: scroll;
 `;
 
