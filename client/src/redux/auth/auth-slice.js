@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, current } from "./auth-operations";
+import { login, current, register } from "./auth-operations";
 
 const initialState = {
   user: {},
@@ -28,6 +28,20 @@ const authSlice = createSlice({
     //   store.loading = false;
     //   store.error = error;
     // },
+    [register.pending]: (store) => {
+      store.loading = true;
+      store.error = null;
+    },
+    [register.fulfilled]: (store, { payload }) => {
+      store.user = payload.user;
+      store.token = payload.token;
+      store.loading = false;
+      store.isLogin = true;
+    },
+    [register.rejected]: (store, {error}) => {
+      store.loading = false;
+      store.error = error;
+    },
     [login.pending]: (store) => {
       store.loading = true;
       store.error = null;

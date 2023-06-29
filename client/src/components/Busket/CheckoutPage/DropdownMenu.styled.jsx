@@ -1,9 +1,11 @@
 import styled from "styled-components";
 
 export const CityList = styled.ul`
+  display: ${props => props.disable ? "none" : "block"};
   box-sizing: border-box;
   width: 100%;
   padding: 10px 10px;
+  margin-top: -30px;
 `;
 
 export const CityItem = styled.li`

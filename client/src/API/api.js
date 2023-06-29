@@ -1,5 +1,4 @@
-import axios from 'axios'
-
+import axios from "axios";
 
 // const BASE_URL = "https://kintsugi-server.onrender.com";
 const BASE_URL = "http://localhost:3001";
@@ -7,22 +6,22 @@ const BASE_URL = "http://localhost:3001";
 export const instance = axios.create({
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
   baseURL: BASE_URL,
-})
+});
 
 export const AuthInstance = axios.create({
   headers: { "Content-Type": "application/json" },
   baseURL: BASE_URL,
-})
+});
 
 export const setToken = (token) => {
   if (token) {
-    return AuthInstance.defaults.headers.common.authorization = `Bearer ${token}`;
+    return (AuthInstance.defaults.headers.common.authorization = `Bearer ${token}`);
   }
   instance.defaults.headers.common.authorization = ``;
-}
+};
 
 export const getItems = async () => {
-  const {data} = await axios.get("/api/products/");
+  const { data } = await axios.get("/api/products/");
   return data.data.result;
 };
 
@@ -31,8 +30,13 @@ export const addItem = async (data) => {
   return result;
 };
 
+export const register = async (userData) => {
+  const { data } = await AuthInstance.post("/api/auth/register", userData);
+  return data;
+};
+
 export const login = async (userData) => {
-  const { data } = await AuthInstance.post('/api/auth/login', userData);
+  const { data } = await AuthInstance.post("/api/auth/login", userData);
   setToken(data.token);
   return data;
 };
@@ -46,4 +50,4 @@ export const getCurrent = async (token) => {
     setToken();
     throw error;
   }
-}
+};

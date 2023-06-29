@@ -8,6 +8,8 @@ import Admin from './pages/Admin';
 import LoginAdmin from './components/Admin/LoginAdmin';
 import Product from './pages/Product';
 import CheckoutPage from './components/Busket/CheckoutPage/CheckoutPage';
+import UserPage from './pages/UserPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/login" element={<LoginAdmin />} />
+        <Route path="/user" element={<UserPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Route>
     </Routes>
   );
