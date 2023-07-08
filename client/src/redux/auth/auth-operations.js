@@ -71,9 +71,7 @@ export const current = createAsyncThunk(
     try {
       const { auth } = getState();
       api.setToken(auth.token);
-      const result = await api.AuthInstance.get(
-        `${api.BASE_URL}/api/auth/current`
-      );
+      const result = await api.AuthInstance.get("/api/auth/current");
       return result.data;
     } catch ({ responce }) {
       const error = {

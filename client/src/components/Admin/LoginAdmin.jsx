@@ -1,10 +1,9 @@
 import { nanoid } from "nanoid";
-import { current, login } from "../../redux/auth/auth-operations";
+import { login } from "../../redux/auth/auth-operations";
 import { Form, Button } from "../Admin/Fields";
 import { useMemo, useState } from "react";
 import { Navigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 import {
   Label,
   FieldWrapper,
