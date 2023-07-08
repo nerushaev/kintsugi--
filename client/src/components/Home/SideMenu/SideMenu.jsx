@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
-import { MenuContext } from '../../../context/navState';
-import arrow from '../../../images/arrow.svg';
-import { NavLink } from 'react-router-dom';
+import React, { useContext } from "react";
+import PropTypes from "prop-types";
+import styled, { css } from "styled-components";
+import { MenuContext } from "../../../context/navState";
+import arrow from "../../../images/arrow.svg";
+import { NavLink } from "react-router-dom";
 
 const Menu = styled.nav`
   position: fixed;
@@ -22,7 +22,7 @@ const Menu = styled.nav`
   transform: translateX(-100%);
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 
-  ${props =>
+  ${(props) =>
     props.open &&
     css`
       transform: translateX(0);
@@ -56,7 +56,11 @@ export const MenuLink = styled(NavLink)`
 export const SideMenu = ({ children }) => {
   const { isMenuOpen, toggleMenuMode } = useContext(MenuContext);
 
-  return <Menu onClick={() => toggleMenuMode()} open={isMenuOpen}>{children}</Menu>;
+  return (
+    <Menu onClick={() => toggleMenuMode()} open={isMenuOpen}>
+      {children}
+    </Menu>
+  );
 };
 
 SideMenu.propTypes = {
@@ -66,11 +70,18 @@ SideMenu.propTypes = {
 SideMenu.defaultProps = {
   children: (
     <>
-      <MenuLink to="/" end href="/">Головна</MenuLink>
+      <MenuLink to="/" end href="/">
+        Головна
+      </MenuLink>
       {/* <MenuLink to="/catalog">Каталог</MenuLink> */}
       <MenuLink to="/delivery">Доставка</MenuLink>
       <MenuLink to="/busket">Корзина</MenuLink>
-      <MenuLink to="about" href="/about">Про нас</MenuLink>
+      <MenuLink to="/about" href="/about">
+        Про нас
+      </MenuLink>
+      <MenuLink to="/register" href="/register">
+        Реєстрація
+      </MenuLink>
     </>
   ),
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import { useDispatch } from "react-redux";
 import styled from "styled-components"
-import { Text } from "../../Fields/Fields.styled";
+import { Select, Text } from "../../Fields/Fields.styled";
 // import { register } from "../../../redux/auth/auth-operations";
 import { Inputt } from "./Input";
 
@@ -15,6 +15,7 @@ export const InputWrapper = styled.div`
 
 export const CheckboxWrapper = styled.div`
   display: flex;
+  align-items: center;
   margin-bottom: 15px;
 `;
 
@@ -25,11 +26,29 @@ export const CheckboxesWrapper = styled.div`
 
 export const Label = styled.label`
   margin-right: 10px;
+  font-size: 16px;
+  font-family: "Montserrat";
+  font-weight: 500;
+  line-height: 30px;
+    @media (min-width: 480px) {
+      font-size: 18px;
+    }
+    @media (min-width: 768px) {
+      font-size: 20px;
+    }
+    @media (min-width: 1200px) {
+      font-size: 24px;
+    }
+`;
+
+export const CheckoutWrapper = styled.div`
+  max-width: 450px;
+  margin: 0 auto;
 `;
 
 export default function CheckoutModal(props) {
   const { setOrderData, orderData, setWillBeRegister } = props;
-  const [yes, setYes] = useState(true);
+  const [yes, setYes] = useState(false);
   const [no, setNo] = useState(false);
 
   const handleChange = (e) => {
@@ -73,11 +92,11 @@ export default function CheckoutModal(props) {
         <CheckboxesWrapper>
           <CheckboxWrapper>
             <Label htmlFor="yes">Так</Label>
-            <input name="yes" onChange={handleChange} id="yes" type="checkbox" checked={yes}/>
+            <Select name="yes" onChange={handleChange} id="yes" type="checkbox" checked={yes}/>
           </CheckboxWrapper>
           <CheckboxWrapper>
             <Label htmlFor="no">Ні</Label>
-            <input name="no" onChange={handleChange} id="no" type="checkbox" checked={no}/>
+            <Select name="no" onChange={handleChange} id="no" type="checkbox" checked={no}/>
           </CheckboxWrapper> 
         </CheckboxesWrapper>
         {yes &&
@@ -91,7 +110,7 @@ export default function CheckoutModal(props) {
           />
           <Inputt
             onChange={handleChange}
-            label="Повторіть пароль:"
+            label="Підтвердіть пароль:"
             name="confirmPassword"
             type="password"
             value={orderData.confirmPassword}

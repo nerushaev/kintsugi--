@@ -1,23 +1,18 @@
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useAuth } from "../hooks/useAuth";
 import { current } from "../redux/auth/auth-operations";
-import { getIsLogin } from "../redux/auth/auth-selectors";
-
 
 export default function UserPage() {
-  const isLogin = useSelector(getIsLogin);
-
-  const { userData, setUserData } = useState({
-    
-  });
-
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(current());
-  }, [isLogin, dispatch])
+  const { token } = useAuth();
 
-  return (
-    <div>LoginPage</div>
-  )
+  useEffect(() => {
+    if (token) {
+      dispatch(current());
+    }
+  }, [dispatch, token]);
+
+  return <div>User Page</div>;
 }

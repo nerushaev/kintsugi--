@@ -1,10 +1,14 @@
-import React, { useRef, useContext } from 'react';
-import styled from 'styled-components';
-import useOnClickOutside from '../../../hooks/onClickOutside';
-import { MenuContext } from '../../../context/navState';
-import HamburgerButton from '../HamburgerButton/HamburgerButton';
-import { SideMenu } from '../SideMenu/SideMenu';
-import Logo from '../Logo/Logo'
+import React, { useRef, useContext } from "react";
+import styled from "styled-components";
+import useOnClickOutside from "../../../hooks/onClickOutside";
+import { MenuContext } from "../../../context/navState";
+import HamburgerButton from "../HamburgerButton/HamburgerButton";
+import { SideMenu } from "../SideMenu/SideMenu";
+import Logo from "../Logo/Logo";
+import { useAuth } from "../../../hooks/useAuth";
+import svg from "../../../images/filterIcons.svg";
+import { Navigate } from "react-router";
+import { Link } from "react-router-dom";
 
 const Navbar = styled.div`
   display: flex;
@@ -22,7 +26,7 @@ const Navbar = styled.div`
   min-width: 0px;
   min-height: 0px;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 6px 10px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;
   z-index: 500;
@@ -34,6 +38,7 @@ const Header = styled.header`
 
 const MainMenu = () => {
   const node = useRef();
+  const { isLoggedIn } = useAuth();
   const { isMenuOpen, toggleMenuMode } = useContext(MenuContext);
   useOnClickOutside(node, () => {
     if (isMenuOpen) {
@@ -45,7 +50,14 @@ const MainMenu = () => {
     <Header id="header" ref={node}>
       <Navbar>
         <HamburgerButton />
-        <Logo className={"nav-logo"}/>
+        {isLoggedIn && (
+          <Link to="/user">
+            <svg width="40" height="40">
+              <use xlinkHref={`${svg}#icon-profile`} />
+            </svg>
+          </Link>
+        )}
+        <Logo className={"nav-logo"} />
       </Navbar>
       <SideMenu />
     </Header>

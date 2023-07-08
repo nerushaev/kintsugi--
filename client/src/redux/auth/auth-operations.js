@@ -5,9 +5,8 @@ export const register = createAsyncThunk(
   "auth/register",
   async (data, { rejectWithValue }) => {
     try {
-      console.log(data);
-      const result = await api.register(data);
-      console.log(result);
+      const result = await api.AuthInstance.post(data);
+      return result;
     } catch ({ responce }) {
       const error = {
         status: responce.status,
@@ -38,7 +37,7 @@ export const login = createAsyncThunk(
   "auth/login",
   async (data, { rejectWithValue }) => {
     try {
-      const result = await api.login(data);
+      const result = await api.AuthInstance.post(data);
       return result;
     } catch ({ responce }) {
       const error = {
@@ -71,14 +70,29 @@ export const current = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     try {
       const { auth } = getState();
-      const result = await api.getCurrent(auth.token);
-      return result;
+      api.setToken(auth.token);
+      const result = await api.AuthInstance.get(
+        `${api.BASE_URL}/api/auth/current`
+      );
+      return result.data;
     } catch ({ responce }) {
       const error = {
         status: responce.status,
         message: responce.data.message,
       };
       return rejectWithValue(error);
+    }
+  }
+);
+
+export const refreshToken = createAsyncThunk(
+  "users/refresh",
+  async (_, thunkApi) => {
+    try {
+      const { data } = await api.AuthInstance.get("/users/refresh");
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error);
     }
   }
 );

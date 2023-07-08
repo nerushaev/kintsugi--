@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
-import styled from 'styled-components';
-import { MenuContext } from '../../../context/navState';
+import React, { useContext } from "react";
+import styled from "styled-components";
+import { MenuContext } from "../../../context/navState";
 
 const MenuButton = styled.button`
   display: block;
   transform-origin: 16px 11px;
+  padding: 5px;
+  padding-top: 10px;
   float: left;
-  margin-right: 29px;
   outline: 0;
   border: 0;
-  padding: 12px;
   background: none;
 
   span {
@@ -17,8 +17,8 @@ const MenuButton = styled.button`
   }
 
   :focus {
-    border: medium none rgb(255,182,193);
-    box-shadow: rgb(255,105,180) 0 0 2px 2px;
+    // border: medium none rgb(255, 182, 193);
+    // box-shadow: rgb(255, 105, 180) 0 0 2px 2px;
     outline: 0;
   }
 
@@ -38,7 +38,7 @@ const MenuButton = styled.button`
 
   &.active {
     span:nth-of-type(1) {
-      transform: rotate(45deg) translate(10px, 10px);
+      transform: rotate(45deg) translate(9px, 9px);
       width: 40px;
     }
 
@@ -48,7 +48,7 @@ const MenuButton = styled.button`
     }
 
     span:nth-of-type(3) {
-      transform: rotate(-45deg) translate(7px, -7px);
+      transform: rotate(-45deg) translate(4px, -4px);
       width: 40px;
     }
   }
@@ -57,7 +57,7 @@ const MenuButton = styled.button`
 const Bar = styled.span`
   display: block;
   width: 40px;
-  height: 5px;
+  height: 2px;
   margin-bottom: 7px;
   background-color: #000;
 `;
@@ -71,7 +71,7 @@ const HamburgerButton = () => {
 
   return (
     <MenuButton
-      className={isMenuOpen ? 'active' : ''}
+      className={isMenuOpen ? "active" : ""}
       aria-label="Открыть главное меню"
       onClick={clickHandler}
     >

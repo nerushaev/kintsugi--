@@ -1,22 +1,32 @@
 import styled from "styled-components";
 
 export const OrderWrapper = styled.div`
+  margin: 0 auto;
+  max-width: 450px;
   @media (min-width: 768px) {
+    max-width: 1150px;
     display: flex;
     flex-direction: row-reverse;
-    justify-content: space-between;
+    justify-content: center;
   }
 `;
 
 export const Form = styled.form`
-
+  display: inline-block;
+  width: 100%;
+  max-width: 450px;
+  @media (min-width: 768px) {
+    margin-right: ${props => props.checkout ? "30px" : "0"};
+  }
+  @media (min-width: 1200px) {
+    margin-right: ${props => props.checkout ? "50px" : "0"};
+  }
 `;
 
 export const ProductsList = styled.ul`
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
-
 `;
 
 export const ProductsItem = styled.li`
@@ -47,8 +57,8 @@ export const ProductsItemImage = styled.img`
     height: 150px;
   }
   @media (min-width: 1200px) {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
   }
 `;
 
@@ -57,23 +67,28 @@ export const FieldWrapper = styled.div`
   display: ${props => props.select ? "flex" : ""};
   justify-content: space-between;
   align-items: center;
+  @media (min-width: 768px) {
+    margin-bottom: 40px;
+  }
+  @media (min-width: 1200px) {
+    margin-bottom: 50px;
+  }
 `;
 
 export const Label = styled.label`
-  display: inline-block;
+  display: block;
   font-size: 16px;
   font-family: "Montserrat";
   font-weight: 500;
-  line-height: 20px;
+  line-height: 30px;
+  max-width: 80%;
   margin-bottom: ${props => props.noMargin ? "0" : "10px"};
 
     @media (min-width: 768px) {
     font-size: 20px;
-    margin-bottom: 20px;
   }
     @media (min-width: 1200px) {
     font-size: 28px;
-    margin-bottom: 20px;
   }
 `;
 
@@ -103,7 +118,7 @@ export const Text = styled.p`
   max-width: 240px;
   display: inline-block;
   &:not(:last-child) {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
     @media (min-width: 768px) {
     font-size: 20px;
@@ -121,16 +136,24 @@ export const Text = styled.p`
 export const Input = styled.input`
   box-sizing: border-box;
   width: 100%;
-  height: 30px;
+  height: 40px;
   border-radius: none;
   border: 1px solid black;
   padding-left: 10px;
+
+  font-size: 16px;
+  font-family: "Montserrat";
+  font-weight: 500;
+  line-height: 20px;
+
     @media (min-width: 768px) {
-      height: 40px;
+      height: 50px;
+      font-size: 18px;
     }
 
     @media (min-width: 1200px) {
-    height: 50px;
+      height: 60px;
+      font-size: 22px;
   }
 `;
 
@@ -139,9 +162,12 @@ export const Select = styled.input`
   justify-content: space-between;
   align-items: center;
   border: none;
-  &:not(:last-child) {
-    margin-bottom: 20px;
-  } 
+  height: 20px;
+  width: 20px;
+    @media (min-width: 480px) {
+      height: 25px;
+      width: 25px;
+    }
 `;
 
 export const Checkbox = styled.div`
