@@ -6,8 +6,9 @@ export default function RegisterPage() {
   const { isLoggedIn } = useAuth();
 
   if (isLoggedIn) {
-    return Navigate({ to: "/user" });
+    return <Navigate to="/user" />;
   }
+
   return (
     <div>
       <RegisterForm />

@@ -46,8 +46,13 @@ export default function RegisterForm() {
     registerValidation
       .validate(userData)
       .then((res) => {
-        delete userData.confirmPassword;
-        dispatch(register(userData));
+        const registerData = {
+          name: userData.name,
+          email: userData.email,
+          phone: userData.phone,
+          password: userData.password,
+        };
+        dispatch(register(registerData));
       })
       .catch((error) => {
         Notify.failure(error.message, notifyOptions);

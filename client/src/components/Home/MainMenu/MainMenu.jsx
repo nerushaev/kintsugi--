@@ -7,7 +7,6 @@ import { SideMenu } from "../SideMenu/SideMenu";
 import Logo from "../Logo/Logo";
 import { useAuth } from "../../../hooks/useAuth";
 import svg from "../../../images/filterIcons.svg";
-import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
 
 const Navbar = styled.div`
@@ -27,9 +26,13 @@ const Navbar = styled.div`
   min-height: 0px;
   flex-direction: row;
   justify-content: space-between;
-  padding: 6px 10px;
+  padding: 10px 10px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;
   z-index: 500;
+`;
+
+const NavLogoWrapper = styled.div`
+  display: flex;
 `;
 
 const Header = styled.header`
@@ -49,14 +52,16 @@ const MainMenu = () => {
   return (
     <Header id="header" ref={node}>
       <Navbar>
-        <HamburgerButton />
-        {isLoggedIn && (
-          <Link to="/user">
-            <svg width="40" height="40">
-              <use xlinkHref={`${svg}#icon-profile`} />
-            </svg>
-          </Link>
-        )}
+        <NavLogoWrapper>
+          <HamburgerButton />
+          {isLoggedIn && (
+            <Link to="/user">
+              <svg width="42" height="50">
+                <use xlinkHref={`${svg}#icon-profile`} />
+              </svg>
+            </Link>
+          )}
+        </NavLogoWrapper>
         <Logo className={"nav-logo"} />
       </Navbar>
       <SideMenu />

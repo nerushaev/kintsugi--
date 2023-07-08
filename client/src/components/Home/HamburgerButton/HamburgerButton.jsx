@@ -6,11 +6,11 @@ const MenuButton = styled.button`
   display: block;
   transform-origin: 16px 11px;
   padding: 5px;
-  padding-top: 10px;
   float: left;
   outline: 0;
   border: 0;
   background: none;
+  margin-right: 10px;
 
   span {
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);

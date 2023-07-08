@@ -5,8 +5,8 @@ export const register = createAsyncThunk(
   "auth/register",
   async (data, { rejectWithValue }) => {
     try {
-      const result = await api.AuthInstance.post(data);
-      return result;
+      const result = await api.AuthInstance.post("/api/auth/register", data);
+      return result.data;
     } catch ({ responce }) {
       const error = {
         status: responce.status,
@@ -37,8 +37,8 @@ export const login = createAsyncThunk(
   "auth/login",
   async (data, { rejectWithValue }) => {
     try {
-      const result = await api.AuthInstance.post(data);
-      return result;
+      const result = await api.AuthInstance.post("/api/auth/login", data);
+      return result.data;
     } catch ({ responce }) {
       const error = {
         status: responce.status,
@@ -49,21 +49,21 @@ export const login = createAsyncThunk(
   }
 );
 
-// export const logout = createAsyncThunk(
-//   "auth/logout",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const result = await api.logout();
-//       return result;
-//     } catch ({ responce }) {
-//       const error = {
-//         status: responce.status,
-//         message: responce.data.message,
-//       }
-//       return rejectWithValue(error);
-//     };
-//   }
-// )
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      const result = await api.AuthInstance.post("/api/auth/logout");
+      return result.status;
+    } catch ({ responce }) {
+      const error = {
+        status: responce.status,
+        message: responce.data.message,
+      };
+      return rejectWithValue(error);
+    }
+  }
+);
 
 export const current = createAsyncThunk(
   "auth/current",
