@@ -1,16 +1,16 @@
 import { nanoid } from "nanoid";
-import { current, login } from "../../redux/auth/auth-operations";
+import { login } from "../../redux/auth/auth-operations";
 import { Form, Button } from "../Admin/Fields";
 import { useMemo, useState } from "react";
 import { Navigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 import {
   Label,
   FieldWrapper,
   Input,
 } from "../../components/Fields/Fields.styled";
 import { useAuth } from "../../hooks/useAuth";
+
 export default function LoginAdmin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,12 +22,8 @@ export default function LoginAdmin() {
   const passwordId = useMemo(() => nanoid(), []);
   const { isLoggedIn } = useAuth();
 
-  useEffect(() => {
-    dispatch(current());
-  }, [dispatch]);
-
   if (isLoggedIn) {
-    return <Navigate to="/admin" />;
+    return <Navigate to="/user" />;
   }
 
   const handleChange = (e) => {
@@ -45,8 +41,8 @@ export default function LoginAdmin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }));
-    setEmail("");
-    setPassword("");
+    // setEmail("");
+    // setPassword("");
   };
 
   return (
@@ -74,7 +70,7 @@ export default function LoginAdmin() {
             required
           />
         </FieldWrapper>
-        <Button>Login</Button>
+        <Button type="submit">Login</Button>
       </Form>
     </>
   );

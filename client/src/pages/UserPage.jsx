@@ -1,11 +1,14 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import UserAvatar from "../components/Auth/UserPage/UserAvatar";
 import { useAuth } from "../hooks/useAuth";
 import { current } from "../redux/auth/auth-operations";
+import { selectUser } from "../redux/auth/auth-selectors";
 
 export default function UserPage() {
   const dispatch = useDispatch();
 
+  const user = useSelector(selectUser);
   const { token } = useAuth();
 
   useEffect(() => {
@@ -14,5 +17,9 @@ export default function UserPage() {
     }
   }, [dispatch, token]);
 
-  return <div>User Page</div>;
+  return (
+    <div>
+      <UserAvatar userData={user} />
+    </div>
+  );
 }
