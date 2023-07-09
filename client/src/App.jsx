@@ -20,7 +20,13 @@ function App() {
   const { token } = useAuth();
 
   useEffect(() => {
-    dispatch(current());
+    if (token) {
+      try {
+        dispatch(current());
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }, [token, dispatch]);
 
   return (

@@ -71,13 +71,15 @@ export const SideMenu = ({ children }) => {
       {isLoggedIn ? (
         <MenuLink onClick={handleLogout}>Вийти</MenuLink>
       ) : (
-        <MenuLink to="/register" href="/register">
-          Реєстрація
-        </MenuLink>
+        <>
+          <MenuLink to="/register" href="/register">
+            Реєстрація
+          </MenuLink>
+          <MenuLink to="/login" href="/login">
+            Увійти
+          </MenuLink>
+        </>
       )}
-      <MenuLink to="/login" href="/login">
-        Увійти
-      </MenuLink>
     </Menu>
   );
 };
