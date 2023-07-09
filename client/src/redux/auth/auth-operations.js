@@ -74,6 +74,10 @@ export const current = createAsyncThunk(
       const result = await api.AuthInstance.get("/api/auth/current");
       return result.data;
     } catch ({ responce }) {
+      // const result = await api.AuthInstance.get("/api/auth/refresh");
+      // if (result) {
+      //   return;
+      // }
       const error = {
         status: responce.status,
         message: responce.data.message,

@@ -6,6 +6,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+  margin-bottom: 20px;
 `;
 
 const Avatar = styled.img`
