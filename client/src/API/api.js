@@ -19,6 +19,12 @@ export const AuthInstance = axios.create({
   withCredentials: true,
 });
 
+export const novaInstance = axios.create({
+  headers: { "Content-Type": "application/json" },
+  baseURL: BASE_URL,
+  withCredentials: false,
+});
+
 AuthInstance.interceptors.response.use(
   (res) => res,
   (error) => Promise.reject(error.res.data)

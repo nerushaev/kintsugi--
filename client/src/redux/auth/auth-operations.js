@@ -74,10 +74,6 @@ export const current = createAsyncThunk(
       const result = await api.AuthInstance.get("/api/auth/current");
       return result.data;
     } catch ({ responce }) {
-      // const result = await api.AuthInstance.get("/api/auth/refresh");
-      // if (result) {
-      //   return;
-      // }
       const error = {
         status: responce.status,
         message: responce.data.message,
@@ -88,13 +84,18 @@ export const current = createAsyncThunk(
 );
 
 export const refreshToken = createAsyncThunk(
-  "users/refresh",
-  async (_, thunkApi) => {
+  "auth/refresh",
+  async (_, { rejectWithValue }) => {
     try {
-      const { data } = await api.AuthInstance.get("/users/refresh");
-      return data;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error);
+      const result = await api.AuthInstance.get("/api/auth/refresh");
+      return result.data;
+      // return result.data;
+    } catch ({ responce }) {
+      const error = {
+        status: responce.status,
+        message: responce.data.message,
+      };
+      return rejectWithValue(error);
     }
   }
 );

@@ -4,10 +4,11 @@ import { Inputt } from "../Busket/CheckoutPage/Input";
 import { Form } from "../Fields/Fields.styled";
 import { ButtonWrapper, Button } from "../../components/Buttons/Buttons";
 import { registerValidation } from "../../helpers/registerPageValidation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/auth/auth-operations";
 import { Notify } from "notiflix";
 import { notifyOptions } from "../../helpers/notifyConfig";
+import { selectError } from "../../redux/auth/auth-selectors";
 
 const RegisterWrapper = styled.div`
   display: flex;
@@ -23,6 +24,8 @@ export default function RegisterForm() {
     password: "",
     confirmPassword: "",
   });
+
+  const error = useSelector(selectError);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,6 +56,14 @@ export default function RegisterForm() {
           password: userData.password,
         };
         dispatch(register(registerData));
+        if (!error) {
+          setTimeout(
+            Notify.success("регістрація пройшла успішно!", {
+              borderRadius: "0px",
+            }),
+            20000
+          );
+        }
       })
       .catch((error) => {
         Notify.failure(error.message, notifyOptions);
