@@ -16,10 +16,10 @@ export const Form = styled.form`
   width: 100%;
   max-width: 450px;
   @media (min-width: 768px) {
-    margin-right: ${props => props.checkout ? "30px" : "0"};
+    margin-right: ${(props) => (props.checkout ? "30px" : "0")};
   }
   @media (min-width: 1200px) {
-    margin-right: ${props => props.checkout ? "50px" : "0"};
+    margin-right: ${(props) => (props.checkout ? "50px" : "0")};
   }
 `;
 
@@ -34,11 +34,11 @@ export const ProductsItem = styled.li`
   &:not(:last-child) {
     margin-bottom: 20px;
   }
-    @media (min-width: 768px) {
-      &:not(:last-child) {
-    margin-bottom: 30px;
-  }
+  @media (min-width: 768px) {
+    &:not(:last-child) {
+      margin-bottom: 30px;
     }
+  }
 `;
 
 export const ProductsItemTextWrapper = styled.div`
@@ -64,7 +64,7 @@ export const ProductsItemImage = styled.img`
 
 export const FieldWrapper = styled.div`
   margin-bottom: 30px;
-  display: ${props => props.select ? "flex" : ""};
+  display: ${(props) => (props.select ? "flex" : "")};
   justify-content: space-between;
   align-items: center;
   @media (min-width: 768px) {
@@ -82,12 +82,12 @@ export const Label = styled.label`
   font-weight: 500;
   line-height: 30px;
   max-width: 80%;
-  margin-bottom: ${props => props.noMargin ? "0" : "10px"};
+  margin-bottom: ${(props) => (props.noMargin ? "0" : "10px")};
 
-    @media (min-width: 768px) {
+  @media (min-width: 768px) {
     font-size: 20px;
   }
-    @media (min-width: 1200px) {
+  @media (min-width: 1200px) {
     font-size: 28px;
   }
 `;
@@ -98,13 +98,13 @@ export const ProductName = styled.h2`
   font-family: "Montserrat";
   font-weight: 500;
   line-height: 20px;
-  margin-bottom: ${props => props.noMargin ? "0" : "10px"};
+  margin-bottom: ${(props) => (props.noMargin ? "0" : "10px")};
 
-    @media (min-width: 768px) {
+  @media (min-width: 768px) {
     font-size: 20px;
     margin-bottom: 20px;
   }
-    @media (min-width: 1200px) {
+  @media (min-width: 1200px) {
     font-size: 28px;
     margin-bottom: 20px;
   }
@@ -113,20 +113,20 @@ export const ProductName = styled.h2`
 export const Text = styled.p`
   font-size: 16px;
   font-family: "Montserrat";
-  font-weight: ${props => props.accent ? "500" : "400"};
+  font-weight: ${(props) => (props.accent ? "500" : "400")};
   line-height: 20px;
   max-width: 240px;
   display: inline-block;
   &:not(:last-child) {
     margin-bottom: 15px;
   }
-    @media (min-width: 768px) {
+  @media (min-width: 768px) {
     font-size: 20px;
     &:not(:last-child) {
-    margin-bottom: 20px;
+      margin-bottom: 20px;
+    }
   }
-  }
-    @media (min-width: 1200px) {
+  @media (min-width: 1200px) {
     font-size: 26px;
     margin-bottom: 20px;
     line-height: 26px;
@@ -140,20 +140,22 @@ export const Input = styled.input`
   border-radius: none;
   border: 1px solid black;
   padding-left: 10px;
+  background-color: ${(props) =>
+    props.disable ? "rgb(238, 130, 238, 0.2)" : ""};
 
   font-size: 16px;
   font-family: "Montserrat";
   font-weight: 500;
   line-height: 20px;
 
-    @media (min-width: 768px) {
-      height: 50px;
-      font-size: 18px;
-    }
+  @media (min-width: 768px) {
+    height: 50px;
+    font-size: 18px;
+  }
 
-    @media (min-width: 1200px) {
-      height: 60px;
-      font-size: 22px;
+  @media (min-width: 1200px) {
+    height: 60px;
+    font-size: 22px;
   }
 `;
 
@@ -164,20 +166,19 @@ export const Select = styled.input`
   border: none;
   height: 20px;
   width: 20px;
-    @media (min-width: 480px) {
-      height: 25px;
-      width: 25px;
-    }
+  @media (min-width: 480px) {
+    height: 25px;
+    width: 25px;
+  }
 `;
 
 export const Checkbox = styled.div`
-  content: '';
+  content: "";
   width: 20px;
   height: 20px;
-  border: ${props => props.active ? "1px solid red" : "1px solid black"} ;
-    @media (min-width: 768px) {
-      width: 30px;
-      height: 30px;
-    }
-
+  border: ${(props) => (props.active ? "1px solid red" : "1px solid black")};
+  @media (min-width: 768px) {
+    width: 30px;
+    height: 30px;
+  }
 `;

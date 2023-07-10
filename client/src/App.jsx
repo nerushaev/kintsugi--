@@ -12,12 +12,14 @@ import UserPage from "./pages/UserPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import { useAuth } from "./hooks/useAuth";
 import { useDispatch } from "react-redux";
-import { current } from "./redux/auth/auth-operations";
-import { useEffect } from "react";
+import { current, refreshToken } from "./redux/auth/auth-operations";
+import { useEffect, useMemo } from "react";
+import PrivateRoute from "./components/PrivateRoutes/PrivateRoutes";
+import RestrictedRoute from "./components/RestrictedRoutes/RestrictedRoutes";
 
 function App() {
   const dispatch = useDispatch();
-  const { token } = useAuth();
+  const { token, error, isLoggedIn } = useAuth();
 
   useEffect(() => {
     if (token) {
@@ -27,7 +29,10 @@ function App() {
         console.log(error);
       }
     }
-  }, [token, dispatch]);
+    if (token && !isLoggedIn) {
+      dispatch(refreshToken());
+    }
+  }, [token, !isLoggedIn, dispatch]);
 
   return (
     <Routes>
@@ -38,10 +43,21 @@ function App() {
         <Route path="/delivery" element={<Delivery />} />
         <Route path="/busket" element={<BusketPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route
+          path="/admin"
+          element={<PrivateRoute component={Admin} redirectTo={"/login"} />}
+        />
         <Route path="/login" element={<LoginAdmin />} />
-        <Route path="/user" element={<UserPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/user"
+          element={<PrivateRoute component={UserPage} redirectTo={"/login"} />}
+        />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute component={RegisterPage} redirectTo={"/user"} />
+          }
+        />
       </Route>
     </Routes>
   );

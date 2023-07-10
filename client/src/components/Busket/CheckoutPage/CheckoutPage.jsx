@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NOVA_API_KEY } from "../../../API/nova";
+import { novaInstance, NOVA_API_KEY } from "../../../API/nova";
 import { orderProducts } from "../../../redux/products/products-operation";
 import {
   getBusket,
@@ -26,20 +26,28 @@ import {
 import { Notify } from "notiflix";
 import { Inputt } from "./Input";
 import { SelectInput } from "./SelectInput";
-import { AuthInstance } from "../../../API/api";
 import CheckoutModal, { CheckoutWrapper } from "./CheckoutModal";
-import { selectIsLoading } from "../../../redux/products/products-selectors";
+// import { selectIsLoading } from "../../../redux/products/products-selectors";
 import { register } from "../../../redux/auth/auth-operations";
 import { notifyOptions } from "../../../helpers/notifyConfig";
+import {
+  selectIsLoading,
+  selectUser,
+} from "../../../redux/auth/auth-selectors";
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
+  const user = useSelector(selectUser);
   const loading = useSelector(selectIsLoading);
   const productsData = useSelector(selectBusketProductsId);
   const [cities, setCities] = useState([]);
   const [warehouses, setWarehouses] = useState([]);
   const [willBeRegister, setWillBeRegister] = useState(true);
+  const [inputsTouched, setInputsTouched] = useState({
+    city: false,
+    warehouse: false,
+  });
   const [orderData, setOrderData] = useState({
     email: "",
     name: "",
@@ -60,9 +68,18 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
+    if (user) {
+      setOrderData((prev) => ({
+        ...prev,
+        email: user.email || "",
+        name: user.name || "",
+        phone: user.phone || "",
+      }));
+    }
+
     const fetchCities = async () => {
       try {
-        const { data } = await AuthInstance.post(
+        const { data } = await novaInstance.post(
           "https://api.novaposhta.ua/v2.0/json/",
           {
             apiKey: NOVA_API_KEY,
@@ -92,7 +109,7 @@ export default function CheckoutPage() {
 
     const fetchWarehouses = async () => {
       try {
-        const { data } = await AuthInstance.post(
+        const { data } = await novaInstance.post(
           "https://api.novaposhta.ua/v2.0/json/",
           {
             apiKey: NOVA_API_KEY,
@@ -111,31 +128,9 @@ export default function CheckoutPage() {
         console.log(error.message);
       }
     };
-
-    if (orderData.city.length > 2 && cities.length === 0) {
-      fetchCities();
-    } else if (orderData.city.length === 0 && cities.length > 0) {
-      setOrderData((prev) => {
-        return {
-          ...prev,
-          city: "",
-        };
-      });
-      setCities([]);
-    }
-
-    if (orderData.city.length > 2) {
-      fetchWarehouses();
-    } else if (orderData.warehouse.length === 0 && warehouses.length > 0) {
-      setWarehouses([]);
-      setOrderData((prev) => {
-        return {
-          ...prev,
-          warehouse: "",
-        };
-      });
-    }
-  }, [cities, warehouses.length, orderData.city, orderData.warehouse]);
+    fetchCities();
+    fetchWarehouses();
+  }, [orderData.city, orderData.warehouse, user]);
 
   let elements;
   if (busket) {
@@ -170,7 +165,7 @@ export default function CheckoutPage() {
         warehouseAddress,
       };
     });
-    const result = isSameWarehouse(warehouses, warehouseRef);
+    // const result = isSameWarehouse(warehouses, warehouseRef);
     setWarehouses([]);
   };
 
@@ -189,6 +184,7 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(e);
     const result = await checkoutPageValidation
       .validate(orderData)
       .then((result) => {
@@ -210,6 +206,7 @@ export default function CheckoutPage() {
             register({
               email: orderData.email,
               name: orderData.name,
+              phone: orderData.phone,
               password: orderData.password,
             })
           );
@@ -313,15 +310,29 @@ export default function CheckoutPage() {
     ? orderData.city.length === cities[0].Description.length
     : null;
 
-  function isSameWarehouse(warehouses, warehouse) {
-    console.log(warehouses, warehouse);
-    const result = warehouses.filter((item) => {
-      if (item.WarehouseIndex === warehouse) {
-        console.log(true);
+  // function isSameWarehouse(warehouses, warehouse) {
+  //   const result = warehouses.filter((item) => {
+  //     if (item.WarehouseIndex === warehouse) {
+  //       console.log(true);
+  //     }
+  //   });
+  //   return result;
+  // }
+
+  const handleTouched = (e) => {
+    const { name } = e.target;
+    console.log(e);
+    switch (name) {
+      case [name]: {
+        setInputsTouched((prev) => {
+          return {
+            ...prev,
+            name: !prev.name,
+          };
+        });
       }
-    });
-    return result;
-  }
+    }
+  };
 
   return (
     <>
@@ -331,6 +342,37 @@ export default function CheckoutPage() {
           {elements}
         </ProductsList>
         <Form checkout onSubmit={handleSubmit}>
+          {/* {user && (
+            <>
+              <Inputt
+                disable={true}
+                name="email"
+                type="email"
+                label="Ваша пошта:"
+                placeholder="youremail@gmail.com"
+                onChange={handleChange}
+                value={user.email}
+              />
+              <Inputt
+                disable={true}
+                name="name"
+                type="text"
+                label="Введіть ваше П.І.Б:"
+                placeholder="Чепіль Анастасія Олександрівна"
+                onChange={handleChange}
+                value={user.name}
+              />
+              <Inputt
+                disable={true}
+                name="phone"
+                type="phone"
+                label="Ваш номер телефону:"
+                placeholder="+380963332333"
+                onChange={handleChange}
+                value={user.phone}
+              />
+            </>
+          )} */}
           <Inputt
             name="email"
             type="email"
@@ -371,7 +413,7 @@ export default function CheckoutPage() {
             onChange={handleChange}
             value={orderData.city}
           />
-          {cities.length !== 0 && (
+          {cities.length !== 0 && inputsTouched.city && (
             <CityList disable={isSameCities}>
               {cities.map((item) => {
                 return (
@@ -392,9 +434,10 @@ export default function CheckoutPage() {
             label="Відділення:"
             placeholder="54"
             onChange={handleChange}
+            onClick={handleTouched}
             value={orderData.warehouse}
           />
-          {warehouses.length !== 0 && (
+          {warehouses.length !== 0 && inputsTouched.city && (
             <CityList disable={false}>
               {warehouses.map((item) => {
                 return (
@@ -419,21 +462,23 @@ export default function CheckoutPage() {
             value={[orderData.cash, orderData.liqpay]}
             label={["Накаладений платіж", "Онлайн оплата LiqPay"]}
           />
+
+          <CheckoutWrapper>
+            <CheckoutModal
+              setWillBeRegister={setWillBeRegister}
+              willBeRegister={willBeRegister}
+              orderData={orderData}
+              setOrderData={setOrderData}
+            />
+          </CheckoutWrapper>
+
+          <ButtonWrapper>
+            <Button type="submit" onSubmit={handleSubmit}>
+              {willBeRegister ? "Замовити і зареєструватись" : "Замовити"}
+            </Button>
+          </ButtonWrapper>
         </Form>
       </OrderWrapper>
-      <CheckoutWrapper>
-        <CheckoutModal
-          setWillBeRegister={setWillBeRegister}
-          willBeRegister={willBeRegister}
-          orderData={orderData}
-          setOrderData={setOrderData}
-        />
-        <ButtonWrapper>
-          <Button type="submit" onSubmit={handleSubmit}>
-            {willBeRegister ? "Замовити і зареєструватись" : "Замовити"}
-          </Button>
-        </ButtonWrapper>
-      </CheckoutWrapper>
     </>
   );
 }

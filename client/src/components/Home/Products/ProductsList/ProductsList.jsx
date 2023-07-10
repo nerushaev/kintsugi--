@@ -1,11 +1,17 @@
 import { ProductsItem } from "../ProductsItem/ProductsItem";
-import { useDispatch, useSelector } from 'react-redux';
-import { getProducts, getProductsByName } from '../../../../redux/products/products-operation';
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getProducts,
+  getProductsByName,
+} from "../../../../redux/products/products-operation";
 import { useEffect, useRef, useState } from "react";
-import { getTotalPages, getFilteredProducts, selectIsLoading } from '../../../../redux/products/products-selectors';
+import {
+  getTotalPages,
+  getFilteredProducts,
+  selectIsLoading,
+} from "../../../../redux/products/products-selectors";
 import { getFilter } from "../../../../redux/filter/filter-selectors";
-import { List, ListWrapper } from '../List.styled';
-import Loader from "../../../Loader/Loader";
+import { List, ListWrapper } from "../List.styled";
 import FilterPanel from "../../FilterPanel/FilterPanel";
 import Pagination from "../../Pagination/Pagination";
 import { getSearch } from "../../../../redux/search/search-selectors";
@@ -17,17 +23,15 @@ const ProductsList = () => {
   const [page, setPage] = useState(1);
   const totalPages = useSelector(getTotalPages);
   const filter = useSelector(getFilter);
-  const loading = useSelector(selectIsLoading);
   const scrollPosition = useRef(null);
   const search = useSelector(getSearch);
 
-
   function getObjectKeysString(obj) {
     let keys = Object.keys(obj);
-    let result = '';
+    let result = "";
     for (let i = 0; i < keys.length; i++) {
       if (obj[keys[i]]) {
-        result += `${keys[i]}${i < keys.length - 1 ? ',' : ''}`;
+        result += `${keys[i]}${i < keys.length - 1 ? "," : ""}`;
       }
     }
     return result;
@@ -35,7 +39,7 @@ const ProductsList = () => {
 
   useEffect(() => {
     if (!search && !Object.values(filter).includes(true)) {
-      dispatch(getProducts({page}));
+      dispatch(getProducts({ page }));
     } else if (search || filter) {
       if (page > 1) {
         setPage(1);
@@ -44,28 +48,36 @@ const ProductsList = () => {
       }
       const result = getObjectKeysString(filter);
       dispatch(getProducts({ page, search: search, filter: result }));
-    } 
+    }
   }, [page, filter, search, dispatch]);
 
   const handlePagination = (e) => {
     e.preventDefault();
-    setPage(e.target.textContent)
-    scrollPosition.current.scrollIntoView({ block: "start", behavior: 'smooth' });
-  }
+    setPage(e.target.textContent);
+    scrollPosition.current.scrollIntoView({
+      block: "start",
+      behavior: "smooth",
+    });
+  };
 
   return (
     <>
-      <FilterPanel/>
-        {loading && <Loader />}
+      <FilterPanel />
       <ListWrapper>
-        {product.length < 1 && <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />}
+        {product.length < 1 && (
+          <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />
+        )}
         <List ref={scrollPosition}>
           <ProductsItem data={product} />
         </List>
       </ListWrapper>
-      <Pagination handlePagePrev={handlePagination} totalPages={totalPages} currentPage={page} />
-      </>
-  )
-}
+      <Pagination
+        handlePagePrev={handlePagination}
+        totalPages={totalPages}
+        currentPage={page}
+      />
+    </>
+  );
+};
 
 export default ProductsList;
