@@ -7,12 +7,8 @@ export const register = createAsyncThunk(
     try {
       const result = await api.AuthInstance.post("/api/auth/register", data);
       return result.data;
-    } catch ({ responce }) {
-      const error = {
-        status: responce.status,
-        message: responce.data.message,
-      };
-      rejectWithValue(error);
+    } catch (error) {
+      return rejectWithValue(error.data);
     }
   }
 );

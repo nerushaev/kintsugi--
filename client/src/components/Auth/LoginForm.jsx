@@ -1,17 +1,14 @@
 import { nanoid } from "nanoid";
 import { login } from "../../redux/auth/auth-operations";
-import { Form, Button } from "../Admin/Fields";
+import { Form } from "../Admin/Fields";
 import { useMemo, useState } from "react";
 import { Navigate } from "react-router";
 import { useDispatch } from "react-redux";
-import {
-  Label,
-  FieldWrapper,
-  Input,
-} from "../../components/Fields/Fields.styled";
 import { useAuth } from "../../hooks/useAuth";
+import { Inputt } from "../Busket/CheckoutPage/Input";
+import { Button, ButtonWrapper } from "../Buttons/Buttons";
 
-export default function LoginAdmin() {
+export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -48,29 +45,29 @@ export default function LoginAdmin() {
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <FieldWrapper>
-          <Label>Email</Label>
-          <Input
-            onChange={handleChange}
-            value={email}
-            name="email"
-            type="email"
-            id={emailId}
-            required
-          />
-        </FieldWrapper>
-        <FieldWrapper>
-          <Label>Password</Label>
-          <Input
-            onChange={handleChange}
-            value={password}
-            name="password"
-            type="password"
-            id={passwordId}
-            required
-          />
-        </FieldWrapper>
-        <Button type="submit">Login</Button>
+        <Inputt
+          position="center"
+          label="Електронна пошта:"
+          onChange={handleChange}
+          value={email}
+          name="email"
+          type="email"
+          id={emailId}
+          required
+        />
+        <Inputt
+          position="center"
+          label="Пароль:"
+          onChange={handleChange}
+          value={password}
+          name="password"
+          type="password"
+          id={passwordId}
+          required
+        />
+        <ButtonWrapper>
+          <Button type="submit">Увійти</Button>
+        </ButtonWrapper>
       </Form>
     </>
   );

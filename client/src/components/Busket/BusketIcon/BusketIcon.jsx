@@ -1,24 +1,24 @@
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import svg from "../../../images/filterIcons.svg";
+import {
+  getBusket,
+  selectBusketAmount,
+} from "../../../redux/products/products-selectors";
 
 const BusketContainer = styled.div`
   width: 70px;
   height: 70px;
   z-index: 50;
-  position: fixed;  
+  position: fixed;
   background-color: white;
   border-radius: 100%;
   bottom: 10px;
   right: 10px;
-`;
-
-const BusketImg = styled.img`
-  z-index: 50;
-  position: fixed;
-  width: 50px;
-  heigth: 50px;
-  bottom: 20px;
-  right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const BusketAmount = styled.p`
@@ -29,13 +29,15 @@ const BusketAmount = styled.p`
 `;
 
 export default function Busket() {
-
+  const busketAmount = useSelector(selectBusketAmount);
   return (
     <Link to="/busket">
-    <BusketContainer>
-    <BusketAmount></BusketAmount>
-    <BusketImg src={require("../../../images/shopping-busket.png")} alt="" />
-    </BusketContainer>
+      <BusketContainer>
+        <BusketAmount>{busketAmount}</BusketAmount>
+        <svg width="40" height="40">
+          <use href={`${svg}#icon-shopping-cart`} />
+        </svg>
+      </BusketContainer>
     </Link>
-  )
+  );
 }

@@ -14,9 +14,8 @@ const homePageSlider = [
 export default function Home() {
   return (
     <>
-      <Title text="Нові пропозиції" />
       <Slider images={homePageSlider} />
-      <Title text="Рекомендуємо" />
+      <Title text="Каталог" />
       <Search />
       <ProductsList />
     </>

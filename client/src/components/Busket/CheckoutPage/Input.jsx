@@ -9,10 +9,13 @@ export const Inputt = ({
   placeholder,
   value,
   disable,
+  position,
 }) => {
   return (
     <FieldWrapper select={select}>
-      <Label htmlFor={name}>{label}</Label>
+      <Label position={position} htmlFor={name}>
+        {label}
+      </Label>
       <Input
         disable={disable}
         name={name}

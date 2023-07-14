@@ -13,3 +13,5 @@ export const selectIsFavorite = ({ auth }) => auth.user.favorites;
 export const selectUserId = ({ auth }) => auth.user._id;
 
 export const selectIsAvatarLoading = ({ auth }) => auth.loadingAvatar;
+
+export const selectRole = ({ auth }) => auth.user.role;

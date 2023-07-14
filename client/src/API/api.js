@@ -1,10 +1,10 @@
 import axios from "axios";
 
-// const BASE_URL = "https://kintsugi-server.onrender.com";
-export const BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3001/"
-    : "http://example.com";
+const BASE_URL = "https://kintsugi-server.onrender.com";
+// export const BASE_URL =
+//   process.env.NODE_ENV === "development"
+//     ? "http://localhost:3001/"
+//     : "http://example.com";
 
 export const instance = axios.create({
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -27,7 +27,7 @@ export const novaInstance = axios.create({
 
 AuthInstance.interceptors.response.use(
   (res) => res,
-  (error) => Promise.reject(error.res.data)
+  (error) => Promise.reject(error.response)
 );
 
 export const setToken = (token) => {

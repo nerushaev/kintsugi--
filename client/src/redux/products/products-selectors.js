@@ -1,36 +1,47 @@
-import { getFilter } from '../filter/filter-selectors';
+import { getFilter } from "../filter/filter-selectors";
 
-export const getStateProducts = state => state.products.items;
+export const getStateProducts = (state) => state.products.items;
 
-export const getDetails = state => state.products.details;
+export const getDetails = (state) => state.products.details;
 
-export const selectСomingSoonProducts = state => state.products.comingSoonProducts;
+export const selectСomingSoonProducts = (state) =>
+  state.products.comingSoonProducts;
 
-export const selectIsLoading = state => state.products.isLoading;
+export const selectIsLoading = (state) => state.products.isLoading;
 
-export const selectError = state => state.products.error;
+export const selectError = (state) => state.products.error;
 
-export const getCurrentPage = state => state.products.currentPage;
+export const getCurrentPage = (state) => state.products.currentPage;
 
-export const getTotalPages = state => state.products.totalPages;
+export const getTotalPages = (state) => state.products.totalPages;
 
-export const getBusket = state => state.products.busket;
+export const getBusket = (state) => state.products.busket;
 
-export const selectBusketProductsId = state => {
+export const selectBusketAmount = ({ products }) => {
+  const busket = products.busket;
+
+  let amount = 0;
+
+  for (let item of busket) {
+    amount = amount + item.amount;
+  }
+  return amount;
+};
+export const selectBusketProductsId = (state) => {
   const busket = getBusket(state);
   const result = busket.reduce((acc, cur) => {
     const { name, amount, _id } = cur;
     const productsData = {
       name,
       _id,
-      amount
-    }
-    return [...acc, productsData]
-  }, [])
+      amount,
+    };
+    return [...acc, productsData];
+  }, []);
   return result;
-}
+};
 
-export const getFilteredProducts = state => {
+export const getFilteredProducts = (state) => {
   const filter = getFilter(state);
   const products = getStateProducts(state);
 
@@ -53,4 +64,4 @@ export const getFilteredProducts = state => {
   // });
 
   return products;
-}
+};

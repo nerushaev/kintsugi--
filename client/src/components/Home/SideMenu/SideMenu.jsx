@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsLogin } from "../../../redux/auth/auth-selectors";
 import { logout } from "../../../redux/auth/auth-operations";
+import { useAuth } from "../../../hooks/useAuth";
 
 const Menu = styled.nav`
   position: fixed;
@@ -59,6 +60,7 @@ export const MenuLink = styled(NavLink)`
 export const SideMenu = ({ children }) => {
   const dispatch = useDispatch();
   const { isMenuOpen, toggleMenuMode } = useContext(MenuContext);
+  const { role } = useAuth();
   const isLoggedIn = useSelector(selectIsLogin);
 
   const handleLogout = () => {
@@ -79,6 +81,13 @@ export const SideMenu = ({ children }) => {
             Увійти
           </MenuLink>
         </>
+      )}
+      {role === "admin" ? (
+        <MenuLink to="/admin" href="/admin">
+          Адмінка
+        </MenuLink>
+      ) : (
+        ""
       )}
     </Menu>
   );

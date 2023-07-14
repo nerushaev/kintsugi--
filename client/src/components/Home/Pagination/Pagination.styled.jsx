@@ -7,13 +7,13 @@ export const PaginationWrapper = styled.div`
 `;
 
 export const PaginationItem = styled.p`
-  content: '';
+  content: "";
   width: 24px;
   height: 24px;
-  background: ${props => props.active ? "#EFCFE3" : "#F3F3F3"};
+  background: ${(props) => (props.active ? "#EFCFE3" : "#F3F3F3")};
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
   text-align: center;
-  display: flex;
+  display: ${(props) => (props.disable ? "none" : "flex")};
   justify-content: center;
   align-items: center;
   cursor: pointer;
