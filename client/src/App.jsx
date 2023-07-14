@@ -5,7 +5,7 @@ import About from "./pages/About";
 import BusketPage from "./pages/BusketPage";
 import Delivery from "./pages/Delivery";
 import Admin from "./pages/Admin";
-import LoginAdmin from "./components/Admin/LoginAdmin";
+import LoginForm from "./components/Auth/LoginForm";
 import Product from "./pages/Product";
 import CheckoutPage from "./components/Busket/CheckoutPage/CheckoutPage";
 import UserPage from "./pages/UserPage";
@@ -47,7 +47,7 @@ function App() {
           path="/admin"
           element={<PrivateRoute component={Admin} redirectTo={"/login"} />}
         />
-        <Route path="/login" element={<LoginAdmin />} />
+        <Route path="/login" element={<LoginForm />} />
         <Route
           path="/user"
           element={<PrivateRoute component={UserPage} redirectTo={"/login"} />}

@@ -53,7 +53,9 @@ const ProductsList = () => {
 
   const handlePagination = (e) => {
     e.preventDefault();
-    setPage(e.target.textContent);
+    const { textContent } = e.target;
+    const page = parseInt(textContent);
+    setPage(page);
     scrollPosition.current.scrollIntoView({
       block: "start",
       behavior: "smooth",

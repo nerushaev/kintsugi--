@@ -34,16 +34,19 @@ import {
   selectIsLoading,
   selectUser,
 } from "../../../redux/auth/auth-selectors";
+import { useAuth } from "../../../hooks/useAuth";
+import { Navigate } from "react-router";
+import { theme } from "../../../styles/theme";
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
   const user = useSelector(selectUser);
-  const loading = useSelector(selectIsLoading);
+  const { isLoggedIn } = useAuth();
   const productsData = useSelector(selectBusketProductsId);
   const [cities, setCities] = useState([]);
   const [warehouses, setWarehouses] = useState([]);
-  const [willBeRegister, setWillBeRegister] = useState(true);
+  const [willBeRegister, setWillBeRegister] = useState(false);
   const [inputsTouched, setInputsTouched] = useState({
     city: false,
     warehouse: false,
@@ -68,7 +71,13 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
-    if (user) {
+    const checkBusket = () => {
+      if (!busket) {
+        return <Navigate to="/" />;
+      }
+    };
+
+    if (user.name && user.email && user.phone) {
       setOrderData((prev) => ({
         ...prev,
         email: user.email || "",
@@ -128,6 +137,7 @@ export default function CheckoutPage() {
         console.log(error.message);
       }
     };
+    checkBusket();
     fetchCities();
     fetchWarehouses();
   }, [orderData.city, orderData.warehouse, user]);
@@ -182,38 +192,100 @@ export default function CheckoutPage() {
     setCities([]);
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log(e);
+  //   const result = await checkoutPageValidation
+  //     .validate(orderData)
+  //     .then((result) => {
+  //       dispatch(orderProducts(orderData));
+  //     })
+  //     .catch((error) => {
+  //       Notify.failure(error.message, notifyOptions);
+  //     });
+
+  //   if (willBeRegister) {
+  //     const passResult = await passwordsValidation
+  //       .validate({
+  //         email: orderData.email,
+  //         confirmPassword: orderData.confirmPassword,
+  //         password: orderData.password,
+  //       })
+  //       .then((result) => {
+  //         dispatch(
+  //           register({
+  //             email: orderData.email,
+  //             name: orderData.name,
+  //             phone: orderData.phone,
+  //             password: orderData.password,
+  //           })
+  //         );
+  //       })
+  //       .catch((error) => {
+  //         Notify.failure(error.message, notifyOptions);
+  //       });
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e);
-    const result = await checkoutPageValidation
-      .validate(orderData)
-      .then((result) => {
+
+    try {
+      await checkoutPageValidation.validate(orderData);
+      if (
+        user.email !== orderData.email ||
+        user.name !== orderData.name ||
+        user.phone !== orderData.phone
+      ) {
         dispatch(orderProducts(orderData));
-      })
-      .catch((error) => {
-        Notify.failure(error.message, notifyOptions);
-      });
+        return;
+      }
+      dispatch(
+        orderProducts({
+          ...orderData,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+        })
+      );
+    } catch (error) {
+      Notify.failure(error.message, notifyOptions);
+    }
 
     if (willBeRegister) {
-      const passResult = await passwordsValidation
-        .validate({
+      try {
+        await passwordsValidation.validate({
           email: orderData.email,
           confirmPassword: orderData.confirmPassword,
           password: orderData.password,
-        })
-        .then((result) => {
-          dispatch(
-            register({
-              email: orderData.email,
-              name: orderData.name,
-              phone: orderData.phone,
-              password: orderData.password,
-            })
-          );
-        })
-        .catch((error) => {
-          Notify.failure(error.message, notifyOptions);
         });
+        dispatch(
+          register({
+            email: orderData.email,
+            name: orderData.name,
+            phone: orderData.phone,
+            password: orderData.password,
+          })
+        ).then((res) => {
+          console.log(res);
+          if (res.payload.status !== 201) {
+            Notify.failure(res.payload.message, {});
+          } else {
+            Notify.success(
+              `На пошту ${res.payload.user.email} було надіслано листа з посиланням для підтвердження профіля!`,
+              {
+                timeout: 5000,
+                pauseOnHover: true,
+                success: {
+                  background: "#a2d2ff",
+                },
+              }
+            );
+          }
+        });
+      } catch (error) {
+        Notify.failure(error.message, notifyOptions);
+      }
     }
   };
 
@@ -319,21 +391,6 @@ export default function CheckoutPage() {
   //   return result;
   // }
 
-  const handleTouched = (e) => {
-    const { name } = e.target;
-    console.log(e);
-    switch (name) {
-      case [name]: {
-        setInputsTouched((prev) => {
-          return {
-            ...prev,
-            name: !prev.name,
-          };
-        });
-      }
-    }
-  };
-
   return (
     <>
       <OrderWrapper>
@@ -342,37 +399,6 @@ export default function CheckoutPage() {
           {elements}
         </ProductsList>
         <Form checkout onSubmit={handleSubmit}>
-          {/* {user && (
-            <>
-              <Inputt
-                disable={true}
-                name="email"
-                type="email"
-                label="Ваша пошта:"
-                placeholder="youremail@gmail.com"
-                onChange={handleChange}
-                value={user.email}
-              />
-              <Inputt
-                disable={true}
-                name="name"
-                type="text"
-                label="Введіть ваше П.І.Б:"
-                placeholder="Чепіль Анастасія Олександрівна"
-                onChange={handleChange}
-                value={user.name}
-              />
-              <Inputt
-                disable={true}
-                name="phone"
-                type="phone"
-                label="Ваш номер телефону:"
-                placeholder="+380963332333"
-                onChange={handleChange}
-                value={user.phone}
-              />
-            </>
-          )} */}
           <Inputt
             name="email"
             type="email"
@@ -413,7 +439,7 @@ export default function CheckoutPage() {
             onChange={handleChange}
             value={orderData.city}
           />
-          {cities.length !== 0 && inputsTouched.city && (
+          {cities.length !== 0 && (
             <CityList disable={isSameCities}>
               {cities.map((item) => {
                 return (
@@ -434,10 +460,9 @@ export default function CheckoutPage() {
             label="Відділення:"
             placeholder="54"
             onChange={handleChange}
-            onClick={handleTouched}
             value={orderData.warehouse}
           />
-          {warehouses.length !== 0 && inputsTouched.city && (
+          {warehouses.length !== 0 && (
             <CityList disable={false}>
               {warehouses.map((item) => {
                 return (
@@ -463,14 +488,16 @@ export default function CheckoutPage() {
             label={["Накаладений платіж", "Онлайн оплата LiqPay"]}
           />
 
-          <CheckoutWrapper>
-            <CheckoutModal
-              setWillBeRegister={setWillBeRegister}
-              willBeRegister={willBeRegister}
-              orderData={orderData}
-              setOrderData={setOrderData}
-            />
-          </CheckoutWrapper>
+          {!isLoggedIn && (
+            <CheckoutWrapper>
+              <CheckoutModal
+                setWillBeRegister={setWillBeRegister}
+                willBeRegister={willBeRegister}
+                orderData={orderData}
+                setOrderData={setOrderData}
+              />
+            </CheckoutWrapper>
+          )}
 
           <ButtonWrapper>
             <Button type="submit" onSubmit={handleSubmit}>

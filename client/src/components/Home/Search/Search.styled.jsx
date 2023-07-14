@@ -10,6 +10,7 @@ export const SearchInput = styled.input`
   box-sizing: border-box;
   width: 100%;
   padding: 10px 10px;
+  border: 1px solid black;
 `;
 
 export const SearchIcon = styled.svg`
@@ -19,7 +20,7 @@ export const SearchIcon = styled.svg`
 
 export const IconWrapper = styled.button`
   position: absolute;
-  top:50%;
+  top: 50%;
   right: 0;
-  transform:translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 `;

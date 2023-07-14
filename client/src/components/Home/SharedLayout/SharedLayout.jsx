@@ -10,8 +10,6 @@ import { selectIsLoading } from "../../../redux/auth/auth-selectors";
 import { Suspense } from "react";
 
 export default function SharedLayout() {
-  const loadingAuth = useSelector(selectIsLoading);
-
   return (
     <Suspense fallback={<Loader />}>
       <NavState>

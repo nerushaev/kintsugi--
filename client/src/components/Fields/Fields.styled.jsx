@@ -1,13 +1,15 @@
 import styled from "styled-components";
+import { theme } from "../../styles/theme";
 
 export const OrderWrapper = styled.div`
   margin: 0 auto;
   max-width: 450px;
   @media (min-width: 768px) {
-    max-width: 1150px;
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
+    max-width: 450px;
+    margin: 0 auto;
+    // display: flex;
+    // flex-direction: row-reverse;
+    // justify-content: center;
   }
 `;
 
@@ -24,8 +26,6 @@ export const Form = styled.form`
 `;
 
 export const ProductsList = styled.ul`
-  display: flex;
-  flex-direction: column;
   margin-bottom: 30px;
 `;
 
@@ -67,6 +67,7 @@ export const FieldWrapper = styled.div`
   display: ${(props) => (props.select ? "flex" : "")};
   justify-content: space-between;
   align-items: center;
+
   @media (min-width: 768px) {
     margin-bottom: 40px;
   }
@@ -77,18 +78,21 @@ export const FieldWrapper = styled.div`
 
 export const Label = styled.label`
   display: block;
-  font-size: 16px;
+  font-size: ${theme.fontSizes.medium};
   font-family: "Montserrat";
   font-weight: 500;
   line-height: 30px;
   max-width: 80%;
   margin-bottom: ${(props) => (props.noMargin ? "0" : "10px")};
+  margin: ${(props) => (props.position === "center" ? "0 auto" : "0")};
 
   @media (min-width: 768px) {
-    font-size: 20px;
+    font-size: ${theme.fontSizes.large};
+    margin-bottom: ${(props) => (props.noMargin ? "0" : "15px")};
   }
   @media (min-width: 1200px) {
-    font-size: 28px;
+    font-size: ${theme.fontSizes.extraLarge};
+    margin-bottom: ${(props) => (props.noMargin ? "0" : "20px")};
   }
 `;
 

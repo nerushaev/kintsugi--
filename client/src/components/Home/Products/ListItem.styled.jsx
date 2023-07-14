@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { theme } from "../../../styles/theme";
 
 export const CardInfoWrapper = styled.div`
   padding: 0 10px;
@@ -6,12 +7,12 @@ export const CardInfoWrapper = styled.div`
 
 export const Item = styled.li`
   position: relative;
-  font-family: "Helvetica Neue";
+  font-family: "Montserrat";
   text-align: left;
   margin-bottom: 15px;
   margin-left: 5px;
   margin-right: 5px;
-  padding-bottom: 60px;
+  // padding-bottom: 60px;
   transform: scale(1);
   transition: scale 300ms cubic-bezier(0.4, 0, 0.2, 1),
     background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -40,31 +41,31 @@ export const Image = styled.img`
 `;
 
 export const Title = styled.p`
-  font-weight: 400;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: ${theme.fontSizes.medium};
   margin-bottom: 10px;
-  min-height: 50px;
+  height: 50px;
 `;
 
 export const Price = styled.p`
-  font-weight: 500;
-  color: #ff5733;
-  font-size: 14px;
+  font-weight: 600;
+  color: ${theme.colors.rose};
+  font-size: ${theme.fontSizes.medium};
   margin-bottom: 10px;
-  max-height: 170px;
   overflow: scroll;
 `;
 
 export const AddButton = styled.button`
-  position: absolute;
+  // position: absolute;
   bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  font-size: 12px;
+  font-size: ${theme.fontSizes.medium};
   padding: 10px 0;
-  background-color: ${(props) => (props.disabled ? "#D6B2D9" : "#EFCFE3")};
+  background-color: ${(props) =>
+    props.disabled ? "#D6B2D9" : `${theme.colors.formButton}`};
   color: #000;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   &:hover,
@@ -74,9 +75,9 @@ export const AddButton = styled.button`
 `;
 
 export const Description = styled.p`
-  height: 30px;
+  height: 45px;
   font-size: 12px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   overflow: scroll;
 `;
 
