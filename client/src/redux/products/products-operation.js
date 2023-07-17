@@ -1,14 +1,16 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthInstance, instance } from '../../API/api';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { AuthInstance, instance } from "../../API/api";
 
 export const getProducts = createAsyncThunk(
-  '/products/get',
+  "/products/get",
   async (requestData, ThunkAPI) => {
     const { page, filter, search } = requestData;
     if (filter || search || page) {
       try {
         const { data } = await instance.get(
-          `/api/products?page=${page}${filter ? `&category=${filter}` : ''}${search ? `&search=${search}` : ''}`
+          `/api/products?page=${page}${filter ? `&category=${filter}` : ""}${
+            search ? `&search=${search}` : ""
+          }`
         );
         return data;
       } catch (error) {
@@ -18,13 +20,27 @@ export const getProducts = createAsyncThunk(
   }
 );
 
+export const getBaners = createAsyncThunk(
+  "products/getBanners",
+  async (requestData, ThunkApi) => {
+    try {
+      const { data } = await instance.get(`api/products/banners`);
+      console.log(data);
+    } catch (error) {
+      return ThunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const getProductsByName = createAsyncThunk(
-  '/products/search',
+  "/products/search",
   async (requestData, ThunkAPI) => {
     const { page, search } = requestData;
     if (search) {
       try {
-        const { data } = await instance.get(`/api/products/search/${search}/?page=${page}`);
+        const { data } = await instance.get(
+          `/api/products/search/${search}/?page=${page}`
+        );
         if (data.length < 1) {
           return ThunkAPI.rejectWithValue("empty");
         }
@@ -35,10 +51,10 @@ export const getProductsByName = createAsyncThunk(
       }
     }
   }
-)
+);
 
 export const getFilteredProducts = createAsyncThunk(
-  '/products/get/filtered',
+  "/products/get/filtered",
   async (category, ThunkAPI) => {
     try {
       const { data } = await instance.get(`/api/products?category=${category}`);
@@ -50,10 +66,10 @@ export const getFilteredProducts = createAsyncThunk(
 );
 
 export const getAllProducts = createAsyncThunk(
-  '/products/get/all',
+  "/products/get/all",
   async (_, ThunkAPI) => {
     try {
-      const { data } = await instance.get('/api/products/all');
+      const { data } = await instance.get("/api/products/all");
       return data;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);
@@ -62,10 +78,10 @@ export const getAllProducts = createAsyncThunk(
 );
 
 export const getProductsById = createAsyncThunk(
-  '/products/get/id',
+  "/products/get/id",
   async (productsId, ThunkAPI) => {
     try {
-      const { data } = await instance.get(`/api/products/${productsId}`, );
+      const { data } = await instance.get(`/api/products/${productsId}`);
       return data;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);
@@ -74,7 +90,7 @@ export const getProductsById = createAsyncThunk(
 );
 
 export const addProducts = createAsyncThunk(
-  '/products/add',
+  "/products/add",
   async (newProduct, ThunkAPI) => {
     try {
       const { data } = await instance.post("/api/products/", newProduct);
@@ -86,7 +102,7 @@ export const addProducts = createAsyncThunk(
 );
 
 export const removeProduct = createAsyncThunk(
-  '/products/remove',
+  "/products/remove",
   async (productId, ThunkAPI) => {
     try {
       const { data } = await instance.delete(`/api/products/${productId}`);
@@ -98,11 +114,14 @@ export const removeProduct = createAsyncThunk(
 );
 
 export const updateProduct = createAsyncThunk(
-  '/products/update',
+  "/products/update",
   async (updateData, ThunkAPI) => {
-    const {_id} = updateData;
+    const { _id } = updateData;
     try {
-      const { data } = await AuthInstance.put(`/api/products/${_id}`, updateData);
+      const { data } = await AuthInstance.put(
+        `/api/products/${_id}`,
+        updateData
+      );
       return data;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);
@@ -111,7 +130,7 @@ export const updateProduct = createAsyncThunk(
 );
 
 export const getComingSoonProducts = createAsyncThunk(
-  '/products/get/filtered',
+  "/products/get/filtered",
   async (_, ThunkAPI) => {
     try {
       const { data } = await instance.get(`/api/products/comingSoon`);
@@ -123,7 +142,7 @@ export const getComingSoonProducts = createAsyncThunk(
 );
 
 export const orderProducts = createAsyncThunk(
-  '/order/addOrder',
+  "/order/addOrder",
   async (formData, ThunkAPI) => {
     try {
       const { data } = await AuthInstance.post(`/api/orders/`, formData);
@@ -132,4 +151,4 @@ export const orderProducts = createAsyncThunk(
       return ThunkAPI.rejectWithValue(error.message);
     }
   }
-)
+);

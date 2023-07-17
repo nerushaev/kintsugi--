@@ -11,7 +11,12 @@ body {
 
 html,
 body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  min-height: 100vh;
   height: 100%;
+  font-style: normal;
+  font-weight: 500;
 }
 
 #root {
@@ -24,11 +29,6 @@ main {
   flex: 1 1 auto;
 }
 
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-} */
-
 h1,
 h2,
 h3,
@@ -37,6 +37,10 @@ h5,
 h6,
 p {
   margin: 0;
+}
+
+p {
+  font-family: "Montserrat";
 }
 
 ul {

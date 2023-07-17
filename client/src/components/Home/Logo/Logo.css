@@ -3,6 +3,13 @@
   height: 40px;
 }
 
+@media screen and (min-width: 768px) {
+  .nav-logo {
+    width: 320px;
+    height: 80px;
+  }
+}
+
 .footer-logo {
   width: 200px;
   height: 50px;
