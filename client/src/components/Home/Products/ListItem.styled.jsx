@@ -44,7 +44,8 @@ export const Title = styled.p`
   font-weight: 500;
   font-size: ${theme.fontSizes.medium};
   margin-bottom: 10px;
-  height: 50px;
+  height: 60px;
+  overflow: scroll;
 `;
 
 export const Price = styled.p`
@@ -63,15 +64,15 @@ export const AddButton = styled.button`
   align-items: center;
   width: 100%;
   font-size: ${theme.fontSizes.medium};
-  padding: 10px 0;
+  padding: 10px 10px;
   background-color: ${(props) =>
     props.disabled ? "#D6B2D9" : `${theme.colors.formButton}`};
   color: #000;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  &:hover,
-  &:focus {
-    background-color: #eac3db;
-  }
+  // &:hover,
+  // &:focus {
+  //   background-color: #eac3db;
+  // }
 `;
 
 export const Description = styled.p`

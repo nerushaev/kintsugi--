@@ -5,16 +5,21 @@ import { Outlet } from "react-router";
 import Container from "../Container/Container";
 import Busket from "../../Busket/BusketIcon/BusketIcon";
 import Loader from "../../Loader/Loader";
-import { useSelector } from "react-redux";
-import { selectIsLoading } from "../../../redux/auth/auth-selectors";
 import { Suspense } from "react";
+import TabletNav from "../TabletNav/TabletNav";
 
 export default function SharedLayout() {
+  let isTablet = window.screen.width > "768" ? true : false;
+
   return (
     <Suspense fallback={<Loader />}>
-      <NavState>
-        <MainMenu />
-      </NavState>
+      {isTablet ? (
+        <TabletNav />
+      ) : (
+        <NavState>
+          <MainMenu />
+        </NavState>
+      )}
       <main>
         <Container>
           <Busket />

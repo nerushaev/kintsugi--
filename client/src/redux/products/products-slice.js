@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 import {
   getProducts,
   addProducts,
@@ -8,8 +8,8 @@ import {
   getComingSoonProducts,
   getProductsById,
   getProductsByName,
-  orderProducts
-} from './products-operation';
+  orderProducts,
+} from "./products-operation";
 
 const productsInitialState = {
   items: [],
@@ -20,9 +20,10 @@ const productsInitialState = {
   comingSoonProducts: [],
   busket: [],
   details: [],
+  banners: [],
 };
 
-const handlePending = state => {
+const handlePending = (state) => {
   state.isLoading = true;
 };
 
@@ -32,13 +33,15 @@ const handleRejected = (state, action) => {
 };
 
 const productsSlice = createSlice({
-  name: 'products',
+  name: "products",
   initialState: productsInitialState,
   reducers: {
     addToBusket(state, action) {
-      const itemInCart = state.busket.find((item) => item._id === action.payload);
+      const itemInCart = state.busket.find(
+        (item) => item._id === action.payload
+      );
       if (itemInCart) {
-          itemInCart.amount++;
+        itemInCart.amount++;
       } else {
         state.busket.push({ ...action.payload, amount: 1 });
       }
@@ -47,12 +50,14 @@ const productsSlice = createSlice({
       const item = state.busket.find((item) => item._id === action.payload);
       if (item.amount) {
         item.amount++;
-      } 
+      }
     },
     decrementAmount: (state, action) => {
       const item = state.busket.find((item) => item._id === action.payload);
       if (item.amount === 1) {
-        const removeItem = state.busket.filter((item) => item._id !== action.payload);
+        const removeItem = state.busket.filter(
+          (item) => item._id !== action.payload
+        );
         state.busket = removeItem;
       } else {
         item.amount--;
@@ -92,14 +97,16 @@ const productsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.items = state.items.filter(
-        product => product._id !== action.payload._id
+        (product) => product._id !== action.payload._id
       );
     },
     [updateProduct.pending]: handlePending,
     [updateProduct.fulfilled](state, action) {
       state.isLoading = false;
       state.error = null;
-      state.items = state.items.map(product => product._id === action.payload._id ? action.payload : product);
+      state.items = state.items.map((product) =>
+        product._id === action.payload._id ? action.payload : product
+      );
     },
     [updateProduct.rejected]: handleRejected,
     [getAllProducts.pending]: handlePending,
@@ -134,5 +141,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const { addToBusket, incrementAmount, decrementAmount } = productsSlice.actions;
+export const { addToBusket, incrementAmount, decrementAmount } =
+  productsSlice.actions;
 export const productsReducer = productsSlice.reducer;
