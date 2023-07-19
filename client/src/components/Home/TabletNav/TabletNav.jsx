@@ -18,8 +18,8 @@ const TabletNavigation = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 20px 0;
-  font-size: ${theme.fontSizes.extraLarge};
+  font-size: ${theme.fontSizes.medium};
+  text-align: center;
 `;
 
 const NavigationList = styled.ul`
