@@ -3,11 +3,11 @@ import RegisterForm from "../../components/Auth/RegisterForm";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function RegisterPage() {
-  const { isLoggedIn } = useAuth();
+  // const { isLoggedIn } = useAuth();
 
-  if (isLoggedIn) {
-    return <Navigate to="/user" />;
-  }
+  // if (isLoggedIn) {
+  //   return <Navigate to="/user" />;
+  // }
 
   return (
     <div>
