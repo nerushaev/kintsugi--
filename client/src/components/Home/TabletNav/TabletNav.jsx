@@ -5,6 +5,15 @@ import { useAuth } from "../../../hooks/useAuth";
 import { theme } from "../../../styles/theme";
 import Logo from "../Logo/Logo";
 
+const Header = styled.header`
+  padding: 20px 0;
+  margin-bottom: 50px;
+  border-bottom: 5px solid rgb(255, 200, 221, 0.3);
+  @media (min-width: 769px) {
+    padding: 20px 0;
+  }
+`;
+
 const TabletNavigation = styled.nav`
   display: flex;
   align-items: center;
@@ -19,19 +28,32 @@ const NavigationList = styled.ul`
 
 const NavigationItem = styled.li`
   &:not(:last-child) {
-    margin-right: 25px;
+    margin-right: 20px;
   }
+  // @media (min-width: 768px) {
+  //   &:not(:last-child) {
+  //     margin-right: 50px;
+  //   }
+  // }
+`;
+
+const StyledLink = styled(Link)``;
+
+const UserName = styled.p`
+  font-size: ${theme.fontSizes.small};
+  font-weight: 400;
 `;
 
 export default function TabletNav() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
+  let isDesktop = window.screen.width > "1199" && !isLoggedIn ? true : false;
   return (
-    <div>
+    <Header>
       <TabletNavigation>
         <Logo className={"nav-logo"} />
         <NavigationList>
           <NavigationItem>
-            <Link to="/">Головна</Link>
+            <StyledLink to="/">Головна</StyledLink>
           </NavigationItem>
           <NavigationItem>
             <Link to="/delivery">Оплата та доставка</Link>
@@ -54,7 +76,12 @@ export default function TabletNav() {
             </NavigationItem>
           )}
         </NavigationList>
+        {isLoggedIn && (
+          <div>
+            <UserName>{user.email}</UserName>
+          </div>
+        )}
       </TabletNavigation>
-    </div>
+    </Header>
   );
 }

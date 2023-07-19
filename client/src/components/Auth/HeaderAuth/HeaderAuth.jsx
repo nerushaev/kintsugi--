@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Navigate } from "react-router";
 import styled from "styled-components";
+import { useAuth } from "../../../hooks/useAuth";
 import { login } from "../../../redux/auth/auth-operations";
 import { theme } from "../../../styles/theme";
 
 const Form = styled.form`
   background-color: rgb(255, 200, 221, 0.3);
-  padding: 10px;
+  padding: 20px;
 `;
 
 const InputsWrapper = styled.div`
@@ -17,29 +19,32 @@ const InputsWrapper = styled.div`
 const InputWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-bottom: 10px;
 `;
 
 const Input = styled.input`
   border: 1px solid black;
+  padding: 10px 10px;
 `;
 
 const Label = styled.label`
   font-size: ${theme.fontSizes.small};
   margin-right: 5px;
+  font-weight: 600;
 `;
 
 const Button = styled.button`
   display: block;
   padding: 5px 10px;
   background-color: ${theme.colors.formButton};
-  margin-left: auto;
+  margin: 0 auto;
 `;
 
 export default function HeaderAuth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const isLoggedIn = useAuth();
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -59,8 +64,12 @@ export default function HeaderAuth() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login);
+    dispatch(login({ email, password }));
   };
+
+  if (isLoggedIn) {
+    return <Navigate to="/user" />;
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -85,10 +94,10 @@ export default function HeaderAuth() {
             value={password}
           />
         </InputWrapper>
+        <Button type="submit" onSubmit={handleSubmit}>
+          Вхід
+        </Button>
       </InputsWrapper>
-      <Button type="submit" onSubmit={handleSubmit}>
-        Вхід
-      </Button>
     </Form>
   );
 }

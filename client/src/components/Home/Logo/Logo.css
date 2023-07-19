@@ -3,12 +3,12 @@
   height: 40px;
 }
 
-@media screen and (min-width: 768px) {
+/* @media screen and (min-width: 768px) {
   .nav-logo {
-    width: 320px;
-    height: 80px;
+    width: 240px;
+    height: 60px;
   }
-}
+} */
 
 .footer-logo {
   width: 200px;

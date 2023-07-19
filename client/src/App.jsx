@@ -16,7 +16,7 @@ import { current, refreshToken } from "./redux/auth/auth-operations";
 import { useEffect, useMemo } from "react";
 import PrivateRoute from "./components/PrivateRoutes/PrivateRoutes";
 import RestrictedRoute from "./components/RestrictedRoutes/RestrictedRoutes";
-
+import LoginPage from "./pages/LoginPage";
 function App() {
   const dispatch = useDispatch();
   const { token, error, isLoggedIn } = useAuth();
@@ -47,7 +47,7 @@ function App() {
           path="/admin"
           element={<PrivateRoute component={Admin} redirectTo={"/login"} />}
         />
-        <Route path="/login" element={<LoginForm />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route
           path="/user"
           element={<PrivateRoute component={UserPage} redirectTo={"/login"} />}
