@@ -11,14 +11,6 @@ export default function UserPage() {
   const dispatch = useDispatch();
 
   const user = useSelector(selectUser);
-  const { token } = useAuth();
-
-  useEffect(() => {
-    if (token) {
-      dispatch(current());
-    }
-  }, [dispatch, token]);
-
   const handleClick = () => {
     dispatch(logout());
   };

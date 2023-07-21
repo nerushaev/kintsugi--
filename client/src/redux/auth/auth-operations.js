@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { Notify } from "notiflix";
 import * as api from "../../API/api";
 
 export const register = createAsyncThunk(
@@ -6,8 +7,25 @@ export const register = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const result = await api.AuthInstance.post("/api/auth/register", data);
+      if (result) {
+        setTimeout(
+          Notify.success("регістрація пройшла успішно!", {
+            borderRadius: "0px",
+          }),
+          20000
+        );
+      }
       return result.data;
     } catch (error) {
+      console.log(error);
+      if (error) {
+        setTimeout(
+          Notify.failure(error.data.message, {
+            borderRadius: "0px",
+          }),
+          20000
+        );
+      }
       return rejectWithValue(error.data);
     }
   }
@@ -35,10 +53,10 @@ export const login = createAsyncThunk(
     try {
       const result = await api.AuthInstance.post("/api/auth/login", data);
       return result.data;
-    } catch ({ responce }) {
+    } catch ({ status, statusText }) {
       const error = {
-        status: responce.status,
-        message: responce.data.message,
+        status: status,
+        message: statusText,
       };
       return rejectWithValue(error);
     }
@@ -70,6 +88,9 @@ export const current = createAsyncThunk(
       const result = await api.AuthInstance.get("/api/auth/current");
       return result.data;
     } catch ({ responce }) {
+      // const { data } = await api.AuthInstance.get("/api/auth/refresh");
+      // console.log(data.token);
+      // api.setToken(data.token);
       const error = {
         status: responce.status,
         message: responce.data.message,

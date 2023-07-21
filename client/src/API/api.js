@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const BASE_URL = "https://kintsugi-server.onrender.com";
-// export const BASE_URL =
-//   process.env.NODE_ENV === "development"
-//     ? "http://localhost:3001/"
-//     : "http://example.com";
+// const BASE_URL = "https://kintsugi-server.onrender.com";
+export const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3001/"
+    : "http://example.com";
 
 export const instance = axios.create({
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -58,13 +58,13 @@ export const login = async (userData) => {
   return data;
 };
 
-export const getCurrent = async (token) => {
-  try {
-    setToken(token);
-    const { data } = await AuthInstance.get("/api/auth/current");
-    return data;
-  } catch (error) {
-    setToken();
-    throw error;
-  }
-};
+// export const getCurrent = async (token) => {
+//   try {
+//     setToken(token);
+//     const { data } = await AuthInstance.get("/api/auth/current");
+//     return data;
+//   } catch (error) {
+//     setToken();
+//     throw error;
+//   }
+// };

@@ -1,10 +1,6 @@
 import { Select, Option } from "../Admin/Fields";
 import { nanoid } from "nanoid";
-import { Navigate } from "react-router";
-import { useAuth } from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { current } from "../../redux/auth/auth-operations";
 import {
   addProducts,
   updateProduct,
@@ -19,10 +15,6 @@ import {
 export default function FormAddProducts() {
   const loading = true;
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(current());
-  }, [dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
