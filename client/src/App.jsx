@@ -34,52 +34,48 @@ function App() {
     if (token && error) {
       dispatch(refreshToken());
     }
-  }, [token, error, dispatch]);
+  }, [token, dispatch]);
 
   return (
-    !isRefreshing && (
-      <Routes>
-        <Route path="/" element={<SharedLayout />}>
-          <Route index element={<Home />} />
-          <Route path=":_id" element={<Product />} />
-          <Route path="/info" element={<InfoPage />} />
-          <Route path="/busket" element={<BusketPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/restorePassword" element={<RestorePasswordPage />} />
+    <Routes>
+      <Route path="/" element={<SharedLayout />}>
+        <Route index element={<Home />} />
+        <Route path=":_id" element={<Product />} />
+        <Route path="/info" element={<InfoPage />} />
+        <Route path="/busket" element={<BusketPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/restorePassword" element={<RestorePasswordPage />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute component={AddProductsPage} redirectTo={"/login"} />
+          }
+        >
           <Route
-            path="/admin"
+            path="baners"
             element={
-              <AdminRoute component={AddProductsPage} redirectTo={"/login"} />
-            }
-          >
-            <Route
-              path="baners"
-              element={
-                <AdminRoute component={BanersPage} redirectTo={"/login"} />
-              }
-            />
-          </Route>
-          <Route
-            path="/login"
-            element={
-              <RestrictedRoute component={LoginPage} redirectTo={"/user"} />
-            }
-          />
-          <Route
-            path="/user"
-            element={
-              <PrivateRoute component={UserPage} redirectTo={"/login"} />
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <RestrictedRoute component={RegisterPage} redirectTo={"/user"} />
+              <AdminRoute component={BanersPage} redirectTo={"/login"} />
             }
           />
         </Route>
-      </Routes>
-    )
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute component={LoginPage} redirectTo={"/user"} />
+          }
+        />
+        <Route
+          path="/user"
+          element={<PrivateRoute component={UserPage} redirectTo={"/login"} />}
+        />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute component={RegisterPage} redirectTo={"/user"} />
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 
