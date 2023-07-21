@@ -1,10 +1,10 @@
 import axios from "axios";
 
-// const BASE_URL = "https://kintsugi-server.onrender.com";
-export const BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3001/"
-    : "http://example.com";
+const BASE_URL = "https://kintsugi-server.onrender.com";
+// export const BASE_URL =
+//   process.env.NODE_ENV === "development"
+//     ? "http://localhost:3001/"
+//     : "http://example.com";
 
 export const instance = axios.create({
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
