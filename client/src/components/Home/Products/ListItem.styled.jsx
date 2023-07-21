@@ -63,16 +63,13 @@ export const AddButton = styled.button`
   justify-content: center;
   align-items: center;
   width: 100%;
+  min-height: 60px;
   font-size: ${theme.fontSizes.medium};
   padding: 10px 10px;
   background-color: ${(props) =>
     props.disabled ? "#D6B2D9" : `${theme.colors.formButton}`};
   color: #000;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  // &:hover,
-  // &:focus {
-  //   background-color: #eac3db;
-  // }
 `;
 
 export const Description = styled.p`

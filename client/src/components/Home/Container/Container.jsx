@@ -5,11 +5,11 @@ const Block = styled.div`
   margin: 0 auto;
 
   @media screen and (min-width: 320px) {
-    width: 320px;
+    max-width: 479px;
   }
 
   @media screen and (min-width: 768px) {
-    width: 768px;
+    max-width: 1199px;
     padding: 0 32px;
   }
 

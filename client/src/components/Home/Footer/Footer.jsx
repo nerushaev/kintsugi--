@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { IconsSet } from "./IconsSet";
 
 const FooterWrapper = styled.footer`
-  amrgin-top: auto;
+  margin-top: auto;
   padding-bottom: 20px;
   padding-top: 20px;
-  background-color: rgba(255, 200, 221, 1);
+  border-top: 2px solid rgba(255, 200, 221, 1);
 `;
 
 const Text = styled.p`
@@ -14,13 +14,12 @@ const Text = styled.p`
 `;
 
 const Footer = () => {
-
   return (
     <FooterWrapper>
       <IconsSet />
       <Text>Kintsugi</Text>
-      </FooterWrapper>
-  )
-}
+    </FooterWrapper>
+  );
+};
 
 export default Footer;

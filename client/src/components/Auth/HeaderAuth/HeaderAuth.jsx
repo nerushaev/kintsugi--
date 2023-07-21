@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Navigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { useAuth } from "../../../hooks/useAuth";
 import { login } from "../../../redux/auth/auth-operations";
+import { selectError } from "../../../redux/auth/auth-selectors";
 import { theme } from "../../../styles/theme";
 
 const Form = styled.form`
@@ -44,7 +43,8 @@ const Button = styled.button`
 export default function HeaderAuth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const isLoggedIn = useAuth();
+  const error = useSelector(selectError);
+
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -67,37 +67,40 @@ export default function HeaderAuth() {
     dispatch(login({ email, password }));
   };
 
-  if (isLoggedIn) {
-    return <Navigate to="/user" />;
-  }
+  // if (isLoggedIn) {
+  //   return <Navigate to="/user" />;
+  // }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <InputsWrapper>
-        <InputWrapper>
-          <Label>Пошта</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            onChange={handleChange}
-            value={email}
-          />
-        </InputWrapper>
-        <InputWrapper>
-          <Label>Пароль</Label>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            onChange={handleChange}
-            value={password}
-          />
-        </InputWrapper>
-        <Button type="submit" onSubmit={handleSubmit}>
-          Вхід
-        </Button>
-      </InputsWrapper>
-    </Form>
+    <>
+      <Form onSubmit={handleSubmit}>
+        <InputsWrapper>
+          <InputWrapper>
+            <Label>Пошта</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              onChange={handleChange}
+              value={email}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <Label>Пароль</Label>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              onChange={handleChange}
+              value={password}
+            />
+          </InputWrapper>
+          <Button type="submit" onSubmit={handleSubmit}>
+            Вхід
+          </Button>
+        </InputsWrapper>
+      </Form>
+      {error && <p>{error.message}</p>}
+    </>
   );
 }

@@ -58,13 +58,13 @@ export const login = async (userData) => {
   return data;
 };
 
-export const getCurrent = async (token) => {
-  try {
-    setToken(token);
-    const { data } = await AuthInstance.get("/api/auth/current");
-    return data;
-  } catch (error) {
-    setToken();
-    throw error;
-  }
-};
+// export const getCurrent = async (token) => {
+//   try {
+//     setToken(token);
+//     const { data } = await AuthInstance.get("/api/auth/current");
+//     return data;
+//   } catch (error) {
+//     setToken();
+//     throw error;
+//   }
+// };

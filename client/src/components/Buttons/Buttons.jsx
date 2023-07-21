@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { theme } from "../../styles/theme";
 
 export const ButtonWrapper = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   margin-bottom: 30px;

@@ -9,10 +9,19 @@ import { register } from "../../redux/auth/auth-operations";
 import { Notify } from "notiflix";
 import { notifyOptions } from "../../helpers/notifyConfig";
 import { selectError } from "../../redux/auth/auth-selectors";
+import { theme } from "../../styles/theme";
+import { Link } from "react-router-dom";
 
 const RegisterWrapper = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const HaveAccountLink = styled(Link)`
+  font-size: ${theme.fontSizes.medium};
+  color: ${theme.colors.blue};
+  position: absolute;
+  bottom: -25px;
 `;
 
 export default function RegisterForm() {
@@ -56,14 +65,6 @@ export default function RegisterForm() {
           password: userData.password,
         };
         dispatch(register(registerData));
-        if (!error) {
-          setTimeout(
-            Notify.success("регістрація пройшла успішно!", {
-              borderRadius: "0px",
-            }),
-            20000
-          );
-        }
       })
       .catch((error) => {
         Notify.failure(error.message, notifyOptions);
@@ -117,6 +118,7 @@ export default function RegisterForm() {
           <Button type="submit" onSubmit={handleSubmit}>
             Зареєструватися
           </Button>
+          {error && <HaveAccountLink to="/restorePassword">Є аккаунт?</HaveAccountLink>}
         </ButtonWrapper>
       </Form>
     </RegisterWrapper>
