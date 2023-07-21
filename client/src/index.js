@@ -8,6 +8,7 @@ import { persistor, store } from "./redux/store";
 import { Provider } from "react-redux";
 import { theme } from "./styles/theme";
 import { ThemeProvider } from "styled-components";
+import { CookiesProvider } from "react-cookie";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,9 +16,11 @@ root.render(
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
         <BrowserRouter basename="kintsugi">
-          <ThemeProvider theme={theme}>
-            <App />
-          </ThemeProvider>
+          <CookiesProvider>
+            <ThemeProvider theme={theme}>
+              <App />
+            </ThemeProvider>
+          </CookiesProvider>
         </BrowserRouter>
       </PersistGate>
     </Provider>

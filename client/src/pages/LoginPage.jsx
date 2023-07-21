@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import HeaderAuth from "../components/Auth/HeaderAuth/HeaderAuth";
-import ErrorBoundary from "../components/ErrorBoundary/ErrorBoundary";
-import { Title } from "../components/Home/Products/ListItem.styled";
+import Loader from "../components/Loader/Loader";
+import { useAuth } from "../hooks/useAuth";
 
 const Wrapper = styled.div`
   width: 280px;
@@ -13,8 +13,11 @@ const Wrapper = styled.div`
 `;
 
 export default function LoginPage() {
+  const { isRefreshing } = useAuth();
+
   return (
     <Wrapper>
+      {isRefreshing && <Loader />}
       <HeaderAuth />
     </Wrapper>
   );

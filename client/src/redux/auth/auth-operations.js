@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Notify } from "notiflix";
 import * as api from "../../API/api";
+import { useCookies } from "react-cookie";
 
 export const register = createAsyncThunk(
   "auth/register",
@@ -31,32 +32,33 @@ export const register = createAsyncThunk(
   }
 );
 
-// export const signup = createAsyncThunk(
-//   "auth/signup",
-//   async (data, { rejectWithValue }) => {
-//     try {
-//       const result = await api.signup(data);
-//       return result;
-//     } catch ({ responce }) {
-//       const error = {
-//         status: responce.status,
-//         message: responce.data.message,
-//       }
-//       return rejectWithValue(error);
-//     };
-//   }
-// );
-
 export const login = createAsyncThunk(
   "auth/login",
   async (data, { rejectWithValue }) => {
     try {
-      const result = await api.AuthInstance.post("/api/auth/login", data);
+      const result = await api.instance.post("/api/auth/login", data);
+      if (result) {
+        setTimeout(
+          Notify.success(`${result.data.user.name} з поверненням!`, {
+            borderRadius: "0px",
+          }),
+          20000
+        );
+      }
       return result.data;
-    } catch ({ status, statusText }) {
+    } catch ({ response }) {
+      console.log();
+      if (response) {
+        setTimeout(
+          Notify.failure(response.statusText, {
+            borderRadius: "0px",
+          }),
+          20000
+        );
+      }
       const error = {
-        status: status,
-        message: statusText,
+        status: response.status,
+        message: response.statusText,
       };
       return rejectWithValue(error);
     }
@@ -68,13 +70,19 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const result = await api.AuthInstance.post("/api/auth/logout");
-      return result.status;
-    } catch ({ responce }) {
-      const error = {
-        status: responce.status,
-        message: responce.data.message,
-      };
-      return rejectWithValue(error);
+      console.log(result);
+      api.setToken("");
+      return result;
+    } catch (error) {
+      if (error) {
+        setTimeout(
+          Notify.success(error, {
+            borderRadius: "0px",
+          }),
+          20000
+        );
+      }
+      return rejectWithValue(error.error);
     }
   }
 );
@@ -88,9 +96,6 @@ export const current = createAsyncThunk(
       const result = await api.AuthInstance.get("/api/auth/current");
       return result.data;
     } catch ({ responce }) {
-      // const { data } = await api.AuthInstance.get("/api/auth/refresh");
-      // console.log(data.token);
-      // api.setToken(data.token);
       const error = {
         status: responce.status,
         message: responce.data.message,
@@ -105,8 +110,8 @@ export const refreshToken = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const result = await api.AuthInstance.get("/api/auth/refresh");
-      return result.data;
       // return result.data;
+      return result.data;
     } catch ({ responce }) {
       const error = {
         status: responce.status,

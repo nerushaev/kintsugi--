@@ -1,14 +1,5 @@
 import styled from "styled-components";
 
-const LoaderWrapper = styled.div`
-  position: absolute;
-  right: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(000, 000, 000, 0.5);
-  z-index: 600;
-`;
-
 const LoaderStyles = styled.span`
   width: 84px;
   height: 84px;
@@ -43,10 +34,30 @@ const LoaderStyles = styled.span`
   }
 `;
 
+export const Overlay = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.75);
+  overflow: hidden;
+  overflow-y: scroll;
+  top: 0;
+  left: 0;
+  z-index: 12;
+
+  @media screen and (min-width: 1280px) {
+    // align-items: center;
+  }
+`;
+
 export default function Loader() {
   return (
-    <LoaderWrapper>
+    <Overlay>
       <LoaderStyles />
-    </LoaderWrapper>
+    </Overlay>
   );
 }
