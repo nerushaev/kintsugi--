@@ -43,7 +43,6 @@ export default function CheckoutPage() {
   const busket = useSelector(getBusket);
   const user = useSelector(selectUser);
   const { isLoggedIn } = useAuth();
-  const productsData = useSelector(selectBusketProductsId);
   const [cities, setCities] = useState([]);
   const [warehouses, setWarehouses] = useState([]);
   const [willBeRegister, setWillBeRegister] = useState(false);
@@ -67,7 +66,7 @@ export default function CheckoutPage() {
     warehouseRef: "",
     password: "",
     confirmPassword: "",
-    products: productsData,
+    products: busket,
   });
 
   useEffect(() => {
@@ -382,14 +381,9 @@ export default function CheckoutPage() {
     ? orderData.city.length === cities[0].Description.length
     : null;
 
-  // function isSameWarehouse(warehouses, warehouse) {
-  //   const result = warehouses.filter((item) => {
-  //     if (item.WarehouseIndex === warehouse) {
-  //       console.log(true);
-  //     }
-  //   });
-  //   return result;
-  // }
+  if (busket.length < 1) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <>

@@ -136,6 +136,7 @@ const productsSlice = createSlice({
     [orderProducts.fulfilled](state, action) {
       state.isLoading = false;
       state.error = null;
+      state.busket = [];
     },
     [orderProducts.rejected]: handleRejected,
   },

@@ -18,13 +18,14 @@ import InfoPage from "./pages/InfoPage";
 import RestorePasswordPage from "./pages/RestorePasswordPage";
 import BanersPage from "./pages/Admin/BanersPage";
 import AdminRoute from "./components/AdminRoute/AdminRoute";
+import RestorePass from "./components/Auth/RestorePass";
 
 function App() {
   const dispatch = useDispatch();
-  const { token, error, isRefreshing } = useAuth();
+  const { token, error, isLoggedIn } = useAuth();
 
   useEffect(() => {
-    if (token) {
+    if (!isLoggedIn && token) {
       try {
         dispatch(current());
       } catch (error) {
@@ -44,7 +45,7 @@ function App() {
         <Route path="/info" element={<InfoPage />} />
         <Route path="/busket" element={<BusketPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/restorePassword" element={<RestorePasswordPage />} />
+        <Route path="/restore" element={<RestorePasswordPage />} />
         <Route
           path="/admin"
           element={
@@ -74,6 +75,7 @@ function App() {
             <RestrictedRoute component={RegisterPage} redirectTo={"/user"} />
           }
         />
+        <Route path="/restore" element={RestorePass} />
       </Route>
     </Routes>
   );

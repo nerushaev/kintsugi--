@@ -1,9 +1,14 @@
+import { Notify } from "notiflix";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { loginSchema } from "../../../helpers/loginValidation";
+import { notifyOptions } from "../../../helpers/notifyConfig";
 import { login } from "../../../redux/auth/auth-operations";
 import { selectError } from "../../../redux/auth/auth-selectors";
 import { theme } from "../../../styles/theme";
+import AuthDynamicLink from "../AuthDynamicLink";
 
 const Form = styled.form`
   background-color: rgb(255, 200, 221, 0.3);
@@ -64,7 +69,14 @@ export default function HeaderAuth() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login({ email, password }));
+    loginSchema
+      .validate({ email, password })
+      .then((res) => {
+        dispatch(login({ email, password }));
+      })
+      .catch((e) => {
+        Notify.failure(e.message, notifyOptions);
+      });
   };
 
   // if (isLoggedIn) {
@@ -100,7 +112,9 @@ export default function HeaderAuth() {
           </Button>
         </InputsWrapper>
       </Form>
-      {error && <p>{error.message}</p>}
+      {error && (
+        <AuthDynamicLink redirectTo={"/restore"} message={"Забули пароль?"} />
+      )}
     </>
   );
 }

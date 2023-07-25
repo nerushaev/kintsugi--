@@ -5,87 +5,117 @@ import {
   register,
   refreshToken,
   logout,
+  updateUser,
+  restorePassword,
 } from "./auth-operations";
 
 const initialState = {
-  user: {},
+  user: {
+    delivery: {},
+    busket: [],
+  },
   token: "",
   isLogin: false,
   loading: false,
   error: null,
-  busket: [],
+};
+
+const handlePending = (state) => {
+  state.isLoading = true;
+};
+
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   extraReducers: {
-    [refreshToken.pending]: (store) => {
+    [refreshToken.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [refreshToken.fulfilled]: (state, { payload }) => {
+      state.user = payload.user;
+      state.token = payload.token;
+      state.loading = false;
+      state.isLogin = true;
+    },
+    [refreshToken.rejected]: (state, { error }) => {
+      state.loading = false;
+      state.error = error;
+    },
+    [register.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [register.fulfilled]: (state, { payload }) => {
+      state.user = payload.user;
+      state.token = payload.token;
+      state.loading = false;
+      state.isLogin = true;
+    },
+    [register.rejected]: (state, { error }) => {
+      state.loading = false;
+      state.error = error;
+    },
+    [login.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [login.fulfilled]: (state, { payload }) => {
+      state.user = payload.user;
+      state.token = payload.token;
+      state.loading = false;
+      state.isLogin = true;
+    },
+    [login.rejected]: (state, { error }) => {
+      state.loading = false;
+      state.error = error;
+    },
+    [logout.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [logout.fulfilled]: (state, { payload }) => {
+      state.user = {};
+      state.token = "";
+      state.loading = false;
+      state.isLogin = false;
+    },
+    [logout.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [current.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [current.fulfilled]: (state, { payload }) => {
+      state.user = payload;
+      state.loading = false;
+      state.isLogin = true;
+    },
+    [current.rejected]: (state, { error }) => {
+      state.loading = false;
+      state.error = error;
+    },
+    [updateUser.pending]: handlePending,
+    [updateUser.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.user.delivery = payload;
+    },
+    [updateUser.rejected]: handleRejected,
+    [restorePassword.pending]: (store) => {
       store.loading = true;
       store.error = null;
     },
-    [refreshToken.fulfilled]: (store, { payload }) => {
-      store.user = payload.user;
-      store.token = payload.token;
+    [restorePassword.fulfilled]: (store, _) => {
       store.loading = false;
-      store.isLogin = true;
     },
-    [refreshToken.rejected]: (store, { error }) => {
-      store.loading = false;
-      store.error = error;
-    },
-    [register.pending]: (store) => {
-      store.loading = true;
-      store.error = null;
-    },
-    [register.fulfilled]: (store, { payload }) => {
-      store.user = payload.user;
-      store.token = payload.token;
-      store.loading = false;
-      store.isLogin = true;
-    },
-    [register.rejected]: (store, { error }) => {
-      store.loading = false;
-      store.error = error;
-    },
-    [login.pending]: (store) => {
-      store.loading = true;
-      store.error = null;
-    },
-    [login.fulfilled]: (store, { payload }) => {
-      store.user = payload.user;
-      store.token = payload.token;
-      store.loading = false;
-      store.isLogin = true;
-    },
-    [login.rejected]: (store, { error }) => {
-      store.loading = false;
-      store.error = error;
-    },
-    [logout.pending]: (store) => {
-      store.loading = true;
-      store.error = null;
-    },
-    [logout.fulfilled]: (store, { payload }) => {
-      store.user = {};
-      store.token = "";
-      store.loading = false;
-      store.isLogin = false;
-    },
-    [logout.rejected]: (store, { payload }) => {
-      store.loading = false;
-      store.error = payload;
-    },
-    [current.pending]: (store) => {
-      store.loading = true;
-      store.error = null;
-    },
-    [current.fulfilled]: (store, { payload }) => {
-      store.user = payload;
-      store.loading = false;
-      store.isLogin = true;
-    },
-    [current.rejected]: (store, { error }) => {
+    [restorePassword.rejected]: (store, { error }) => {
       store.loading = false;
       store.error = error;
     },

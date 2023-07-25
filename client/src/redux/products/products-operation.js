@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { Notify } from "notiflix";
 import { AuthInstance, instance } from "../../API/api";
 
 export const getProducts = createAsyncThunk(
@@ -146,8 +147,24 @@ export const orderProducts = createAsyncThunk(
   async (formData, ThunkAPI) => {
     try {
       const { data } = await AuthInstance.post(`/api/orders/`, formData);
+      if (data) {
+        setTimeout(
+          Notify.success("Замовлення успішно оформлено!", {
+            borderRadius: "0px",
+          }),
+          20000
+        );
+      }
       return data;
     } catch (error) {
+      if (error) {
+        setTimeout(
+          Notify.success(error.message, {
+            borderRadius: "0px",
+          }),
+          20000
+        );
+      }
       return ThunkAPI.rejectWithValue(error.message);
     }
   }

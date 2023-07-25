@@ -6,6 +6,8 @@ import { useAuth } from "../hooks/useAuth";
 import { current, logout } from "../redux/auth/auth-operations";
 import { selectUser } from "../redux/auth/auth-selectors";
 import { Button, ButtonWrapper } from "../components/Buttons/Buttons";
+import { Text } from "../components/Fields/Fields.styled";
+import ErrorMessage from "../components/Home/ErrorMessage/ErrorMessage";
 
 export default function UserPage() {
   const dispatch = useDispatch();
@@ -15,10 +17,16 @@ export default function UserPage() {
     dispatch(logout());
   };
 
+  console.log(user.verify);
   return (
     <div>
       <UserAvatar userData={user} />
-      <UserData />
+      {!user.verify && (
+        <ErrorMessage
+          message={`Потрібна верифікація! На вашу пошту ${user.email} було надіслано листа!`}
+        />
+      )}
+      <UserData user={user} />
       <ButtonWrapper>
         <Button onClick={handleClick}>Вийти</Button>
       </ButtonWrapper>

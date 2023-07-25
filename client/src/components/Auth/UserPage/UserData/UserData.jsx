@@ -1,7 +1,12 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import svg from "../../../../images/filterIcons.svg";
+import { selectUser } from "../../../../redux/auth/auth-selectors";
+import { Text } from "../../../Fields/Fields.styled";
 import DeliveryData from "./DeliveryData";
+import OrderHistory from "./OrderHistory";
+import PasswordChangeForm from "./PasswordChangeForm";
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
@@ -14,6 +19,7 @@ const DataWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
+  margin-bottom: ${(props) => (props.marginBottom ? "30px" : "0")};
 `;
 
 const DataTitle = styled.p`
@@ -34,7 +40,7 @@ const Logo = ({ url, width, height, active }) => {
   );
 };
 
-export default function UserData() {
+export default function UserData({ user }) {
   const [isShow, setIsShow] = useState({
     orders: false,
     delivery: false,
@@ -42,6 +48,8 @@ export default function UserData() {
     password: false,
     callback: false,
   });
+
+  const { orders } = user;
 
   const handleClick = (e) => {
     const name = e.currentTarget.getAttribute("data-name");
@@ -62,7 +70,7 @@ export default function UserData() {
 
   return (
     <Wrapper>
-      <DataWrapper>
+      <DataWrapper marginBottom={isShow.orders ? true : false}>
         <DataTitle>Історія ваших замовлень</DataTitle>
         <button data-name="orders" onClick={handleClick}>
           <Logo
@@ -73,7 +81,8 @@ export default function UserData() {
           />
         </button>
       </DataWrapper>
-      <DataWrapper>
+      {isShow.orders && <OrderHistory orders={orders} />}
+      <DataWrapper marginBottom={isShow.delivery ? true : false}>
         <DataTitle>Адреса доставки</DataTitle>
         <button data-name="delivery" onClick={handleClick}>
           <Logo
@@ -84,8 +93,8 @@ export default function UserData() {
           />
         </button>
       </DataWrapper>
-      {isShow.delivery && <DeliveryData />}
-      <DataWrapper>
+      {isShow.delivery && <DeliveryData user={user} />}
+      <DataWrapper marginBottom={isShow.information ? true : false}>
         <DataTitle>Особиста інформація</DataTitle>
         <button data-name="information" onClick={handleClick}>
           <Logo
@@ -96,7 +105,7 @@ export default function UserData() {
           />
         </button>
       </DataWrapper>
-      <DataWrapper>
+      <DataWrapper marginBottom={isShow.password ? true : false}>
         <DataTitle>Змінна паролю</DataTitle>
         <button data-name="password" onClick={handleClick}>
           <Logo
@@ -107,7 +116,8 @@ export default function UserData() {
           />
         </button>
       </DataWrapper>
-      <DataWrapper>
+      {isShow.password && <PasswordChangeForm />}
+      <DataWrapper marginBottom={isShow.callback ? true : false}>
         <DataTitle>Зворотній зв’язок:</DataTitle>
         <button data-name="callback" onClick={handleClick}>
           <Logo
