@@ -1,21 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Notify } from "notiflix";
 import * as api from "../../API/api";
-import { useCookies } from "react-cookie";
 
 export const register = createAsyncThunk(
   "auth/register",
   async (data, { rejectWithValue }) => {
     try {
-      const result = await api.AuthInstance.post("/api/auth/register", data);
-      if (result) {
-        setTimeout(
-          Notify.success("регістрація пройшла успішно!", {
-            borderRadius: "0px",
-          }),
-          20000
-        );
-      }
+      const result = await api.instance.post("/api/auth/register", data);
+      setTimeout(
+        Notify.success("регістрація пройшла успішно!", {
+          borderRadius: "0px",
+        }),
+        20000
+      );
       return result.data;
     } catch (error) {
       console.log(error);
@@ -36,31 +33,23 @@ export const login = createAsyncThunk(
   "auth/login",
   async (data, { rejectWithValue }) => {
     try {
-      const result = await api.instance.post("/api/auth/login", data);
-      if (result) {
-        setTimeout(
-          Notify.success(`${result.data.user.name} з поверненням!`, {
-            borderRadius: "0px",
-          }),
-          20000
-        );
-      }
+      const result = await api.AuthInstance.post("/api/auth/login", data);
+      setTimeout(
+        Notify.success(`${result.data.user.name} з поверненням!`, {
+          borderRadius: "0px",
+        }),
+        20000
+      );
       return result.data;
-    } catch ({ response }) {
-      console.log();
-      if (response) {
-        setTimeout(
-          Notify.failure(response.statusText, {
-            borderRadius: "0px",
-          }),
-          20000
-        );
+    } catch (error) {
+      if (error.status === 401) {
+        Notify.failure("Перевірьте правильність данних!");
       }
-      const error = {
-        status: response.status,
-        message: response.statusText,
-      };
-      return rejectWithValue(error);
+      // const error = {
+      //   status: responce.status,
+      //   message: responce.statusText,
+      // };
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -70,13 +59,12 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const result = await api.AuthInstance.post("/api/auth/logout");
-      console.log(result);
       api.setToken("");
-      return result;
+      return;
     } catch (error) {
       if (error) {
         setTimeout(
-          Notify.success(error, {
+          Notify.failure(error.message, {
             borderRadius: "0px",
           }),
           20000
@@ -113,6 +101,64 @@ export const refreshToken = createAsyncThunk(
       // return result.data;
       return result.data;
     } catch ({ responce }) {
+      const error = {
+        status: responce.status,
+        message: responce.data.message,
+      };
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  "auth/update",
+  async (data, { rejectWithValue }) => {
+    try {
+      const result = await api.AuthInstance.patch("/api/auth/update", data);
+      Notify.success("Місто і відділення зміненно!");
+      return result.data;
+    } catch ({ responce }) {
+      const error = {
+        status: responce.status,
+        message: responce.data.message,
+      };
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const restorePassword = createAsyncThunk(
+  "auth/restore",
+  async (userEmail, { rejectWithValue }) => {
+    try {
+      api.setToken("");
+      const { data } = await api.AuthInstance.patch(
+        `/api/auth/restore`,
+        userEmail
+      );
+      return data;
+    } catch ({ responce }) {
+      const error = {
+        status: responce.status,
+        message: responce.data.message,
+      };
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  async (newPass, { rejectWithValue }) => {
+    try {
+      const { data } = await api.AuthInstance.patch(
+        `/api/auth/changePassword`,
+        newPass
+      );
+      Notify.success("Пароль успішно змінено!");
+      return data;
+    } catch ({ responce }) {
+      Notify.success("Щось пішло не так...", responce.data.message);
       const error = {
         status: responce.status,
         message: responce.data.message,
