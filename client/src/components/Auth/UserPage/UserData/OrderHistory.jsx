@@ -1,7 +1,11 @@
 import { nanoid } from "nanoid";
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { novaInstance } from "../../../../API/api";
+import { NOVA_API_KEY } from "../../../../API/nova";
+import { selectUser } from "../../../../redux/auth/auth-selectors";
 import {
   ProductsItem,
   ProductsItemImage,
@@ -16,7 +20,34 @@ const Wrapper = styled.div`
 `;
 
 export default function OrderHistory({ orders }) {
-  console.log(orders?.length);
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        const { data } = await novaInstance.post(
+          "https://api.novaposhta.ua/v2.0/json/",
+          {
+            apiKey: NOVA_API_KEY,
+            modelName: "TrackingDocument",
+            calledMethod: "getStatusDocuments",
+            methodProperties: {
+              Documents: [
+                {
+                  DocumentNumber: orders,
+                  Phone: user.phone,
+                },
+              ],
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchStatus();
+  }, [orders]);
+
   if (orders?.length === 0) {
     return <Text>Тут будуть відображатися ваші замовлення!</Text>;
   }
