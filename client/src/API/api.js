@@ -2,9 +2,11 @@ import axios from "axios";
 
 // const BASE_URL = "https://kintsugi-server.onrender.com";
 export const BASE_URL = "https://kintsugi-server.onrender.com/";
+
 export const instance = axios.create({
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
   baseURL: BASE_URL,
+  url: BASE_URL,
 });
 
 export const AuthInstance = axios.create({
@@ -12,12 +14,16 @@ export const AuthInstance = axios.create({
     "Content-Type": "application/json",
   },
   baseURL: BASE_URL,
+  url: BASE_URL,
+
   withCredentials: true,
 });
 
 export const novaInstance = axios.create({
   headers: { "Content-Type": "application/json" },
   baseURL: BASE_URL,
+  url: BASE_URL,
+
   withCredentials: false,
 });
 
