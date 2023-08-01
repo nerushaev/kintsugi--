@@ -15,7 +15,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
-        <BrowserRouter basename="kintsugi">
+        <BrowserRouter basename="/">
           <CookiesProvider>
             <ThemeProvider theme={theme}>
               <App />
