@@ -10,6 +10,8 @@ export const Inputt = ({
   value,
   disable,
   position,
+  min,
+  multiple,
 }) => {
   return (
     <FieldWrapper select={select}>
@@ -17,12 +19,14 @@ export const Inputt = ({
         {label}
       </Label>
       <Input
+        min={min}
         disable={disable}
         name={name}
         onChange={onChange}
         placeholder={placeholder}
         value={value}
         type={type}
+        multiple={multiple}
       />
     </FieldWrapper>
   );

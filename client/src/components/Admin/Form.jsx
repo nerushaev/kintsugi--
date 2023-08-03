@@ -11,6 +11,7 @@ import {
   FieldWrapper,
   Input,
 } from "../../components/Fields/Fields.styled";
+import { Inputt } from "../Busket/CheckoutPage/Input";
 
 export default function FormAddProducts() {
   const loading = true;
@@ -50,10 +51,13 @@ export default function FormAddProducts() {
         encType="multipart/form-data"
         onSubmit={handleSubmit}
       >
-        <FieldWrapper>
-          <Label>Product name</Label>
-          <Input name="name" id="formName" type="text" required />
-        </FieldWrapper>
+        <Inputt
+          label="Назва товару"
+          name="name"
+          id="formName"
+          type="text"
+          required
+        />
         <FieldWrapper>
           <Label>Category</Label>
           <Select title="Перука" name="category">
@@ -70,32 +74,39 @@ export default function FormAddProducts() {
             <Option name="other">other</Option>
           </Select>
         </FieldWrapper>
-        <FieldWrapper>
-          <Label>Amount</Label>
-          <Input name="amount" id={inputId} type="number" required />
-        </FieldWrapper>
-        <FieldWrapper>
-          <Label>Price per one</Label>
-          <Input name="price" id={inputId} type="number" required />
-        </FieldWrapper>
-        <FieldWrapper>
-          <Label>Description</Label>
-          <Input
-            maxLength="96"
-            name="description"
-            id={inputId}
-            type="text"
-            required
-          />
-        </FieldWrapper>
-        <FieldWrapper>
-          <Label>Image</Label>
-          <Input name="image" id={inputId} type="file" multiple />
-        </FieldWrapper>
-        <FieldWrapper>
-          <Label>Id</Label>
-          <Input name="_id" id={inputId} type="text" />
-        </FieldWrapper>
+        <Inputt
+          label="Кількість"
+          name="amount"
+          id={inputId}
+          type="number"
+          min={1}
+          required
+        />
+        <Inputt
+          label="Ціна за одиницю"
+          name="price"
+          id={inputId}
+          type="number"
+          min={10}
+          required
+        />
+        <Inputt
+          label="Опис товару"
+          name="description"
+          id={inputId}
+          type="text"
+          min={20}
+          required
+        />
+        <Inputt
+          label="Зображення"
+          name="image"
+          id={inputId}
+          type="file"
+          multiple
+          required
+        />
+        <Inputt label="Айді" name="_id" id={inputId} type="text" required />
         <FieldWrapper>
           <Label>Товар в дорозі</Label>
           <Input name="comingSoon" type="checkbox" id={inputId} />
