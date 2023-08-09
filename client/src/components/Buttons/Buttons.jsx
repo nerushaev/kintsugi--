@@ -14,11 +14,13 @@ export const Button = styled.button`
   font-weight: 500;
   line-height: 20px;
   padding: 10px 30px;
-  background-color: ${theme.colors.formButton};
+  background-color: ${(props) =>
+    props.delete ? theme.colors.red : theme.colors.formButton};
 
   &:hover,
   &:focus {
-    background-color: ${theme.colors.formButtonAccent};
+    background-color: ${(props) =>
+      props.delete ? theme.colors.redAccent : theme.colors.formButtonAccent};
     transition: background-color ${theme.animation.cubicBezier};
   }
   &:not(:last-child) {

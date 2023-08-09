@@ -6,7 +6,7 @@ import {
 } from "../../../Busket/CheckoutPage/DropdownMenu.styled";
 import { Inputt } from "../../../Busket/CheckoutPage/Input";
 import { Form } from "../../../Fields/Fields.styled";
-import { Button, ButtonWrapper } from "../../../Buttons/Buttons";
+import { Button, ButtonWrapper, DeleteButton } from "../../../Buttons/Buttons";
 import { updateUser } from "../../../../redux/auth/auth-operations";
 import { useDispatch, useSelector } from "react-redux";
 import { deliveryDataValidation } from "../../../../helpers/deliveryDataValidation";
@@ -17,8 +17,11 @@ import {
 } from "../../../../redux/nova/nova-operation";
 import {
   selectCities,
+  selectCitiesLoading,
+  selectNovaLoading,
   selectNovaState,
   selectWarehouses,
+  selectWarehousesLoading,
 } from "../../../../redux/nova/nova-selectors";
 import {
   removeCitiesList,
@@ -26,6 +29,7 @@ import {
   selectCity,
   selectWarehouse,
 } from "../../../../redux/nova/nova-slice";
+import { SmallLoader } from "../../../SmallLoader/SmallLoader";
 
 export default function DeliveryData({ user }) {
   const [city, setCity] = useState("");
@@ -37,8 +41,10 @@ export default function DeliveryData({ user }) {
   const [warehouseInputDisabled, setWarehouseInputDisabled] = useState(false);
   const [userEdit, setUserEdit] = useState(false);
   const nova = useSelector(selectNovaState);
+  const citiesLoading = useSelector(selectCitiesLoading);
+  const warehousesLoading = useSelector(selectWarehousesLoading);
   const { delivery } = user;
-  console.log("delivery", delivery);
+  // console.log("delivery", delivery);
 
   useEffect(() => {
     if (!delivery || userEdit) {
@@ -57,6 +63,7 @@ export default function DeliveryData({ user }) {
           setWarehouse(delivery.warehouse);
           setCityInputDisabled(true);
           setWarehouseInputDisabled(true);
+          setUserEdit(false);
         })
         .catch((e) => console.log(e.message));
     }
@@ -104,7 +111,6 @@ export default function DeliveryData({ user }) {
       .validate(nova)
       .then(() => {
         dispatch(updateUser(nova));
-        setUserEdit(false);
       })
       .catch((e) => {
         Notify.failure(e.message);
@@ -130,7 +136,7 @@ export default function DeliveryData({ user }) {
         value={city}
         disabled={cityInputDisabled}
       />
-      {cities.length !== 0 && (
+      {cities.length !== 0 && !citiesLoading && (
         <CityList disable={false}>
           {cities.map((item) => {
             const city = item.Description;
@@ -147,6 +153,7 @@ export default function DeliveryData({ user }) {
           })}
         </CityList>
       )}
+      {citiesLoading && <SmallLoader />}
       <Inputt
         name="warehouse"
         type="text"
@@ -156,7 +163,7 @@ export default function DeliveryData({ user }) {
         value={warehouse}
         disabled={warehouseInputDisabled}
       />
-      {warehouses.length !== 0 && (
+      {warehouses.length !== 0 && !warehousesLoading && (
         <CityList disable={false}>
           {warehouses.map((item) => {
             const { ShortAddress, Ref, WarehouseIndex, Description } = item;
@@ -178,12 +185,16 @@ export default function DeliveryData({ user }) {
           })}
         </CityList>
       )}
+      {warehousesLoading && <SmallLoader />}
       <ButtonWrapper>
-        <Button type="button" onClick={clearInputs} disabled={userEdit}>
+        <Button
+          delete={true}
+          type="button"
+          onClick={clearInputs}
+          disabled={false}
+        >
           Очистити поля
         </Button>
-      </ButtonWrapper>
-      <ButtonWrapper>
         <Button type="submit" onSubmit={handleSubmit}>
           Змінити
         </Button>

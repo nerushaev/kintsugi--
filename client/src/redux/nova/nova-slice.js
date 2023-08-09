@@ -10,7 +10,8 @@ const novaInitialState = {
   warehouseAddress: "",
   cities: [],
   warehouses: [],
-  loading: false,
+  citiesLoading: false,
+  warehousesLoading: false,
   error: null,
 };
 
@@ -45,18 +46,30 @@ const novaSlice = createSlice({
     },
   },
   extraReducers: {
-    [getWarehouses.pending]: handlePending,
+    [getWarehouses.pending](state) {
+      state.warehousesLoading = true;
+      state.error = null;
+    },
     [getWarehouses.fulfilled](state, { payload }) {
       state.warehouses = payload;
-      state.loading = false;
+      state.warehousesLoading = false;
     },
-    [getWarehouses.pending]: handleRejected,
-    [getCities.pending]: handlePending,
+    [getWarehouses.rejected](state, { error }) {
+      state.warehousesLoading = false;
+      state.error = error;
+    },
+    [getCities.pending](state) {
+      state.citiesLoading = true;
+      state.error = null;
+    },
     [getCities.fulfilled](state, { payload }) {
       state.cities = payload;
-      state.loading = false;
+      state.citiesLoading = false;
     },
-    [getCities.pending]: handleRejected,
+    [getCities.rejected](state, { error }) {
+      state.citiesLoading = false;
+      state.error = error;
+    },
   },
 });
 export const {
