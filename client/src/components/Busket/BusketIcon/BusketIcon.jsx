@@ -2,10 +2,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import svg from "../../../images/filterIcons.svg";
-import {
-  getBusket,
-  selectBusketAmount,
-} from "../../../redux/products/products-selectors";
+import { selectBusketAmount } from "../../../redux/products/products-selectors";
 
 const BusketContainer = styled.div`
   width: 70px;

@@ -27,6 +27,9 @@ export default function PasswordChangeForm() {
             [name]: value,
           };
         });
+        break;
+      default:
+        break;
     }
   };
 

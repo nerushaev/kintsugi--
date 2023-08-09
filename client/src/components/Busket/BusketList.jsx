@@ -1,17 +1,16 @@
-import { useSelector } from 'react-redux';
-import { getBusket } from '../../redux/products/products-selectors';
-import { nanoid } from 'nanoid';
-import BusketItem from './BusketItem';
-import { List } from '../Home/Products/List.styled';
-import { ProductsItem } from '../Home/Products/ProductsItem/ProductsItem';
+import { useSelector } from "react-redux";
+import { getBusket } from "../../redux/products/products-selectors";
+import { nanoid } from "nanoid";
+import { List } from "../Home/Products/List.styled";
+import { ProductsItem } from "../Home/Products/ProductsItem/ProductsItem";
 
 export default function BusketList() {
   const products = useSelector(getBusket);
 
-  const itemId = nanoid()
-    return (
-      <List key={itemId}>
-        <ProductsItem data={products} />
-      </List>
-    )
-};
+  const itemId = nanoid();
+  return (
+    <List key={itemId}>
+      <ProductsItem data={products} />
+    </List>
+  );
+}

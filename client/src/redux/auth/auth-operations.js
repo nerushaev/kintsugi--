@@ -58,7 +58,7 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      const result = await api.AuthInstance.post("/api/auth/logout");
+      await api.AuthInstance.post("/api/auth/logout");
       api.setToken("");
       return;
     } catch (error) {
@@ -112,12 +112,14 @@ export const refreshToken = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   "auth/update",
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, getState }) => {
+    const { nova } = getState();
     try {
-      const result = await api.AuthInstance.patch("/api/auth/update", data);
+      await api.AuthInstance.patch("/api/auth/update", nova);
       Notify.success("Місто і відділення зміненно!");
-      return result.data;
+      return data;
     } catch ({ responce }) {
+      Notify.failure(responce.message);
       const error = {
         status: responce.status,
         message: responce.data.message,

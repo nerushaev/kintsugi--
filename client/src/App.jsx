@@ -22,20 +22,15 @@ import RestorePass from "./components/Auth/RestorePass";
 
 function App() {
   const dispatch = useDispatch();
-  const { token, error, isLoggedIn } = useAuth();
+  const { token, isLoggedIn, error } = useAuth();
 
   useEffect(() => {
     if (!isLoggedIn && token) {
-      try {
-        dispatch(current());
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    if (token && error) {
+      dispatch(current());
+    } else if (error && token && !isLoggedIn) {
       dispatch(refreshToken());
     }
-  }, [token, dispatch]);
+  }, [token, dispatch, isLoggedIn, error]);
 
   return (
     <Routes>

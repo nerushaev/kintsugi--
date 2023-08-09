@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { PaginationWrapper, PaginationItem } from "./Pagination.styled";
 
 export default function Pagination({
@@ -18,7 +17,7 @@ export default function Pagination({
           <PaginationItem
             onClick={handlePagePrev}
             key={item}
-            active={item == currentPage}
+            active={item === currentPage}
             disable={
               item > currentPage + 2 || item < currentPage - 1 ? true : false
             }

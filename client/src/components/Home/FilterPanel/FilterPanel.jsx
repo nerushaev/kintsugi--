@@ -1,18 +1,17 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
 import {
-  FilterPanelWrapper, 
-  FilterBtn, 
+  FilterPanelWrapper,
+  FilterBtn,
   PriceFilterWrapper,
   PriceBtn,
   FilterIcon,
-  Section
-} from './FilterPanel.styled';
+  Section,
+} from "./FilterPanel.styled";
 import { useDispatch } from "react-redux";
 import { setFilter } from "../../../redux/filter/filter-slice";
-import svg from '../../../images/filterIcons.svg';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import svg from "../../../images/filterIcons.svg";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 import styled from "styled-components";
-import { findDOMNode } from "react-dom";
 
 const Box = styled.div`
 
@@ -57,12 +56,10 @@ export default function FilterPanel() {
   const [allFilter, setAllFilter] = useState(false);
 
   const nodeRef = useRef(null);
-  
 
   useEffect(() => {
-    dispatch(setFilter(filters))
+    dispatch(setFilter(filters));
   }, [filters, dispatch]);
-
 
   const filterButtonsClick = (e) => {
     const { id } = e.target;
@@ -82,86 +79,86 @@ export default function FilterPanel() {
       default:
         return;
     }
-  }
+  };
 
   const handleAllFilter = (e) => {
-  const { id } = e.target;
+    const { id } = e.target;
     if (id === "low" && filters.high) {
-      setFilters(prev => {
+      setFilters((prev) => {
         return {
-        ...prev,
-        low: true,
-        high: false
-      };
-      })
+          ...prev,
+          low: true,
+          high: false,
+        };
+      });
       return;
     } else if (id === "high" && filters.low) {
-      setFilters(prev => {
+      setFilters((prev) => {
         return {
           ...prev,
           low: false,
-          high: true
+          high: true,
         };
       });
     } else {
-      setFilters(prev => {
+      setFilters((prev) => {
         return {
-        ...prev,
-        [id]: !prev[id]
-      };
-      })
+          ...prev,
+          [id]: !prev[id],
+        };
+      });
     }
   };
-  
+
   let Child = undefined;
   if (priceFilter) {
     Child = (
       <PriceFilterWrapper onClick={handleAllFilter}>
-          <PriceBtn id="low" active={filters.low}>
-            По-зростанню
-          </PriceBtn>
-          <PriceBtn id="high" active={filters.high}>
-            По-зменьшенню
-          </PriceBtn>
-        </PriceFilterWrapper>
+        <PriceBtn id="low" active={filters.low}>
+          По-зростанню
+        </PriceBtn>
+        <PriceBtn id="high" active={filters.high}>
+          По-зменьшенню
+        </PriceBtn>
+      </PriceFilterWrapper>
     );
   } else if (allFilter) {
     Child = (
       <PriceFilterWrapper allFilter onClick={handleAllFilter}>
-          <PriceBtn active={filters.wigs} id="wigs">
-            Перука
-          </PriceBtn>
-          <PriceBtn active={filters.costume}  id="costume">
-            Костюм
-          </PriceBtn>
-          <PriceBtn active={filters.accessories} id="accessories">
-            Аксессуар
-          </PriceBtn>
-          <PriceBtn active={filters.smallStand} id="smallStand">
-            Маленький стенд
-          </PriceBtn>
-          <PriceBtn active={filters.bigStand} id="bigStand">
-            Великий стенд
-          </PriceBtn>
-          <PriceBtn active={filters.pendant} id="pendant">
-            Кулон
-          </PriceBtn>
-          <PriceBtn active={filters.pin} id="pin">
-            Пін
-          </PriceBtn>
-          <PriceBtn active={filters.hairpins} id="hairpins">
-            Шпилька
-          </PriceBtn>
-          <PriceBtn active={filters.earrings} id="earrings">
-            Сережки
-          </PriceBtn>
-          <PriceBtn active={filters.tapestries} id="tapestries">
-            Гобелен
-          </PriceBtn>
-          <PriceBtn active={filters.other} id="other">
-            Інше
-          </PriceBtn>
-        </PriceFilterWrapper>
+        <PriceBtn active={filters.wigs} id="wigs">
+          Перука
+        </PriceBtn>
+        <PriceBtn active={filters.costume} id="costume">
+          Костюм
+        </PriceBtn>
+        <PriceBtn active={filters.accessories} id="accessories">
+          Аксессуар
+        </PriceBtn>
+        <PriceBtn active={filters.smallStand} id="smallStand">
+          Маленький стенд
+        </PriceBtn>
+        <PriceBtn active={filters.bigStand} id="bigStand">
+          Великий стенд
+        </PriceBtn>
+        <PriceBtn active={filters.pendant} id="pendant">
+          Кулон
+        </PriceBtn>
+        <PriceBtn active={filters.pin} id="pin">
+          Пін
+        </PriceBtn>
+        <PriceBtn active={filters.hairpins} id="hairpins">
+          Шпилька
+        </PriceBtn>
+        <PriceBtn active={filters.earrings} id="earrings">
+          Сережки
+        </PriceBtn>
+        <PriceBtn active={filters.tapestries} id="tapestries">
+          Гобелен
+        </PriceBtn>
+        <PriceBtn active={filters.other} id="other">
+          Інше
+        </PriceBtn>
+      </PriceFilterWrapper>
     );
   }
 
@@ -170,32 +167,27 @@ export default function FilterPanel() {
       <FilterPanelWrapper onClick={filterButtonsClick} allFilter={allFilter}>
         <FilterBtn id="price" active={priceFilter}>
           Сортувати за ціною
-            <FilterIcon width="18" height="18">
-              <use xlinkHref={`${svg}#icon-price`}></use>
-            </FilterIcon>
-          </FilterBtn>
-          <FilterBtn id="filter" filter="true" active={allFilter}>
-            Фільтр
           <FilterIcon width="18" height="18">
-              <use xlinkHref={`${svg}#icon-filter`}></use>
+            <use xlinkHref={`${svg}#icon-price`}></use>
+          </FilterIcon>
+        </FilterBtn>
+        <FilterBtn id="filter" filter="true" active={allFilter}>
+          Фільтр
+          <FilterIcon width="18" height="18">
+            <use xlinkHref={`${svg}#icon-filter`}></use>
           </FilterIcon>
         </FilterBtn>
       </FilterPanelWrapper>
-        <SwitchTransition>
+      <SwitchTransition>
         <CSSTransition
-        key={priceFilter || allFilter ? "Price Filter" : "All Filter"}
-        classNames="fade"
-        nodeRef={nodeRef}
-        timeout={200}
+          key={priceFilter || allFilter ? "Price Filter" : "All Filter"}
+          classNames="fade"
+          nodeRef={nodeRef}
+          timeout={200}
         >
           {() => <Box ref={nodeRef}>{Child}</Box>}
-      </CSSTransition>
+        </CSSTransition>
       </SwitchTransition>
     </Section>
-  )
+  );
 }
-
-
-
-
-

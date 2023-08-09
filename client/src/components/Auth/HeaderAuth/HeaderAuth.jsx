@@ -1,7 +1,6 @@
 import { Notify } from "notiflix";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { loginSchema } from "../../../helpers/loginValidation";
 import { notifyOptions } from "../../../helpers/notifyConfig";
@@ -57,13 +56,11 @@ export default function HeaderAuth() {
 
     switch (name) {
       case "email":
-        {
-          setEmail(value);
-        }
+        return setEmail(value);
+      case "password":
+        return setPassword(value);
+      default:
         break;
-      case "password": {
-        setPassword(value);
-      }
     }
   };
 

@@ -46,7 +46,7 @@ const UserName = styled.p`
 
 export default function TabletNav() {
   const { isLoggedIn, user } = useAuth();
-  let isDesktop = window.screen.width > "1199" && !isLoggedIn ? true : false;
+  // let isDesktop = window.screen.width > "1199" && !isLoggedIn ? true : false;
   return (
     <Header>
       <TabletNavigation>

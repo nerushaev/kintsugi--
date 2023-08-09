@@ -1,14 +1,10 @@
 import { ProductsItem } from "../ProductsItem/ProductsItem";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getProducts,
-  getProductsByName,
-} from "../../../../redux/products/products-operation";
+import { getProducts } from "../../../../redux/products/products-operation";
 import { useEffect, useRef, useState } from "react";
 import {
   getTotalPages,
   getFilteredProducts,
-  selectIsLoading,
 } from "../../../../redux/products/products-selectors";
 import { getFilter } from "../../../../redux/filter/filter-selectors";
 import { List, ListWrapper } from "../List.styled";

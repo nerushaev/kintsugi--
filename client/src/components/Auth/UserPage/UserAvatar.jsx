@@ -32,7 +32,6 @@ const PreTitle = styled.p`
 
 export default function UserAvatar({ userData }) {
   const { name, email, avatarURL } = userData;
-  console.log(userData);
   return (
     <Wrapper>
       <Avatar

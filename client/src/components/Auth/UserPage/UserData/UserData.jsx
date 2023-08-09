@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 import svg from "../../../../images/filterIcons.svg";
-import { selectUser } from "../../../../redux/auth/auth-selectors";
-import { Text } from "../../../Fields/Fields.styled";
 import DeliveryData from "./DeliveryData";
 import OrderHistory from "./OrderHistory";
 import PasswordChangeForm from "./PasswordChangeForm";

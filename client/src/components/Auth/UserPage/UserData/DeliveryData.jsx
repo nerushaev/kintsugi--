@@ -6,148 +6,118 @@ import {
 } from "../../../Busket/CheckoutPage/DropdownMenu.styled";
 import { Inputt } from "../../../Busket/CheckoutPage/Input";
 import { Form } from "../../../Fields/Fields.styled";
-import { novaInstance, NOVA_API_KEY } from "../../../../API/nova";
 import { Button, ButtonWrapper } from "../../../Buttons/Buttons";
 import { updateUser } from "../../../../redux/auth/auth-operations";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "../../../../redux/auth/auth-selectors";
+import { deliveryDataValidation } from "../../../../helpers/deliveryDataValidation";
+import { Notify } from "notiflix";
+import {
+  getCities,
+  getWarehouses,
+} from "../../../../redux/nova/nova-operation";
+import {
+  selectCities,
+  selectNovaState,
+  selectWarehouses,
+} from "../../../../redux/nova/nova-selectors";
+import {
+  removeCitiesList,
+  removeWarehousesList,
+  selectCity,
+  selectWarehouse,
+} from "../../../../redux/nova/nova-slice";
 
 export default function DeliveryData({ user }) {
-  const [cities, setCities] = useState([]);
-  const [warehouses, setWarehouses] = useState([]);
-  const [deliveryData, setDeliveryData] = useState({
-    city: "",
-    cityRef: "",
-    warehouse: "",
-    recipientWarehouseIndex: "",
-    warehouseRef: "",
-    warehouseAddress: "",
-  });
-
-  const { city, warehouse } = deliveryData;
+  const [city, setCity] = useState("");
+  const [warehouse, setWarehouse] = useState("");
+  const warehouses = useSelector(selectWarehouses);
+  const cities = useSelector(selectCities);
   const dispatch = useDispatch();
+  const [cityInputDisabled, setCityInputDisabled] = useState(false);
+  const [warehouseInputDisabled, setWarehouseInputDisabled] = useState(false);
+  const [userEdit, setUserEdit] = useState(false);
+  const nova = useSelector(selectNovaState);
   const { delivery } = user;
+  console.log("delivery", delivery);
 
   useEffect(() => {
-    if (delivery) {
-      setDeliveryData((prev) => ({
-        ...prev,
-        city: delivery.city || "",
-        warehouse: delivery.warehouse || "",
-      }));
-      setWarehouses([]);
-      setCities([]);
+    if (!delivery || userEdit) {
+      if (city.length >= 2 && !cityInputDisabled) {
+        dispatch(getCities(city));
+      }
+
+      if (warehouse.length >= 1 && !warehouseInputDisabled) {
+        dispatch(getWarehouses({ warehouse, city }));
+      }
+    } else if (delivery && !userEdit) {
+      deliveryDataValidation
+        .validate(delivery)
+        .then(() => {
+          setCity(delivery.city);
+          setWarehouse(delivery.warehouse);
+          setCityInputDisabled(true);
+          setWarehouseInputDisabled(true);
+        })
+        .catch((e) => console.log(e.message));
     }
+  }, [
+    city,
+    warehouse,
+    cityInputDisabled,
+    delivery,
+    dispatch,
+    userEdit,
+    warehouseInputDisabled,
+  ]);
 
-    const fetchCities = async () => {
-      try {
-        const { data } = await novaInstance.post(
-          "https://api.novaposhta.ua/v2.0/json/",
-          {
-            apiKey: NOVA_API_KEY,
-            modelName: "Address",
-            calledMethod: "getCities",
-            methodProperties: {
-              FindByString: deliveryData.city,
-              Limit: 5,
-              Page: 1,
-            },
-          }
-        );
-        // if (data.data.length === 1) {
-        //   setDeliveryData((prev) => {
-        //     return {
-        //       ...prev,
-        //       cityRef: data.data[0].Ref,
-        //       city: data.data[0].Description,
-        //     };
-        //   });
-        // }
-        setCities(data.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-
-    const fetchWarehouses = async () => {
-      try {
-        const { data } = await novaInstance.post(
-          "https://api.novaposhta.ua/v2.0/json/",
-          {
-            apiKey: NOVA_API_KEY,
-            modelName: "Address",
-            calledMethod: "getWarehouses",
-            methodProperties: {
-              WarehouseId: deliveryData.warehouse,
-              CityName: deliveryData.city,
-              Limit: 5,
-              Page: 1,
-            },
-          }
-        );
-        setWarehouses(data.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    fetchCities();
-    fetchWarehouses();
-  }, [deliveryData.city, deliveryData.warehouse]);
-
-  const handleWarehouse = (e) => {
-    const { innerHTML } = e.target;
-    const recipientWarehouseIndex = e.target.getAttribute(
-      "data-warehouse-index"
+  const handleWarehouse = (ShortAddress, Ref, WarehouseIndex, Description) => {
+    dispatch(
+      selectWarehouse({ ShortAddress, Ref, WarehouseIndex, Description })
     );
-    const warehouseRef = e.target.getAttribute("data-warehouse-ref");
-    const warehouseAddress = e.target.getAttribute("data-warehouse-address");
-    setDeliveryData((prev) => {
-      return {
-        ...prev,
-        warehouse: innerHTML,
-        recipientWarehouseIndex,
-        warehouseRef,
-        warehouseAddress,
-      };
-    });
-    // const result = isSameWarehouse(warehouses, warehouseRef);
-    setWarehouses([]);
+    dispatch(removeWarehousesList());
+    setWarehouseInputDisabled(true);
+    setWarehouse(Description);
   };
 
-  const handleCity = (e) => {
-    const { innerHTML } = e.target;
-    const cityRef = e.target.getAttribute("data");
-    setDeliveryData((prev) => {
-      return {
-        ...prev,
-        city: innerHTML,
-        cityRef: cityRef,
-      };
-    });
-    setCities([]);
+  const handleCity = (city, cityRef) => {
+    dispatch(selectCity({ city, cityRef }));
+    dispatch(removeCitiesList());
+    setCityInputDisabled(true);
+    setCity(city);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
-      case name:
-        return setDeliveryData((prev) => {
-          return {
-            ...prev,
-            [name]: value,
-          };
-        });
+      case "city":
+        return setCity(value);
+      case "warehouse":
+        return setWarehouse(value);
+      default:
+        break;
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUser(deliveryData));
+    deliveryDataValidation
+      .validate(nova)
+      .then(() => {
+        dispatch(updateUser(nova));
+        setUserEdit(false);
+      })
+      .catch((e) => {
+        Notify.failure(e.message);
+      });
   };
 
-  const isSameCities = cities.length
-    ? city.length === cities[0].Description.length
-    : null;
+  const clearInputs = async () => {
+    setUserEdit(true);
+    setCityInputDisabled(false);
+    setWarehouseInputDisabled(false);
+    setCity("");
+    setWarehouse("");
+  };
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -158,15 +128,18 @@ export default function DeliveryData({ user }) {
         placeholder="Одеса"
         onChange={handleChange}
         value={city}
+        disabled={cityInputDisabled}
       />
       {cities.length !== 0 && (
-        <CityList disable={isSameCities}>
+        <CityList disable={false}>
           {cities.map((item) => {
+            const city = item.Description;
+            const cityRef = item.Ref;
             return (
               <CityItem
-                data={item.Ref}
+                data-city-ref={item.Ref}
                 key={item.Description}
-                onClick={handleCity}
+                onClick={() => handleCity(city, cityRef)}
               >
                 {item.Description}
               </CityItem>
@@ -181,17 +154,23 @@ export default function DeliveryData({ user }) {
         placeholder="54"
         onChange={handleChange}
         value={warehouse}
+        disabled={warehouseInputDisabled}
       />
       {warehouses.length !== 0 && (
         <CityList disable={false}>
           {warehouses.map((item) => {
+            const { ShortAddress, Ref, WarehouseIndex, Description } = item;
             return (
               <CityItem
-                data-warehouse-address={item.ShortAddress}
-                data-warehouse-ref={item.Ref}
-                data-warehouse-index={item.WarehouseIndex}
                 key={item.Description}
-                onClick={handleWarehouse}
+                onClick={() =>
+                  handleWarehouse(
+                    ShortAddress,
+                    Ref,
+                    WarehouseIndex,
+                    Description
+                  )
+                }
               >
                 {item.Description}
               </CityItem>
@@ -199,6 +178,11 @@ export default function DeliveryData({ user }) {
           })}
         </CityList>
       )}
+      <ButtonWrapper>
+        <Button type="button" onClick={clearInputs} disabled={userEdit}>
+          Очистити поля
+        </Button>
+      </ButtonWrapper>
       <ButtonWrapper>
         <Button type="submit" onSubmit={handleSubmit}>
           Змінити

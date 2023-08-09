@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
-import styled from "styled-components"
+import { useState } from "react";
+import styled from "styled-components";
 import { Select, Text } from "../../Fields/Fields.styled";
-// import { register } from "../../../redux/auth/auth-operations";
 import { Inputt } from "./Input";
 
 export const InputWrapper = styled.div`
@@ -30,15 +28,15 @@ export const Label = styled.label`
   font-family: "Montserrat";
   font-weight: 500;
   line-height: 30px;
-    @media (min-width: 480px) {
-      font-size: 18px;
-    }
-    @media (min-width: 768px) {
-      font-size: 20px;
-    }
-    @media (min-width: 1200px) {
-      font-size: 24px;
-    }
+  @media (min-width: 480px) {
+    font-size: 18px;
+  }
+  @media (min-width: 768px) {
+    font-size: 20px;
+  }
+  @media (min-width: 1200px) {
+    font-size: 24px;
+  }
 `;
 
 export const CheckoutWrapper = styled.div`
@@ -65,25 +63,25 @@ export default function CheckoutModal(props) {
         setWillBeRegister(false);
         break;
       case "password":
-        setOrderData(prev => {
+        setOrderData((prev) => {
           return {
             ...prev,
-            password: value
-          }
-        })
+            password: value,
+          };
+        });
         break;
       case "confirmPassword":
-        setOrderData(prev => {
+        setOrderData((prev) => {
           return {
             ...prev,
-            confirmPassword: value
-          }
-        })
+            confirmPassword: value,
+          };
+        });
         break;
       default:
         break;
     }
-  }
+  };
 
   return (
     <div>
@@ -92,32 +90,44 @@ export default function CheckoutModal(props) {
         <CheckboxesWrapper>
           <CheckboxWrapper>
             <Label htmlFor="yes">Так</Label>
-            <Select name="yes" onChange={handleChange} id="yes" type="checkbox" checked={yes}/>
+            <Select
+              name="yes"
+              onChange={handleChange}
+              id="yes"
+              type="checkbox"
+              checked={yes}
+            />
           </CheckboxWrapper>
           <CheckboxWrapper>
             <Label htmlFor="no">Ні</Label>
-            <Select name="no" onChange={handleChange} id="no" type="checkbox" checked={no}/>
-          </CheckboxWrapper> 
+            <Select
+              name="no"
+              onChange={handleChange}
+              id="no"
+              type="checkbox"
+              checked={no}
+            />
+          </CheckboxWrapper>
         </CheckboxesWrapper>
-        {yes &&
+        {yes && (
           <>
-          <Inputt
-            onChange={handleChange}
-            label="Пароль:"
-            name="password"
-            type="password"
-            value={orderData.password}
-          />
-          <Inputt
-            onChange={handleChange}
-            label="Підтвердіть пароль:"
-            name="confirmPassword"
-            type="password"
-            value={orderData.confirmPassword}
-          />
+            <Inputt
+              onChange={handleChange}
+              label="Пароль:"
+              name="password"
+              type="password"
+              value={orderData.password}
+            />
+            <Inputt
+              onChange={handleChange}
+              label="Підтвердіть пароль:"
+              name="confirmPassword"
+              type="password"
+              value={orderData.confirmPassword}
+            />
           </>
-        }
+        )}
       </InputWrapper>
     </div>
-  )
+  );
 }

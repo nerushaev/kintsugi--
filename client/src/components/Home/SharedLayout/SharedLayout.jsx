@@ -9,7 +9,7 @@ import { Suspense } from "react";
 import TabletNav from "../TabletNav/TabletNav";
 
 export default function SharedLayout() {
-  let isTablet = window.screen.width > "768" ? true : false;
+  // let isTablet = window.screen.width > "768" ? true : false;
 
   return (
     <Suspense fallback={<Loader />}>

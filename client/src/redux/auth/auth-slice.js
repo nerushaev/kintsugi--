@@ -11,8 +11,8 @@ import {
 
 const initialState = {
   user: {
-    delivery: {},
     busket: [],
+    delivery: {},
   },
   token: "",
   isLogin: false,

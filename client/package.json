@@ -1,6 +1,6 @@
 {
   "name": "kintsugi-test-react-redux",
-  "homepage": "./",
+  "homepage": "/",
   "version": "0.1.0",
   "private": false,
   "dependencies": {
@@ -23,7 +23,7 @@
     "react": "^18.2.0",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
-    "react-google-recaptcha": "^3.1.0",
+    "react-google-recaptcha-v3": "^1.10.1",
     "react-paginate": "^8.1.4",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.2",

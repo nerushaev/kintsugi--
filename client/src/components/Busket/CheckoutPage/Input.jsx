@@ -12,6 +12,7 @@ export const Inputt = ({
   position,
   min,
   multiple,
+  disabled,
 }) => {
   return (
     <FieldWrapper select={select}>
@@ -19,6 +20,7 @@ export const Inputt = ({
         {label}
       </Label>
       <Input
+        disabled={disabled}
         min={min}
         disable={disable}
         name={name}

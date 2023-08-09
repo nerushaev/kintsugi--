@@ -1,7 +1,6 @@
 import { nanoid } from "nanoid";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { novaInstance } from "../../../../API/api";
 import { NOVA_API_KEY } from "../../../../API/nova";
@@ -25,28 +24,25 @@ export default function OrderHistory({ orders }) {
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const { data } = await novaInstance.post(
-          "https://api.novaposhta.ua/v2.0/json/",
-          {
-            apiKey: NOVA_API_KEY,
-            modelName: "TrackingDocument",
-            calledMethod: "getStatusDocuments",
-            methodProperties: {
-              Documents: [
-                {
-                  DocumentNumber: orders,
-                  Phone: user.phone,
-                },
-              ],
-            },
-          }
-        );
+        await novaInstance.post("https://api.novaposhta.ua/v2.0/json/", {
+          apiKey: NOVA_API_KEY,
+          modelName: "TrackingDocument",
+          calledMethod: "getStatusDocuments",
+          methodProperties: {
+            Documents: [
+              {
+                DocumentNumber: orders,
+                Phone: user.phone,
+              },
+            ],
+          },
+        });
       } catch (error) {
         console.log(error);
       }
     };
     fetchStatus();
-  }, [orders]);
+  }, [orders, user.phone]);
 
   if (orders?.length === 0) {
     return <Text>Тут будуть відображатися ваші замовлення!</Text>;

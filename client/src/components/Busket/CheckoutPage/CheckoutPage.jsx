@@ -1,12 +1,9 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { novaInstance, NOVA_API_KEY } from "../../../API/nova";
 import { orderProducts } from "../../../redux/products/products-operation";
-import {
-  getBusket,
-  selectBusketProductsId,
-} from "../../../redux/products/products-selectors";
+import { getBusket } from "../../../redux/products/products-selectors";
 import { ButtonWrapper, Button } from "../../Buttons/Buttons";
 import {
   Label,
@@ -27,16 +24,11 @@ import { Notify } from "notiflix";
 import { Inputt } from "./Input";
 import { SelectInput } from "./SelectInput";
 import CheckoutModal, { CheckoutWrapper } from "./CheckoutModal";
-// import { selectIsLoading } from "../../../redux/products/products-selectors";
 import { register } from "../../../redux/auth/auth-operations";
 import { notifyOptions } from "../../../helpers/notifyConfig";
-import {
-  selectIsLoading,
-  selectUser,
-} from "../../../redux/auth/auth-selectors";
+import { selectUser } from "../../../redux/auth/auth-selectors";
 import { useAuth } from "../../../hooks/useAuth";
 import { Navigate } from "react-router";
-import { theme } from "../../../styles/theme";
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
@@ -46,10 +38,10 @@ export default function CheckoutPage() {
   const [cities, setCities] = useState([]);
   const [warehouses, setWarehouses] = useState([]);
   const [willBeRegister, setWillBeRegister] = useState(false);
-  const [inputsTouched, setInputsTouched] = useState({
-    city: false,
-    warehouse: false,
-  });
+  // const [inputsTouched, setInputsTouched] = useState({
+  //   city: false,
+  //   warehouse: false,
+  // });
   const [orderData, setOrderData] = useState({
     email: "",
     name: "",
@@ -139,7 +131,7 @@ export default function CheckoutPage() {
     checkBusket();
     fetchCities();
     fetchWarehouses();
-  }, [orderData.city, orderData.warehouse, user]);
+  }, [orderData.city, orderData.warehouse, user, busket]);
 
   let elements;
   if (busket) {

@@ -1,4 +1,4 @@
-import { createRef, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { Inputt } from "../Busket/CheckoutPage/Input";
 import { Form } from "../Fields/Fields.styled";
@@ -11,7 +11,7 @@ import { notifyOptions } from "../../helpers/notifyConfig";
 import { selectError } from "../../redux/auth/auth-selectors";
 import { theme } from "../../styles/theme";
 import { Link } from "react-router-dom";
-import ReCAPTCHA from "react-google-recaptcha";
+// import ReCaptcha from "../ReCaptcha/ReCaptcha";
 
 const RegisterWrapper = styled.div`
   display: flex;
@@ -36,7 +36,6 @@ export default function RegisterForm() {
   });
 
   const error = useSelector(selectError);
-  const recapchaRef = createRef();
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -54,8 +53,13 @@ export default function RegisterForm() {
     }
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     registerValidation
       .validate(userData)
       .then((res) => {
@@ -70,10 +74,6 @@ export default function RegisterForm() {
       .catch((error) => {
         Notify.failure(error.message, notifyOptions);
       });
-  };
-
-  const handleCapcha = (value) => {
-    console.log(value);
   };
 
   return (
@@ -119,12 +119,8 @@ export default function RegisterForm() {
           onChange={handleChange}
           value={userData.confirmPassword}
         />
-        <ReCAPTCHA
-          ref={recapchaRef}
-          sitekey="6LcuU1QnAAAAAK-L9bzELSL7cFoP8qmKEHd1zr73"
-          onChange={handleCapcha}
-        />
         <ButtonWrapper>
+          {/* <ReCaptcha value="Зареєструватися" /> */}
           <Button type="submit" onSubmit={handleSubmit}>
             Зареєструватися
           </Button>
