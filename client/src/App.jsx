@@ -27,15 +27,14 @@ function App() {
   useEffect(() => {
     if (!isLoggedIn && token) {
       dispatch(current());
+    } else if (error && token && !isLoggedIn) {
+      dispatch(refreshToken());
     }
-    // else if (error && token && !isLoggedIn) {
-    //   dispatch(refreshToken());
-    // }
   }, [token, dispatch, isLoggedIn]);
 
-  if (error) {
-    dispatch(refreshToken());
-  }
+  // if (error) {
+  //   dispatch(refreshToken());
+  // }
 
   return (
     <Routes>

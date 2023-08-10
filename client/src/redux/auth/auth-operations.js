@@ -110,12 +110,12 @@ export const refreshToken = createAsyncThunk(
   }
 );
 
-export const updateUser = createAsyncThunk(
+export const updateUserDelivery = createAsyncThunk(
   "auth/update",
   async (data, { rejectWithValue, getState }) => {
     const { nova } = getState();
     try {
-      await api.AuthInstance.patch("/api/auth/update", nova);
+      await api.AuthInstance.patch("/api/auth/updateUserDelivery", nova);
       Notify.success("Місто і відділення зміненно!");
       return data;
     } catch ({ responce }) {

@@ -5,9 +5,8 @@ import {
   CityList,
 } from "../../../Busket/CheckoutPage/DropdownMenu.styled";
 import { Inputt } from "../../../Busket/CheckoutPage/Input";
-import { Form } from "../../../Fields/Fields.styled";
-import { Button, ButtonWrapper, DeleteButton } from "../../../Buttons/Buttons";
-import { updateUser } from "../../../../redux/auth/auth-operations";
+import { Button, ButtonWrapper } from "../../../Buttons/Buttons";
+import { updateUserDelivery } from "../../../../redux/auth/auth-operations";
 import { useDispatch, useSelector } from "react-redux";
 import { deliveryDataValidation } from "../../../../helpers/deliveryDataValidation";
 import { Notify } from "notiflix";
@@ -18,7 +17,6 @@ import {
 import {
   selectCities,
   selectCitiesLoading,
-  selectNovaLoading,
   selectNovaState,
   selectWarehouses,
   selectWarehousesLoading,
@@ -43,8 +41,8 @@ export default function DeliveryData({ user }) {
   const nova = useSelector(selectNovaState);
   const citiesLoading = useSelector(selectCitiesLoading);
   const warehousesLoading = useSelector(selectWarehousesLoading);
+  const [buttonActive, setButtonActive] = useState(false);
   const { delivery } = user;
-  // console.log("delivery", delivery);
 
   useEffect(() => {
     if (!delivery || userEdit) {
@@ -106,11 +104,13 @@ export default function DeliveryData({ user }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     deliveryDataValidation
       .validate(nova)
       .then(() => {
-        dispatch(updateUser(nova));
+        console.log(nova);
+        dispatch(updateUserDelivery(nova));
+        setButtonActive(false);
       })
       .catch((e) => {
         Notify.failure(e.message);
@@ -123,10 +123,12 @@ export default function DeliveryData({ user }) {
     setWarehouseInputDisabled(false);
     setCity("");
     setWarehouse("");
+    setButtonActive(true);
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <>
+      {/* <Form onSubmit={handleSubmit}> */}
       <Inputt
         name="city"
         type="text"
@@ -186,19 +188,25 @@ export default function DeliveryData({ user }) {
         </CityList>
       )}
       {warehousesLoading && <SmallLoader />}
-      <ButtonWrapper>
-        <Button
-          delete={true}
-          type="button"
-          onClick={clearInputs}
-          disabled={false}
-        >
-          Очистити поля
-        </Button>
-        <Button type="submit" onSubmit={handleSubmit}>
-          Змінити
-        </Button>
-      </ButtonWrapper>
-    </Form>
+      {buttonActive ? (
+        <ButtonWrapper>
+          <Button type="button" onClick={handleSubmit}>
+            Зберегти
+          </Button>
+        </ButtonWrapper>
+      ) : (
+        <ButtonWrapper>
+          <Button
+            delete={true}
+            type="button"
+            onClick={clearInputs}
+            disabled={false}
+          >
+            Змінити місто та відділення
+          </Button>
+        </ButtonWrapper>
+      )}
+      {/* </Form> */}
+    </>
   );
 }

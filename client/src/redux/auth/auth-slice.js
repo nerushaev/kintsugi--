@@ -7,6 +7,7 @@ import {
   logout,
   updateUser,
   restorePassword,
+  updateUserDelivery,
 } from "./auth-operations";
 
 const initialState = {
@@ -102,12 +103,12 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = error;
     },
-    [updateUser.pending]: handlePending,
-    [updateUser.fulfilled]: (state, { payload }) => {
+    [updateUserDelivery.pending]: handlePending,
+    [updateUserDelivery.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.user.delivery = payload;
     },
-    [updateUser.rejected]: handleRejected,
+    [updateUserDelivery.rejected]: handleRejected,
     [restorePassword.pending]: (store) => {
       store.loading = true;
       store.error = null;

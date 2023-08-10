@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { novaInstance, NOVA_API_KEY } from "../../../API/nova";
 import { orderProducts } from "../../../redux/products/products-operation";
 import { getBusket } from "../../../redux/products/products-selectors";
 import { ButtonWrapper, Button } from "../../Buttons/Buttons";
@@ -15,7 +14,6 @@ import {
   Text,
   Form,
 } from "../../Fields/Fields.styled";
-import { CityItem, CityList } from "./DropdownMenu.styled";
 import {
   checkoutPageValidation,
   passwordsValidation,
@@ -29,19 +27,23 @@ import { notifyOptions } from "../../../helpers/notifyConfig";
 import { selectUser } from "../../../redux/auth/auth-selectors";
 import { useAuth } from "../../../hooks/useAuth";
 import { Navigate } from "react-router";
+import DeliveryData from "../../Auth/UserPage/UserData/DeliveryData";
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
   const user = useSelector(selectUser);
+  const { delivery } = user;
+  const {
+    city,
+    cityRef,
+    warehouse,
+    recipientWarehouseIndex,
+    warehouseRef,
+    warehouseAddress,
+  } = delivery;
   const { isLoggedIn } = useAuth();
-  const [cities, setCities] = useState([]);
-  const [warehouses, setWarehouses] = useState([]);
   const [willBeRegister, setWillBeRegister] = useState(false);
-  // const [inputsTouched, setInputsTouched] = useState({
-  //   city: false,
-  //   warehouse: false,
-  // });
   const [orderData, setOrderData] = useState({
     email: "",
     name: "",
@@ -50,12 +52,6 @@ export default function CheckoutPage() {
     afina: false,
     cash: false,
     liqpay: true,
-    city: "",
-    cityRef: "",
-    warehouse: "",
-    warehouseAddress: "",
-    recipientWarehouseIndex: "",
-    warehouseRef: "",
     password: "",
     confirmPassword: "",
     products: busket,
@@ -76,61 +72,7 @@ export default function CheckoutPage() {
         phone: user.phone || "",
       }));
     }
-
-    const fetchCities = async () => {
-      try {
-        const { data } = await novaInstance.post(
-          "https://api.novaposhta.ua/v2.0/json/",
-          {
-            apiKey: NOVA_API_KEY,
-            modelName: "Address",
-            calledMethod: "getCities",
-            methodProperties: {
-              FindByString: orderData.city,
-              Limit: 5,
-              Page: 1,
-            },
-          }
-        );
-        if (data.data.length === 1) {
-          setOrderData((prev) => {
-            return {
-              ...prev,
-              cityRef: data.data[0].Ref,
-              city: data.data[0].Description,
-            };
-          });
-        }
-        setCities(data.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-
-    const fetchWarehouses = async () => {
-      try {
-        const { data } = await novaInstance.post(
-          "https://api.novaposhta.ua/v2.0/json/",
-          {
-            apiKey: NOVA_API_KEY,
-            modelName: "Address",
-            calledMethod: "getWarehouses",
-            methodProperties: {
-              WarehouseId: orderData.warehouse,
-              CityName: orderData.city,
-              Limit: 5,
-              Page: 1,
-            },
-          }
-        );
-        setWarehouses(data.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
     checkBusket();
-    fetchCities();
-    fetchWarehouses();
   }, [orderData.city, orderData.warehouse, user, busket]);
 
   let elements;
@@ -149,91 +91,33 @@ export default function CheckoutPage() {
     });
   }
 
-  const handleWarehouse = (e) => {
-    const { innerHTML } = e.target;
-    const recipientWarehouseIndex = e.target.getAttribute(
-      "data-warehouse-index"
-    );
-    const warehouseRef = e.target.getAttribute("data-warehouse-ref");
-    const warehouseAddress = e.target.getAttribute("data-warehouse-address");
-    console.log(warehouseRef);
-    setOrderData((prev) => {
-      return {
-        ...prev,
-        warehouse: innerHTML,
-        recipientWarehouseIndex,
-        warehouseRef,
-        warehouseAddress,
-      };
-    });
-    // const result = isSameWarehouse(warehouses, warehouseRef);
-    setWarehouses([]);
-  };
-
-  const handleCity = (e) => {
-    const { innerHTML } = e.target;
-    const cityRef = e.target.getAttribute("data");
-    setOrderData((prev) => {
-      return {
-        ...prev,
-        city: innerHTML,
-        cityRef: cityRef,
-      };
-    });
-    setCities([]);
-  };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   console.log(e);
-  //   const result = await checkoutPageValidation
-  //     .validate(orderData)
-  //     .then((result) => {
-  //       dispatch(orderProducts(orderData));
-  //     })
-  //     .catch((error) => {
-  //       Notify.failure(error.message, notifyOptions);
-  //     });
-
-  //   if (willBeRegister) {
-  //     const passResult = await passwordsValidation
-  //       .validate({
-  //         email: orderData.email,
-  //         confirmPassword: orderData.confirmPassword,
-  //         password: orderData.password,
-  //       })
-  //       .then((result) => {
-  //         dispatch(
-  //           register({
-  //             email: orderData.email,
-  //             name: orderData.name,
-  //             phone: orderData.phone,
-  //             password: orderData.password,
-  //           })
-  //         );
-  //       })
-  //       .catch((error) => {
-  //         Notify.failure(error.message, notifyOptions);
-  //       });
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const newOrder = {
+      ...orderData,
+      city,
+      cityRef,
+      warehouse,
+      recipientWarehouseIndex,
+      warehouseRef,
+      warehouseAddress,
+    };
+
+    console.log(newOrder);
     try {
-      await checkoutPageValidation.validate(orderData);
+      await checkoutPageValidation.validate(newOrder);
       if (
-        user.email !== orderData.email ||
-        user.name !== orderData.name ||
-        user.phone !== orderData.phone
+        user.email !== newOrder.email ||
+        user.name !== newOrder.name ||
+        user.phone !== newOrder.phone
       ) {
-        dispatch(orderProducts(orderData));
+        dispatch(orderProducts(newOrder));
         return;
       }
       dispatch(
         orderProducts({
-          ...orderData,
+          ...newOrder,
           name: user.name,
           email: user.email,
           phone: user.phone,
@@ -283,35 +167,6 @@ export default function CheckoutPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
-      case "email":
-        return setOrderData((prev) => {
-          return {
-            ...prev,
-            email: value,
-          };
-        });
-      case "name":
-        return setOrderData((prev) => {
-          return {
-            ...prev,
-            name: value,
-          };
-        });
-      case "phone":
-        return setOrderData((prev) => {
-          return {
-            ...prev,
-            phone: value,
-          };
-        });
-      case "nova":
-        return setOrderData((prev) => {
-          return {
-            ...prev,
-            nova: !prev.nova,
-            afina: !prev.afina,
-          };
-        });
       case "afina":
         return setOrderData((prev) => {
           return {
@@ -320,18 +175,12 @@ export default function CheckoutPage() {
             nova: !prev.nova,
           };
         });
-      case "city":
+      case "nova":
         return setOrderData((prev) => {
           return {
             ...prev,
-            city: value,
-          };
-        });
-      case "warehouse":
-        return setOrderData((prev) => {
-          return {
-            ...prev,
-            warehouse: value,
+            nova: !prev.nova,
+            afina: !prev.afina,
           };
         });
       case "cash":
@@ -350,28 +199,104 @@ export default function CheckoutPage() {
             cash: !prev.cash,
           };
         });
-      case "password":
+      case name:
         return setOrderData((prev) => {
           return {
             ...prev,
-            password: value,
+            [name]: value,
           };
         });
-      case "confirmPassword":
-        return setOrderData((prev) => {
-          return {
-            ...prev,
-            confirmPassword: value,
-          };
-        });
-      default:
-        return;
     }
   };
 
-  const isSameCities = cities.length
-    ? orderData.city.length === cities[0].Description.length
-    : null;
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   switch (name) {
+  //     case "email":
+  //       return setOrderData((prev) => {
+  //         return {
+  //           ...prev,
+  //           email: value,
+  //         };
+  //       });
+  //     case "name":
+  //       return setOrderData((prev) => {
+  //         return {
+  //           ...prev,
+  //           name: value,
+  //         };
+  //       });
+  //     case "phone":
+  //       return setOrderData((prev) => {
+  //         return {
+  //           ...prev,
+  //           phone: value,
+  //         };
+  //       });
+  //     case "nova":
+  //       return setOrderData((prev) => {
+  //         return {
+  //           ...prev,
+  //           nova: !prev.nova,
+  //           afina: !prev.afina,
+  //         };
+  //       });
+  //     case "afina":
+  //       return setOrderData((prev) => {
+  //         return {
+  //           ...prev,
+  //           afina: !prev.afina,
+  //           nova: !prev.nova,
+  //         };
+  //       });
+  //     case "city":
+  //       return setOrderData((prev) => {
+  //         return {
+  //           ...prev,
+  //           city: value,
+  //         };
+  //       });
+  //     case "warehouse":
+  //       return setOrderData((prev) => {
+  //         return {
+  //           ...prev,
+  //           warehouse: value,
+  //         };
+  //       });
+  //     case "cash":
+  //       return setOrderData((prev) => {
+  //         return {
+  //           ...prev,
+  //           cash: !prev.cash,
+  //           liqpay: !prev.liqpay,
+  //         };
+  //       });
+  //     case "liqpay":
+  //       return setOrderData((prev) => {
+  //         return {
+  //           ...prev,
+  //           liqpay: !prev.liqpay,
+  //           cash: !prev.cash,
+  //         };
+  //       });
+  //     case "password":
+  //       return setOrderData((prev) => {
+  //         return {
+  //           ...prev,
+  //           password: value,
+  //         };
+  //       });
+  //     case "confirmPassword":
+  //       return setOrderData((prev) => {
+  //         return {
+  //           ...prev,
+  //           confirmPassword: value,
+  //         };
+  //       });
+  //     default:
+  //       return;
+  //   }
+  // };
 
   if (busket.length < 1) {
     return <Navigate to="/" />;
@@ -417,54 +342,7 @@ export default function CheckoutPage() {
             value={[orderData.nova, orderData.afina]}
             label={["Нова Пошта", "Самовівіз м.Одеса, ТЦ Афіна 4-й поверх"]}
           />
-          <Inputt
-            name="city"
-            type="text"
-            label="Ваше місто:"
-            placeholder="Одеса"
-            onChange={handleChange}
-            value={orderData.city}
-          />
-          {cities.length !== 0 && (
-            <CityList disable={isSameCities}>
-              {cities.map((item) => {
-                return (
-                  <CityItem
-                    data={item.Ref}
-                    key={item.Description}
-                    onClick={handleCity}
-                  >
-                    {item.Description}
-                  </CityItem>
-                );
-              })}
-            </CityList>
-          )}
-          <Inputt
-            name="warehouse"
-            type="text"
-            label="Відділення:"
-            placeholder="54"
-            onChange={handleChange}
-            value={orderData.warehouse}
-          />
-          {warehouses.length !== 0 && (
-            <CityList disable={false}>
-              {warehouses.map((item) => {
-                return (
-                  <CityItem
-                    data-warehouse-address={item.ShortAddress}
-                    data-warehouse-ref={item.Ref}
-                    data-warehouse-index={item.WarehouseIndex}
-                    key={item.Description}
-                    onClick={handleWarehouse}
-                  >
-                    {item.Description}
-                  </CityItem>
-                );
-              })}
-            </CityList>
-          )}
+          <DeliveryData user={user} />
           <SelectInput
             text="Оплата:"
             names={["cash", "liqpay"]}
@@ -473,7 +351,6 @@ export default function CheckoutPage() {
             value={[orderData.cash, orderData.liqpay]}
             label={["Накаладений платіж", "Онлайн оплата LiqPay"]}
           />
-
           {!isLoggedIn && (
             <CheckoutWrapper>
               <CheckoutModal
@@ -495,3 +372,5 @@ export default function CheckoutPage() {
     </>
   );
 }
+
+// 459

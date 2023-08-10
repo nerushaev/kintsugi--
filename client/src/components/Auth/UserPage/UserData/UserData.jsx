@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import svg from "../../../../images/filterIcons.svg";
+import { Form } from "../../../Fields/Fields.styled";
 import DeliveryData from "./DeliveryData";
 import OrderHistory from "./OrderHistory";
 import PasswordChangeForm from "./PasswordChangeForm";
@@ -90,7 +91,11 @@ export default function UserData({ user }) {
           />
         </button>
       </DataWrapper>
-      {isShow.delivery && <DeliveryData user={user} />}
+      {isShow.delivery && (
+        <Form>
+          <DeliveryData user={user} />
+        </Form>
+      )}
       <DataWrapper marginBottom={isShow.information ? true : false}>
         <DataTitle>Особиста інформація</DataTitle>
         <button data-name="information" onClick={handleClick}>
