@@ -15,14 +15,14 @@ const novaInitialState = {
   error: null,
 };
 
-const handlePending = (state) => {
-  state.loading = true;
-};
+// const handlePending = (state) => {
+//   state.loading = true;
+// };
 
-const handleRejected = (state, action) => {
-  state.loading = false;
-  state.error = action.payload;
-};
+// const handleRejected = (state, action) => {
+//   state.loading = false;
+//   state.error = action.payload;
+// };
 
 const novaSlice = createSlice({
   name: "nova",
@@ -72,10 +72,12 @@ const novaSlice = createSlice({
     },
   },
 });
+
 export const {
   selectCity,
   removeCitiesList,
   selectWarehouse,
   removeWarehousesList,
 } = novaSlice.actions;
+
 export const novaReducer = novaSlice.reducer;

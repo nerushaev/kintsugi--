@@ -27,8 +27,9 @@ function App() {
   useEffect(() => {
     if (!isLoggedIn && token) {
       dispatch(current());
-    } else if (error && token && !isLoggedIn) {
-      dispatch(refreshToken());
+      if (error) {
+        dispatch(refreshToken());
+      }
     }
   }, [token, dispatch, isLoggedIn]);
 

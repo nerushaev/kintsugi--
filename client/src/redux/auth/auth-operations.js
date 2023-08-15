@@ -111,11 +111,19 @@ export const refreshToken = createAsyncThunk(
 );
 
 export const updateUserDelivery = createAsyncThunk(
-  "auth/update",
+  "auth/updateDelivery",
   async (data, { rejectWithValue, getState }) => {
     const { nova } = getState();
+    const newData = {
+      city: nova.city,
+      cityRef: nova.cityRef,
+      warehouse: nova.warehouse,
+      recipientWarehouseIndex: nova.recipientWarehouseIndex,
+      warehouseRef: nova.warehouseRef,
+      warehouseAddress: nova.warehouseAddress,
+    };
     try {
-      await api.AuthInstance.patch("/api/auth/updateUserDelivery", nova);
+      await api.AuthInstance.patch("/api/auth/updateUserDelivery", newData);
       Notify.success("Місто і відділення зміненно!");
       return data;
     } catch ({ responce }) {
@@ -164,6 +172,27 @@ export const changePassword = createAsyncThunk(
       const error = {
         status: responce.status,
         message: responce.data.message,
+      };
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const updateUserInfo = createAsyncThunk(
+  "auth/updateUser",
+  async (newData, { rejectWithValue }) => {
+    try {
+      const { data } = await api.AuthInstance.patch(
+        "/api/auth/updateUser",
+        newData
+      );
+      Notify.success("Ваші данні було зміненно!");
+      return data.user;
+    } catch ({ data }) {
+      Notify.failure(data.message);
+      const error = {
+        status: data.status,
+        message: data.message,
       };
       return rejectWithValue(error);
     }

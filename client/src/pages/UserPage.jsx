@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import UserAvatar from "../components/Auth/UserPage/UserAvatar";
+import StyledDropzone from "../components/Auth/UserPage/StyledDropzone";
 import UserData from "../components/Auth/UserPage/UserData/UserData";
 import { logout } from "../redux/auth/auth-operations";
 import { selectUser } from "../redux/auth/auth-selectors";
@@ -16,7 +16,7 @@ export default function UserPage() {
 
   return (
     <div>
-      <UserAvatar userData={user} />
+      <StyledDropzone message="Натисни або перетягни зображення, щоб встановити аватарку!" userData={user} />
       {!user.verify && (
         <ErrorMessage
           message={`Потрібна верифікація! На вашу пошту ${user.email} було надіслано листа!`}

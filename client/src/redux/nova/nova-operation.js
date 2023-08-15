@@ -51,3 +51,25 @@ export const getCities = createAsyncThunk(
     }
   }
 );
+
+// export const getOrderStatus = createAsyncThunk(
+//   "/getOrderStatus",
+//   async (data, ThunkAPI) => {
+//     try {
+//       const data = await novaInstance.post(
+//         "https://api.novaposhta.ua/v2.0/json/",
+//         {
+//           apiKey: NOVA_API_KEY,
+//           modelName: "TrackingDocument",
+//           calledMethod: "getStatusDocuments",
+//           methodProperties: {
+//             Documents: data,
+//           },
+//         }
+//       );
+//       return data;
+//     } catch (error) {
+//       return ThunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );

@@ -5,6 +5,7 @@ import { Form } from "../../../Fields/Fields.styled";
 import DeliveryData from "./DeliveryData";
 import OrderHistory from "./OrderHistory";
 import PasswordChangeForm from "./PasswordChangeForm";
+import UserInfo from "./UserInfo";
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
@@ -79,7 +80,7 @@ export default function UserData({ user }) {
           />
         </button>
       </DataWrapper>
-      {isShow.orders && <OrderHistory orders={orders} />}
+      {isShow.orders && <OrderHistory orders={orders} userPhone={user.phone} />}
       <DataWrapper marginBottom={isShow.delivery ? true : false}>
         <DataTitle>Адреса доставки</DataTitle>
         <button data-name="delivery" onClick={handleClick}>
@@ -107,6 +108,7 @@ export default function UserData({ user }) {
           />
         </button>
       </DataWrapper>
+      {isShow.information && <UserInfo user={user} />}
       <DataWrapper marginBottom={isShow.password ? true : false}>
         <DataTitle>Змінна паролю</DataTitle>
         <button data-name="password" onClick={handleClick}>
