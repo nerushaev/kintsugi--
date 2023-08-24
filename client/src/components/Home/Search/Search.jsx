@@ -7,6 +7,7 @@ import {
 import svg from '../../../images/filterIcons.svg';
 import { useDispatch } from 'react-redux';
 import { setSearch } from '../../../redux/search/search-slice.js';
+import React from 'react';
 
 export default function Search() {
   const dispatch = useDispatch();

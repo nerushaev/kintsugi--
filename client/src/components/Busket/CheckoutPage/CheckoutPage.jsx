@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { orderProducts } from "../../../redux/products/products-operation";
@@ -206,6 +206,8 @@ export default function CheckoutPage() {
             [name]: value,
           };
         });
+        default:
+          break;
     }
   };
 

@@ -5,6 +5,7 @@ import { logout } from "../redux/auth/auth-operations";
 import { selectUser } from "../redux/auth/auth-selectors";
 import { Button, ButtonWrapper } from "../components/Buttons/Buttons";
 import ErrorMessage from "../components/Home/ErrorMessage/ErrorMessage";
+import React from "react";
 
 export default function UserPage() {
   const dispatch = useDispatch();

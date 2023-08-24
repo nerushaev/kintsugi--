@@ -5,7 +5,7 @@ import { Outlet } from "react-router";
 import Container from "../Container/Container";
 import Busket from "../../Busket/BusketIcon/BusketIcon";
 import Loader from "../../Loader/Loader";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import TabletNav from "../TabletNav/TabletNav";
 
 export default function SharedLayout() {

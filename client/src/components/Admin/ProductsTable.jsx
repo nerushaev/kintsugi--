@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeProduct } from '../../redux/products/products-operation';
 import { getStateProducts } from '../../redux/products/products-selectors';

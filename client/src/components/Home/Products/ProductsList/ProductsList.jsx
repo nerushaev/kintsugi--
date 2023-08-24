@@ -1,7 +1,7 @@
 import { ProductsItem } from "../ProductsItem/ProductsItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../../../redux/products/products-operation";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   getTotalPages,
   getFilteredProducts,

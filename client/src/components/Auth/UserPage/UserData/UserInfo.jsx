@@ -1,11 +1,10 @@
 import { Notify } from "notiflix";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { userInfoValidation } from "../../../../helpers/userInfoValidation";
 import { updateUserInfo } from "../../../../redux/auth/auth-operations";
 import { Inputt } from "../../../Busket/CheckoutPage/Input";
 import { Button, ButtonWrapper } from "../../../Buttons/Buttons";
-import InputErrorMessage from "../../../Errors/InputErrorMessage";
 import { Form } from "../../../Fields/Fields.styled";
 
 export default function UserInfo({ user }) {

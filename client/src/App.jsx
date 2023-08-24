@@ -10,7 +10,7 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import { useAuth } from "./hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { current, refreshToken } from "./redux/auth/auth-operations";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import PrivateRoute from "./components/PrivateRoutes/PrivateRoutes";
 import RestrictedRoute from "./components/RestrictedRoutes/RestrictedRoutes";
 import LoginPage from "./pages/LoginPage";

@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import svg from "../../../../images/filterIcons.svg";
 import { getBusket } from "../../../../redux/products/products-selectors";
 import CountButton from "./CountButton";
+import React from "react";
 
 export const ProductsItem = ({ data }) => {
   const dispatch = useDispatch();

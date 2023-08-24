@@ -1,3 +1,4 @@
+import React from "react";
 import { PaginationWrapper, PaginationItem } from "./Pagination.styled";
 
 export default function Pagination({

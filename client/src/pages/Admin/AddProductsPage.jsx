@@ -1,7 +1,7 @@
 import FormAddProducts from "../../components/Admin/Form";
 import { getStateProducts } from "../../redux/products/products-selectors";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { getAllProducts } from "../../redux/products/products-operation";
 import { useDispatch } from "react-redux";
 import ProductsTable from "../../components/Admin/ProductsTable";

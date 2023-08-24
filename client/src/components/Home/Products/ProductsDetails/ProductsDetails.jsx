@@ -4,6 +4,8 @@ import Slider from '../../Swiper/Swiper';
 import svg from '../../../../images/filterIcons.svg';
 import { ProductName, Text } from '../../../Fields/Fields.styled';
 import { ButtonWrapper, Button } from '../../../Buttons/Buttons';
+import React from 'react';
+
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
 `;

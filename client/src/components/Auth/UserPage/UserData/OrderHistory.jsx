@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import React from "react";
 import styled from "styled-components";
 import {
   ProductsItem,
@@ -15,7 +16,7 @@ const Wrapper = styled.div`
 `;
 
 export default function OrderHistory({ orders, userPhone }) {
-  if (orders?.length === 0) {
+  if (orders.length === 0) {
     return <Text>Тут будуть відображатися ваші замовлення!</Text>;
   }
 
