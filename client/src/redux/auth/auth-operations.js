@@ -113,7 +113,8 @@ export const refreshToken = createAsyncThunk(
 export const updateUserDelivery = createAsyncThunk(
   "auth/updateDelivery",
   async (data, { rejectWithValue, getState }) => {
-    const { nova } = getState();
+    const { nova, auth } = getState();
+    api.setToken(auth.token);
     const newData = {
       city: nova.city,
       cityRef: nova.cityRef,

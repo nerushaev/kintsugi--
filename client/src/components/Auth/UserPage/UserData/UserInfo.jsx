@@ -44,11 +44,11 @@ export default function UserInfo({ user }) {
   const isHaveChange = (newData, oldData) => {
     let res = {};
     const result = Object.entries(newData);
-    result.map((item) => {
+    result.forEach((item) => {
       const key = item[0];
       const value = item[1];
       if (oldData[key] !== value) {
-        res[key] = value;
+        return res[key] = value;
       }
     });
     return res;
