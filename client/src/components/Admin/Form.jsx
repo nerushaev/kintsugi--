@@ -13,6 +13,7 @@ import {
 } from "../../components/Fields/Fields.styled";
 import { Inputt } from "../Busket/CheckoutPage/Input";
 import React from "react";
+// import { SelectInput } from "../Busket/CheckoutPage/SelectInput";
 
 export default function FormAddProducts() {
   const loading = true;
@@ -91,6 +92,36 @@ export default function FormAddProducts() {
           min={10}
           required
         />
+        <div>
+          <label>
+            S
+            <input name="size" value="S" type="checkbox" />
+          </label>
+          <label>
+            M
+            <input name="size" value="M" type="checkbox" />
+          </label>
+          <label>
+            L
+            <input name="size" value="L" type="checkbox" />
+          </label>
+          <label>
+            XL
+            <input name="size" value="XL" type="checkbox" />
+          </label>
+          <label>
+            XXL
+            <input name="size" value="XXL" type="checkbox" />
+          </label>
+          <label>
+            XXXL
+            <input name="size" value="XXXL" type="checkbox" />
+          </label>
+          <label>
+            Без розміру
+            <input name="size" value="-" type="checkbox" />
+          </label>
+        </div>
         <Inputt
           label="Опис товару"
           name="description"

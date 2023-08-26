@@ -24,7 +24,7 @@ export default function UserInfo({ user }) {
         phone: user.phone,
       });
     }
-  }, [user]);
+  }, [user, userEdit]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
