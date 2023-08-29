@@ -73,11 +73,11 @@ export default function TabletNav() {
             </NavigationItem>
           )}
         </NavigationList>
-        {isLoggedIn && (
+        {/* {isLoggedIn && (
           <div>
             <UserName>{user.email}</UserName>
           </div>
-        )}
+        )} */}
       </TabletNavigation>
     </Header>
   );

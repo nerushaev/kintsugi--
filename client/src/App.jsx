@@ -19,6 +19,9 @@ import RestorePasswordPage from "./pages/RestorePasswordPage";
 import BanersPage from "./pages/Admin/BanersPage";
 import AdminRoute from "./components/AdminRoute/AdminRoute";
 import RestorePass from "./components/Auth/RestorePass";
+import AdminPage from "./pages/Admin/AdminPage";
+import FormAddProducts from "./components/Admin/Form";
+import OrdersPage from "./pages/Admin/OrdersPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,9 +30,9 @@ function App() {
   useEffect(() => {
     if (!isLoggedIn && token) {
       dispatch(current());
-      if (error) {
-        dispatch(refreshToken());
-      }
+    } 
+    if(error) {
+      dispatch(refreshToken());
     }
   }, [token, dispatch, isLoggedIn]);
 
@@ -49,15 +52,13 @@ function App() {
         <Route
           path="/admin"
           element={
-            <AdminRoute component={AddProductsPage} redirectTo={"/login"} />
+            <AdminRoute component={AdminPage} redirectTo={"/login"} />
           }
         >
-          <Route
-            path="baners"
-            element={
-              <AdminRoute component={BanersPage} redirectTo={"/login"} />
-            }
-          />
+          <Route path="products" element={<AddProductsPage />} />
+          <Route path="banners" element={<BanersPage />} />
+          <Route path="orders" element={<OrdersPage />} />
+          {/* <Route path="products" element={<FormAddProducts />} /> */}
         </Route>
         <Route
           path="/login"

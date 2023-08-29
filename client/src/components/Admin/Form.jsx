@@ -13,6 +13,7 @@ import {
 } from "../../components/Fields/Fields.styled";
 import { Inputt } from "../Busket/CheckoutPage/Input";
 import React from "react";
+import ProductsTable from "./ProductsTable";
 // import { SelectInput } from "../Busket/CheckoutPage/SelectInput";
 
 export default function FormAddProducts() {

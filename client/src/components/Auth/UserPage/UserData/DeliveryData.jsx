@@ -22,12 +22,14 @@ import {
   selectWarehousesLoading,
 } from "../../../../redux/nova/nova-selectors";
 import {
+  clearDeliveryInfo,
   removeCitiesList,
   removeWarehousesList,
   selectCity,
   selectWarehouse,
 } from "../../../../redux/nova/nova-slice";
 import { SmallLoader } from "../../../SmallLoader/SmallLoader";
+
 
 export default function DeliveryData({ user }) {
   const [city, setCity] = useState("");
@@ -45,25 +47,38 @@ export default function DeliveryData({ user }) {
   const { delivery } = user;
 
   useEffect(() => {
-    if (!delivery || userEdit) {
+    if (user.email) {
+      if (!delivery) {
+        setButtonActive(true);
+      }
+
+      if (!delivery || userEdit) {
+        if (city.length >= 2 && !cityInputDisabled) {
+          dispatch(getCities(city));
+        }
+
+        if (warehouse.length >= 1 && !warehouseInputDisabled) {
+          dispatch(getWarehouses({ warehouse, city }));
+        }
+      } else if (delivery && !userEdit) {
+        deliveryDataValidation
+          .validate(delivery)
+          .then(() => {
+            setCity(delivery.city);
+            setWarehouse(delivery.warehouse);
+            setCityInputDisabled(true);
+            setWarehouseInputDisabled(true);
+            setUserEdit(false);
+          })
+          .catch((e) => console.log(e.message));
+      }
+    } else {
       if (city.length >= 2 && !cityInputDisabled) {
         dispatch(getCities(city));
       }
-
       if (warehouse.length >= 1 && !warehouseInputDisabled) {
         dispatch(getWarehouses({ warehouse, city }));
       }
-    } else if (delivery && !userEdit) {
-      deliveryDataValidation
-        .validate(delivery)
-        .then(() => {
-          setCity(delivery.city);
-          setWarehouse(delivery.warehouse);
-          setCityInputDisabled(true);
-          setWarehouseInputDisabled(true);
-          setUserEdit(false);
-        })
-        .catch((e) => console.log(e.message));
     }
   }, [
     city,
@@ -104,7 +119,6 @@ export default function DeliveryData({ user }) {
   };
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
     deliveryDataValidation
       .validate(nova)
       .then(() => {
@@ -124,6 +138,7 @@ export default function DeliveryData({ user }) {
     setCity("");
     setWarehouse("");
     setButtonActive(true);
+    dispatch(clearDeliveryInfo());
   };
 
   return (
@@ -188,13 +203,14 @@ export default function DeliveryData({ user }) {
         </CityList>
       )}
       {warehousesLoading && <SmallLoader />}
-      {buttonActive ? (
+      {buttonActive && user.email && (
         <ButtonWrapper>
           <Button type="button" onClick={handleSubmit}>
             Зберегти
           </Button>
         </ButtonWrapper>
-      ) : (
+      )}
+      {!buttonActive && user.email && (
         <ButtonWrapper>
           <Button
             delete={true}
@@ -206,7 +222,14 @@ export default function DeliveryData({ user }) {
           </Button>
         </ButtonWrapper>
       )}
-      {/* </Form> */}
+      {!user.email && cityInputDisabled && warehouseInputDisabled && 
+      <ButtonWrapper>
+        <Button
+        type="button"
+        onClick={clearInputs}
+        >Змінити</Button>
+      </ButtonWrapper>
+      }
     </>
   );
 }

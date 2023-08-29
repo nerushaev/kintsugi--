@@ -44,6 +44,9 @@ const novaSlice = createSlice({
     removeWarehousesList(state, _) {
       state.warehouses = [];
     },
+    clearDeliveryInfo(state, _) {
+      return novaInitialState;
+    }
   },
   extraReducers: {
     [getWarehouses.pending](state) {
@@ -78,6 +81,7 @@ export const {
   removeCitiesList,
   selectWarehouse,
   removeWarehousesList,
+  clearDeliveryInfo,
 } = novaSlice.actions;
 
 export const novaReducer = novaSlice.reducer;

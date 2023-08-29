@@ -28,20 +28,23 @@ import { selectUser } from "../../../redux/auth/auth-selectors";
 import { useAuth } from "../../../hooks/useAuth";
 import { Navigate } from "react-router";
 import DeliveryData from "../../Auth/UserPage/UserData/DeliveryData";
+import { deliveryDataValidation } from "../../../helpers/deliveryDataValidation";
+import { selectNovaState } from "../../../redux/nova/nova-selectors";
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
   const user = useSelector(selectUser);
-  const { delivery } = user;
-  const {
-    city,
-    cityRef,
-    warehouse,
-    recipientWarehouseIndex,
-    warehouseRef,
-    warehouseAddress,
-  } = delivery;
+  const nova = useSelector(selectNovaState);
+  // const { delivery } = user;
+  // const {
+  //   city,
+  //   cityRef,
+  //   warehouse,
+  //   recipientWarehouseIndex,
+  //   warehouseRef,
+  //   warehouseAddress,
+  // } = delivery;
   const { isLoggedIn } = useAuth();
   const [willBeRegister, setWillBeRegister] = useState(false);
   const [orderData, setOrderData] = useState({
@@ -73,7 +76,7 @@ export default function CheckoutPage() {
       }));
     }
     checkBusket();
-  }, [orderData.city, orderData.warehouse, user, busket]);
+  }, [user, busket]);
 
   let elements;
   if (busket) {
@@ -93,38 +96,93 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newOrder = {
-      ...orderData,
-      city,
-      cityRef,
-      warehouse,
-      recipientWarehouseIndex,
-      warehouseRef,
-      warehouseAddress,
-    };
-
-    console.log(newOrder);
-    try {
-      await checkoutPageValidation.validate(newOrder);
-      if (
-        user.email !== newOrder.email ||
-        user.name !== newOrder.name ||
-        user.phone !== newOrder.phone
-      ) {
-        dispatch(orderProducts(newOrder));
-        return;
+    if (user.email) {
+      const { delivery } = user;
+      await deliveryDataValidation
+        .validate(delivery)
+        .then()
+        .catch((e) => console.log(e));
+      const {
+        city,
+        cityRef,
+        warehouse,
+        recipientWarehouseIndex,
+        warehouseRef,
+        warehouseAddress,
+      } = delivery;
+      const newOrder = {
+        ...orderData,
+        city,
+        cityRef,
+        warehouse,
+        recipientWarehouseIndex,
+        warehouseRef,
+        warehouseAddress,
+      };
+      try {
+        await checkoutPageValidation.validate(newOrder);
+        if (
+          user.email !== newOrder.email ||
+          user.name !== newOrder.name ||
+          user.phone !== newOrder.phone
+        ) {
+          dispatch(orderProducts(newOrder));
+          return;
+        }
+        dispatch(
+          orderProducts({
+            ...newOrder,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+          })
+        );
+      } catch (error) {
+        Notify.failure(error.message, notifyOptions);
       }
-      dispatch(
-        orderProducts({
-          ...newOrder,
-          name: user.name,
-          email: user.email,
-          phone: user.phone,
-        })
-      );
-    } catch (error) {
-      Notify.failure(error.message, notifyOptions);
+    } else {
+      await deliveryDataValidation
+        .validate(nova)
+        .then()
+        .catch((e) => console.log(e));
+      const {
+        city,
+        cityRef,
+        warehouse,
+        recipientWarehouseIndex,
+        warehouseRef,
+        warehouseAddress,
+      } = nova;
+      const newOrder = {
+        ...orderData,
+        city,
+        cityRef,
+        warehouse,
+        recipientWarehouseIndex,
+        warehouseRef,
+        warehouseAddress,
+      };
+      try {
+        await checkoutPageValidation.validate(newOrder);
+        if (
+          user.email !== newOrder.email ||
+          user.name !== newOrder.name ||
+          user.phone !== newOrder.phone
+        ) {
+          dispatch(orderProducts(newOrder));
+          return;
+        }
+        dispatch(
+          orderProducts({
+            ...newOrder,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+          })
+        );
+      } catch (error) {
+        Notify.failure(error.message, notifyOptions);
+      }
     }
 
     if (willBeRegister) {
@@ -206,99 +264,10 @@ export default function CheckoutPage() {
             [name]: value,
           };
         });
-        default:
-          break;
+      default:
+        break;
     }
   };
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   switch (name) {
-  //     case "email":
-  //       return setOrderData((prev) => {
-  //         return {
-  //           ...prev,
-  //           email: value,
-  //         };
-  //       });
-  //     case "name":
-  //       return setOrderData((prev) => {
-  //         return {
-  //           ...prev,
-  //           name: value,
-  //         };
-  //       });
-  //     case "phone":
-  //       return setOrderData((prev) => {
-  //         return {
-  //           ...prev,
-  //           phone: value,
-  //         };
-  //       });
-  //     case "nova":
-  //       return setOrderData((prev) => {
-  //         return {
-  //           ...prev,
-  //           nova: !prev.nova,
-  //           afina: !prev.afina,
-  //         };
-  //       });
-  //     case "afina":
-  //       return setOrderData((prev) => {
-  //         return {
-  //           ...prev,
-  //           afina: !prev.afina,
-  //           nova: !prev.nova,
-  //         };
-  //       });
-  //     case "city":
-  //       return setOrderData((prev) => {
-  //         return {
-  //           ...prev,
-  //           city: value,
-  //         };
-  //       });
-  //     case "warehouse":
-  //       return setOrderData((prev) => {
-  //         return {
-  //           ...prev,
-  //           warehouse: value,
-  //         };
-  //       });
-  //     case "cash":
-  //       return setOrderData((prev) => {
-  //         return {
-  //           ...prev,
-  //           cash: !prev.cash,
-  //           liqpay: !prev.liqpay,
-  //         };
-  //       });
-  //     case "liqpay":
-  //       return setOrderData((prev) => {
-  //         return {
-  //           ...prev,
-  //           liqpay: !prev.liqpay,
-  //           cash: !prev.cash,
-  //         };
-  //       });
-  //     case "password":
-  //       return setOrderData((prev) => {
-  //         return {
-  //           ...prev,
-  //           password: value,
-  //         };
-  //       });
-  //     case "confirmPassword":
-  //       return setOrderData((prev) => {
-  //         return {
-  //           ...prev,
-  //           confirmPassword: value,
-  //         };
-  //       });
-  //     default:
-  //       return;
-  //   }
-  // };
 
   if (busket.length < 1) {
     return <Navigate to="/" />;

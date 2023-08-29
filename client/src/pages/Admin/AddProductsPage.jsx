@@ -20,10 +20,6 @@ export default function Admin() {
 
   return (
     <>
-      <div>
-        <Link style={{ marginRight: 15 }}>Додати товар</Link>
-        <Link to="baners">Банери</Link>
-      </div>
       <FormAddProducts />
       {loading && <Loader />}
       {products && <ProductsTable data={products} />}

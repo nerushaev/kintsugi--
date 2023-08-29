@@ -13,6 +13,7 @@ export const register = createAsyncThunk(
         }),
         20000
       );
+      api.setToken(result.data.token);
       return result.data;
     } catch (error) {
       console.log(error);
@@ -31,7 +32,7 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk(
   "auth/login",
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, getState }) => {
     try {
       const result = await api.AuthInstance.post("/api/auth/login", data);
       setTimeout(
@@ -40,16 +41,11 @@ export const login = createAsyncThunk(
         }),
         20000
       );
+      api.setToken(result.data.token);
       return result.data;
-    } catch (error) {
-      if (error.status === 401) {
-        Notify.failure("Перевірьте правильність данних!");
-      }
-      // const error = {
-      //   status: responce.status,
-      //   message: responce.statusText,
-      // };
-      return rejectWithValue(error.message);
+    } catch ({data}) {
+      Notify.failure(data.message);
+      return rejectWithValue(data.statusText);
     }
   }
 );
@@ -82,7 +78,7 @@ export const current = createAsyncThunk(
       const { auth } = getState();
       api.setToken(auth.token);
       const result = await api.AuthInstance.get("/api/auth/current");
-      return result.data;
+      return result.data.user;
     } catch ({ responce }) {
       const error = {
         status: responce.status,
