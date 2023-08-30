@@ -3,6 +3,13 @@ import axios from "axios";
 // export const BASE_URL = "https://kintsugi-server.onrender.com/";
 export const BASE_URL = "http://localhost:3001/";
 
+export const setToken = (token) => {
+  if (token) {
+    return (AuthInstance.defaults.headers.common.authorization = `Bearer ${token}`);
+  }
+  instance.defaults.headers.common.authorization = ``;
+};
+
 export const instance = axios.create({
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
   baseURL: BASE_URL,
@@ -32,12 +39,7 @@ AuthInstance.interceptors.response.use(
   (error) => Promise.reject(error.response)
 );
 
-export const setToken = (token) => {
-  if (token) {
-    return (AuthInstance.defaults.headers.common.authorization = `Bearer ${token}`);
-  }
-  instance.defaults.headers.common.authorization = ``;
-};
+
 
 export const getItems = async () => {
   const { data } = await axios.get("/api/products/");
