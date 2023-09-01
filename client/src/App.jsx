@@ -20,7 +20,6 @@ import BanersPage from "./pages/Admin/BanersPage";
 import AdminRoute from "./components/AdminRoute/AdminRoute";
 import RestorePass from "./components/Auth/RestorePass";
 import AdminPage from "./pages/Admin/AdminPage";
-import FormAddProducts from "./components/Admin/Form";
 import OrdersPage from "./pages/Admin/OrdersPage";
 
 function App() {
@@ -28,9 +27,11 @@ function App() {
   const { token, isLoggedIn, error } = useAuth();
 
   useEffect(() => {
+
     if (!isLoggedIn && token) {
       dispatch(current());
     } 
+
     if(error) {
       dispatch(refreshToken());
     }

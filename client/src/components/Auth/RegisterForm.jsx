@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { Inputt } from "../Busket/CheckoutPage/Input";
 import { Form } from "../Fields/Fields.styled";
@@ -11,7 +11,7 @@ import { notifyOptions } from "../../helpers/notifyConfig";
 import { selectError } from "../../redux/auth/auth-selectors";
 import { theme } from "../../styles/theme";
 import { Link } from "react-router-dom";
-// import ReCaptcha from "../ReCaptcha/ReCaptcha";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const RegisterWrapper = styled.div`
   display: flex;
@@ -35,6 +35,8 @@ export default function RegisterForm() {
     confirmPassword: "",
   });
 
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
   const error = useSelector(selectError);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,9 +59,21 @@ export default function RegisterForm() {
   //   e.preventDefault();
   // };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
 
+    if (!executeRecaptcha) {
+      console.log("Execute recaptcha not yet available");
+      return;
+    }
+
+    executeRecaptcha("registerForm").then((gReCaptchaToken) => {
+      console.log(gReCaptchaToken, "response Google reCaptcha server");
+      submitRegisterForm(gReCaptchaToken);
+    });
+  });
+
+  const submitRegisterForm = (gReCaptchaToken) => {
     registerValidation
       .validate(userData)
       .then((res) => {
@@ -68,13 +82,14 @@ export default function RegisterForm() {
           email: userData.email,
           phone: userData.phone,
           password: userData.password,
+          gReCaptchaToken: gReCaptchaToken
         };
         dispatch(register(registerData));
       })
       .catch((error) => {
         Notify.failure(error.message, notifyOptions);
       });
-  };
+  }
 
   return (
     <RegisterWrapper>
@@ -120,10 +135,7 @@ export default function RegisterForm() {
           value={userData.confirmPassword}
         />
         <ButtonWrapper>
-          {/* <ReCaptcha value="Зареєструватися" /> */}
-          <Button type="submit" onSubmit={handleSubmit}>
-            Зареєструватися
-          </Button>
+          <Button type="submit">Зареєструватися</Button>
           {error && (
             <HaveAccountLink to="/restorePassword">Є аккаунт?</HaveAccountLink>
           )}

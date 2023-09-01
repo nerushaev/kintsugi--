@@ -3,7 +3,10 @@ import styled from "styled-components";
 import OrderItem from "./OrderItem";
 
 const OrderList = styled.ul`
-  margin-bottom: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: -30px;
+  justify-content: center;
 `;
 
 export default function OrdersList({ orders }) {

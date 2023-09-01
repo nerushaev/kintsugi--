@@ -5,6 +5,8 @@ import { Outlet } from 'react-router';
 
 const Wrapper = styled.div`
   margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
 `;
 
 const StyledLink = styled(Link)`

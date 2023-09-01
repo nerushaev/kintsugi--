@@ -12,20 +12,19 @@ export const Item = styled.li`
   margin-bottom: 15px;
   margin-left: 5px;
   margin-right: 5px;
-  // padding-bottom: 60px;
   transform: scale(1);
   transition: scale 300ms cubic-bezier(0.4, 0, 0.2, 1),
-    background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  flex-basis: calc((100% - 20px) / 2);
+  background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  @media (min-width: 480px) {
+  @media (min-width: 380px) {
+  flex-basis: calc((100% - 20px) / 2);
+  }
+
+  @media (min-width: 768px) {
     flex-basis: calc((100% - 30px) / 3);
   }
-  @media (min-width: 768px) {
-    flex-basis: calc((100% - 40px) / 4);
-  }
   @media (min-width: 1200px) {
-    flex-basis: calc((100% - 60px) / 6);
+    flex-basis: calc((100% - 40px) / 4);
   }
   &:hover,
   &:focus {
@@ -36,7 +35,6 @@ export const Item = styled.li`
 `;
 
 export const Image = styled.img`
-  max-width: 350px;
   margin-bottom: 15px;
 `;
 
@@ -57,7 +55,6 @@ export const Price = styled.p`
 `;
 
 export const AddButton = styled.button`
-  // position: absolute;
   bottom: 0;
   display: flex;
   justify-content: center;

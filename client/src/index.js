@@ -19,7 +19,7 @@ root.render(
         <HashRouter basename="">
           <CookiesProvider>
             <ThemeProvider theme={theme}>
-              <GoogleReCaptchaProvider reCaptchaKey="6LePWoknAAAAAH5cF7R-1O_f8zNVHjpntDdmXbO6">
+              <GoogleReCaptchaProvider reCaptchaKey="6LcuU1QnAAAAAGX4dvTGlNxxccZa6KGNasZfuTnZ">
                 <App />
               </GoogleReCaptchaProvider>
             </ThemeProvider>

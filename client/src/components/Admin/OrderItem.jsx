@@ -6,6 +6,42 @@ import { novaInstance } from "../../API/api";
 import { NOVA_API_KEY } from "../../API/nova";
 import { useDispatch } from "react-redux";
 import { createWaybill } from "../../redux/orders/order-operations";
+import { theme } from "../../styles/theme";
+
+const OrderItems = styled.li`
+  width: 350px;
+  border: ${theme.colors.gray} 1px solid;
+  padding: 20px;
+  display: flex;
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-bottom: 30px;
+
+  @media (min-width: 768px) {
+    flex-basis: calc((100% - 60px) / 2);
+  }
+  @media (min-width: 1199px) {
+    flex-basis: calc((100% - 90px) / 3);
+  }
+`;
+
+const CartWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+`;
+
+const OrderProductsWrapper = styled.div`
+  height: 200px;
+  overflow: scroll;
+`;
+
+const OrderTextCenter = styled.p`
+  display: flex;
+  justify-content: center;
+  margin-bottom: ${props => props.noMargin ? "0" : "30px"};
+`;
 
 const ProductWrapper = styled.div`
   display: flex;
@@ -30,8 +66,8 @@ const OrderTitle = styled.p`
 
 const OrderSubTitle = styled.p`
   font-weight: 400;
-  margin-bottom: 10px;
   margin-top: 10px;
+  min-height: 40px;
 `;
 
 const OrderStatus = styled.p`
@@ -49,6 +85,10 @@ const OrderStatus = styled.p`
     background-color: ${(props) => (props.accepted ? "green" : "red")};
   }
 `;
+
+  const CardFooterWrapper = styled.div`
+    margin-top: auto;
+  `;
 
 export default function OrderItem({ order }) {
   const [novaStatus, setNovaStatus] = useState("");
@@ -108,19 +148,24 @@ export default function OrderItem({ order }) {
   }
 
   return (
-    <li key={date}>
+    <OrderItems key={date}>
+      <CartWrapper>
       <OrderHeaderWrapper>
         <OrderTitle>Замовлення номер:</OrderTitle>
         <OrderTitle>{orderId}</OrderTitle>
       </OrderHeaderWrapper>
       <OrderHeaderWrapper>
         {accepted ? (
-          <OrderStatus>Прийнято</OrderStatus>
+          <OrderStatus accepted={accepted}>Прийнято</OrderStatus>
         ) : (
-          <OrderStatus>Не прийнято</OrderStatus>
+          <OrderStatus >Не прийнято</OrderStatus>
         )}
         <OrderTitle>{date}</OrderTitle>
       </OrderHeaderWrapper>
+      {orderRef ? 
+        <OrderTextCenter>{orderRef}</OrderTextCenter> :
+        <OrderTextCenter>Спочатку прийміть замовлення</OrderTextCenter>
+      }
       <TextBlockWrapper>
         <OrderTitle>Статус (Нова Пошта):</OrderTitle>
         <OrderSubTitle>{orderRef ? novaStatus : "Накладна не створена"}</OrderSubTitle>
@@ -136,6 +181,7 @@ export default function OrderItem({ order }) {
         <OrderTitle>Загальна сумма:</OrderTitle>
         <OrderTitle>{totalPrice}грн</OrderTitle>
       </OrderHeaderWrapper>
+      <OrderProductsWrapper>
       {products.map(({ _id, image, price, description, amount, name }) => {
         return (
           <ProductWrapper key={_id}>
@@ -154,13 +200,17 @@ export default function OrderItem({ order }) {
           </ProductWrapper>
         );
       })}
+      </OrderProductsWrapper>
+      <CardFooterWrapper>
       {accepted ? (
-        "Замовлення прийнято"
+        <OrderTextCenter noMargin>Замовлення прийнято</OrderTextCenter>
       ) : (
-        <ButtonWrapper>
+        <ButtonWrapper noMargin> 
           <Button onClick={() => acceptOrder(orderId)}>Прийняти та створити накладну</Button>
         </ButtonWrapper>
       )}
-    </li>
+      </CardFooterWrapper>
+      </CartWrapper>
+    </OrderItems>
   );
 }

@@ -72,6 +72,14 @@ export default function TabletNav() {
               <Link to="/user">Кабінет</Link>
             </NavigationItem>
           )}
+          <NavigationItem>
+              <Link to="/busket">Кошик</Link>
+            </NavigationItem>
+            {user.role === "admin" && 
+          <NavigationItem>
+          <Link to="/admin">Адмінка</Link>
+        </NavigationItem>
+        }
         </NavigationList>
         {/* {isLoggedIn && (
           <div>
