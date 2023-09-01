@@ -39,10 +39,10 @@ const NavigationItem = styled.li`
 
 const StyledLink = styled(Link)``;
 
-const UserName = styled.p`
-  font-size: ${theme.fontSizes.small};
-  font-weight: 400;
-`;
+// const UserName = styled.p`
+//   font-size: ${theme.fontSizes.small};
+//   font-weight: 400;
+// `;
 
 export default function TabletNav() {
   const { isLoggedIn, user } = useAuth();

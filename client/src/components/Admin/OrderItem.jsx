@@ -98,8 +98,6 @@ export default function OrderItem({ order }) {
     date,
     city,
     warehouse,
-    nova,
-    afina,
     products,
     totalPrice,
     accepted,

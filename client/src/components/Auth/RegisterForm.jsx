@@ -59,20 +59,6 @@ export default function RegisterForm() {
   //   e.preventDefault();
   // };
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-
-    if (!executeRecaptcha) {
-      console.log("Execute recaptcha not yet available");
-      return;
-    }
-
-    executeRecaptcha("registerForm").then((gReCaptchaToken) => {
-      console.log(gReCaptchaToken, "response Google reCaptcha server");
-      submitRegisterForm(gReCaptchaToken);
-    });
-  });
-
   const submitRegisterForm = (gReCaptchaToken) => {
     registerValidation
       .validate(userData)
@@ -90,6 +76,22 @@ export default function RegisterForm() {
         Notify.failure(error.message, notifyOptions);
       });
   }
+
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+
+    if (!executeRecaptcha) {
+      console.log("Execute recaptcha not yet available");
+      return;
+    }
+
+    executeRecaptcha("registerForm").then((gReCaptchaToken) => {
+      console.log(gReCaptchaToken, "response Google reCaptcha server");
+      submitRegisterForm(gReCaptchaToken);
+    });
+  }, [executeRecaptcha]);
+
+
 
   return (
     <RegisterWrapper>

@@ -24,7 +24,7 @@ import OrdersPage from "./pages/Admin/OrdersPage";
 
 function App() {
   const dispatch = useDispatch();
-  const { token, isLoggedIn, error } = useAuth();
+  const { token, isLoggedIn, error, isRefreshing } = useAuth();
 
   useEffect(() => {
 
@@ -32,14 +32,9 @@ function App() {
       dispatch(current());
     } 
 
-    if(error) {
-      dispatch(refreshToken());
-    }
   }, [token, dispatch, isLoggedIn]);
 
-  // if (error) {
-  //   dispatch(refreshToken());
-  // }
+
 
   return (
     <Routes>

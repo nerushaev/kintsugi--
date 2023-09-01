@@ -88,6 +88,7 @@ export default function DeliveryData({ user }) {
     dispatch,
     userEdit,
     warehouseInputDisabled,
+    user.email
   ]);
 
   const handleWarehouse = (ShortAddress, Ref, WarehouseIndex, Description) => {

@@ -1,6 +1,6 @@
 {
   "name": "kintsugi-test-react-redux",
-  "homepage": "/",
+  "homepage": "./public",
   "version": "0.1.0",
   "private": false,
   "dependencies": {
@@ -63,5 +63,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

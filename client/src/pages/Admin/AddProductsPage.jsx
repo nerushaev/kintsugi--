@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import ProductsTable from "../../components/Admin/ProductsTable";
 import { selectIsLoading } from "../../redux/products/products-selectors";
 import Loader from "../../components/Loader/Loader";
-import { Link } from "react-router-dom";
 
 export default function Admin() {
   const products = useSelector(getStateProducts);
