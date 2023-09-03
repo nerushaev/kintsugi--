@@ -6,6 +6,7 @@ export const List = styled.ul`
   justify-content: center;
 	margin-right: -5px;
 	margin-left: -5px;
+
 `;
 
 export const ListWrapper = styled.div`

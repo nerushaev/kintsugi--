@@ -1,8 +1,5 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import { Inputt } from "../Busket/CheckoutPage/Input";
-import { Form } from "../Fields/Fields.styled";
-import { ButtonWrapper, Button } from "../../components/Buttons/Buttons";
 import { registerValidation } from "../../helpers/registerPageValidation";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/auth/auth-operations";
@@ -12,6 +9,7 @@ import { selectError } from "../../redux/auth/auth-selectors";
 import { theme } from "../../styles/theme";
 import { Link } from "react-router-dom";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import {Form, InputsWrapper, InputWrapper, Input, Label, Button} from "./AuthForm.styled";
 
 const RegisterWrapper = styled.div`
   display: flex;
@@ -94,33 +92,46 @@ export default function RegisterForm() {
 
 
   return (
-    <RegisterWrapper>
+    // <RegisterWrapper>
       <Form onSubmit={handleSubmit}>
-        <Inputt
+        <InputsWrapper>
+        <InputWrapper>
+        <Label>Пошта:</Label>
+        <Input
+          position="center"
           name="email"
           type="email"
-          label="Ваша пошта:"
           placeholder="youremail@gmail.com"
           onChange={handleChange}
           value={userData.email}
         />
-        <Inputt
+        </InputWrapper>
+        <InputWrapper>
+        <Label>Номер телефону:</Label>
+        <Input
+          position="center"
           name="phone"
           type="phone"
-          label="Ваш номер телефону:"
           placeholder="+380963332333"
           onChange={handleChange}
           value={userData.phone}
         />
-        <Inputt
+        </InputWrapper>
+        <InputWrapper>
+        <Label>Прізвище Ім'я По-батькові:</Label>
+        <Input
+          position="center"
           name="name"
           type="text"
-          label="Введіть ваше П.І.Б:"
           placeholder="Чепіль Анастасія Олександрівна"
           onChange={handleChange}
           value={userData.name}
         />
-        <Inputt
+        </InputWrapper>
+        <InputWrapper>
+        <Label>Пароль:</Label>
+        <Input
+          position="center"
           name="password"
           type="password"
           label="Пароль:"
@@ -128,7 +139,11 @@ export default function RegisterForm() {
           onChange={handleChange}
           value={userData.password}
         />
-        <Inputt
+        </InputWrapper>
+        <InputWrapper>
+        <Label>Підтвердіть пароль:</Label>
+        <Input
+          position="center"
           name="confirmPassword"
           type="password"
           label="Підтвердіть пароль:"
@@ -136,13 +151,13 @@ export default function RegisterForm() {
           onChange={handleChange}
           value={userData.confirmPassword}
         />
-        <ButtonWrapper>
+        </InputWrapper>
+        </InputsWrapper>
           <Button type="submit">Зареєструватися</Button>
           {error && (
             <HaveAccountLink to="/restorePassword">Є аккаунт?</HaveAccountLink>
           )}
-        </ButtonWrapper>
       </Form>
-    </RegisterWrapper>
+    // </RegisterWrapper>
   );
 }

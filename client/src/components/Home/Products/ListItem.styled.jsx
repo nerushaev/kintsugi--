@@ -2,7 +2,11 @@ import styled from "styled-components";
 import { theme } from "../../../styles/theme";
 
 export const CardInfoWrapper = styled.div`
-  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding: 10px;
 `;
 
 export const Item = styled.li`
@@ -15,6 +19,7 @@ export const Item = styled.li`
   transform: scale(1);
   transition: scale 300ms cubic-bezier(0.4, 0, 0.2, 1),
   background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
 
   @media (min-width: 380px) {
   flex-basis: calc((100% - 20px) / 2);
@@ -34,15 +39,22 @@ export const Item = styled.li`
   }
 `;
 
+export const ItemBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  justify-content: space-between
+`;
+
 export const Image = styled.img`
   margin-bottom: 15px;
 `;
 
 export const Title = styled.p`
-  font-weight: 500;
+  font-weight: 600;
   font-size: ${theme.fontSizes.medium};
   margin-bottom: 10px;
-  height: 60px;
   overflow: scroll;
 `;
 
@@ -53,6 +65,14 @@ export const Price = styled.p`
   margin-bottom: 10px;
   overflow: scroll;
 `;
+
+export const Sizes = styled.p`
+font-weight: 600;
+color: ${theme.colors.black};
+font-size: ${theme.fontSizes.medium};
+margin-bottom: 10px;
+overflow: scroll;
+`;  
 
 export const AddButton = styled.button`
   bottom: 0;
@@ -70,9 +90,9 @@ export const AddButton = styled.button`
 `;
 
 export const Description = styled.p`
-  height: 45px;
+  // height: 45px;
   font-size: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   overflow: scroll;
 `;
 

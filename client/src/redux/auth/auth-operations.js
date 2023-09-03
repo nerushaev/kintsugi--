@@ -41,6 +41,7 @@ export const login = createAsyncThunk(
         }),
         20000
       );
+
       api.setToken(result.data.token);
       return result.data;
     } catch ({data}) {

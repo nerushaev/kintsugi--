@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// export const BASE_URL = "https://kintsugi-server.onrender.com/";
+// export const BASE_URL = "https://api.kintsugi.org.ua/";
 export const BASE_URL = "http://localhost:3001/";
 
 export const setToken = (token) => {

@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   height: 100%;
   margin: 0 auto;
   padding: 100px 0;
-  // margin-bottom: 50px;
 `;
 
 export default function LoginPage() {

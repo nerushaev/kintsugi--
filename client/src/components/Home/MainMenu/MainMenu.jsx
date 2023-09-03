@@ -31,6 +31,10 @@ const Navbar = styled.div`
   z-index: 500;
 `;
 
+const IconWrapper = styled.div`
+  margin-right: 10px;
+`;
+
 const NavLogoWrapper = styled.div`
   display: flex;
 `;
@@ -55,12 +59,19 @@ const MainMenu = () => {
         <NavLogoWrapper>
           <HamburgerButton />
           {isLoggedIn && (
+            <IconWrapper>
             <Link to="/user">
               <svg width="42" height="50">
                 <use xlinkHref={`${svg}#icon-profile`} />
               </svg>
             </Link>
+            </IconWrapper>
           )}
+          <Link to="/busket">
+              <svg width="42" height="50">
+                <use xlinkHref={`${svg}#icon-shopping-cart`} />
+              </svg>
+            </Link>
         </NavLogoWrapper>
         <Logo className={"nav-logo"} />
       </Navbar>

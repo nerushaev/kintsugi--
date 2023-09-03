@@ -8,41 +8,7 @@ import { login } from "../../../redux/auth/auth-operations";
 import { selectError } from "../../../redux/auth/auth-selectors";
 import { theme } from "../../../styles/theme";
 import AuthDynamicLink from "../AuthDynamicLink";
-
-const Form = styled.form`
-  background-color: rgb(255, 200, 221, 0.3);
-  padding: 20px;
-`;
-
-const InputsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`;
-
-const Input = styled.input`
-  border: 1px solid black;
-  padding: 10px 10px;
-`;
-
-const Label = styled.label`
-  font-size: ${theme.fontSizes.small};
-  margin-right: 5px;
-  font-weight: 600;
-`;
-
-const Button = styled.button`
-  display: block;
-  padding: 5px 10px;
-  background-color: ${theme.colors.formButton};
-  margin: 0 auto;
-`;
+import {Form, InputsWrapper, InputWrapper, Input, Label, Button} from "../AuthForm.styled";
 
 export default function HeaderAuth() {
   const [email, setEmail] = useState("");

@@ -8,6 +8,8 @@ import {
   Description,
   CardIcon,
   CardInfoWrapper,
+  ItemBody,
+  Sizes
 } from "../ListItem.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { addToBusket } from "../../../../redux/products/products-slice";
@@ -26,20 +28,23 @@ export const ProductsItem = ({ data }) => {
   };
 
   return data.map(
-    ({ name, description, _id, image, price, amount, category }) => {
+    ({ name, description, _id, image, price, amount, category, size }) => {
       const isFromBusket = busket.find((item) => item._id === _id);
       const item = busket.find((item) => item._id === _id);
       const itemId = nanoid();
+      const sizes = size.join(", ");
       return (
         <Item key={itemId}>
+          <ItemBody>
           <Link to={_id}>
             <Image src={image[0] ? image[0] : image} alt="" />
           </Link>
-          <CardInfoWrapper>
             <Title>{name}</Title>
             <Description>{description}</Description>
+            <CardInfoWrapper>
             <Price>{price} грн.</Price>
-          </CardInfoWrapper>
+            <Sizes>{sizes === "-" ? "One size" : sizes}</Sizes>
+            </CardInfoWrapper>
           {isFromBusket ? (
             <AddButton>
               <CountButton quantity={item.amount} _id={_id} />
@@ -64,6 +69,7 @@ export const ProductsItem = ({ data }) => {
               </CardIcon>
             </AddButton>
           )}
+          </ItemBody>
         </Item>
       );
     }

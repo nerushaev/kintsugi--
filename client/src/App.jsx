@@ -9,7 +9,7 @@ import UserPage from "./pages/UserPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import { useAuth } from "./hooks/useAuth";
 import { useDispatch } from "react-redux";
-import { current, refreshToken } from "./redux/auth/auth-operations";
+import { current } from "./redux/auth/auth-operations";
 import React, { useEffect } from "react";
 import PrivateRoute from "./components/PrivateRoutes/PrivateRoutes";
 import RestrictedRoute from "./components/RestrictedRoutes/RestrictedRoutes";
@@ -24,7 +24,7 @@ import OrdersPage from "./pages/Admin/OrdersPage";
 
 function App() {
   const dispatch = useDispatch();
-  const { token, isLoggedIn, error, isRefreshing } = useAuth();
+  const { token, isLoggedIn } = useAuth();
 
   useEffect(() => {
 
@@ -42,8 +42,8 @@ function App() {
         <Route index element={<Home />} />
         <Route path=":_id" element={<Product />} />
         <Route path="/info" element={<InfoPage />} />
-        <Route path="/busket" element={<BusketPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        {/* <Route path="/busket" element={<BusketPage />} /> */}
+        <Route path="/busket" element={<CheckoutPage />} />
         <Route path="/restore" element={<RestorePasswordPage />} />
         <Route
           path="/admin"

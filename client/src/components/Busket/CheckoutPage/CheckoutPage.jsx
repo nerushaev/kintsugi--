@@ -36,15 +36,6 @@ export default function CheckoutPage() {
   const busket = useSelector(getBusket);
   const user = useSelector(selectUser);
   const nova = useSelector(selectNovaState);
-  // const { delivery } = user;
-  // const {
-  //   city,
-  //   cityRef,
-  //   warehouse,
-  //   recipientWarehouseIndex,
-  //   warehouseRef,
-  //   warehouseAddress,
-  // } = delivery;
   const { isLoggedIn } = useAuth();
   const [willBeRegister, setWillBeRegister] = useState(false);
   const [orderData, setOrderData] = useState({
@@ -61,11 +52,6 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
-    const checkBusket = () => {
-      if (!busket) {
-        return <Navigate to="/" />;
-      }
-    };
 
     if (user.name && user.email && user.phone) {
       setOrderData((prev) => ({
@@ -75,7 +61,7 @@ export default function CheckoutPage() {
         phone: user.phone || "",
       }));
     }
-    checkBusket();
+    // checkBusket();
   }, [user, busket]);
 
   let elements;
