@@ -10,6 +10,7 @@ export const Form = styled.form`
   margin-right: auto;
   margin-bottom: 20px;
   text-align: center;
+  max-width: 800px;
 `;
 
 export const Label = styled.label`
@@ -19,12 +20,16 @@ export const Label = styled.label`
   margin-bottom: 10px;
 `;
 
+export const InputWrapper = styled.div`
+  margin-bottom: 30px;
+  width: 100%;
+`;
+
 export const Input = styled.input`
   display: block;
   min-width: 300px;
   height: 30px;
   border: none;
-  margin-bottom: ${p => p.filterInput ? "30px" : "10px"};
   border: 1px solid black;
   border-radius: 5px;
 `;

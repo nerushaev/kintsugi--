@@ -1,4 +1,4 @@
-import { Select, Option } from "../Admin/Fields";
+import { Select, Option, Form, InputWrapper } from "../Admin/Fields";
 import { nanoid } from "nanoid";
 import { useDispatch } from "react-redux";
 import {
@@ -46,19 +46,21 @@ export default function FormAddProducts() {
 
   return (
     <>
-      <form
+      <Form
         name="form"
         method="post"
         encType="multipart/form-data"
         onSubmit={handleSubmit}
       >
-        <Inputt
-          label="Назва товару"
+        <InputWrapper>
+        <Input
+          placeholder="Назва товару"
           name="name"
           id="formName"
           type="text"
           required
         />
+        </InputWrapper>
         <FieldWrapper>
           <Label>Category</Label>
           <Select title="Перука" name="category">
@@ -75,16 +77,16 @@ export default function FormAddProducts() {
             <Option name="other">other</Option>
           </Select>
         </FieldWrapper>
-        <Inputt
-          label="Кількість"
+        <Input
+          placeholder="Кількість"
           name="amount"
           id={inputId}
           type="number"
           min={1}
           required
         />
-        <Inputt
-          label="Ціна за одиницю"
+        <Input
+          placeholder="Ціна за одиницю"
           name="price"
           id={inputId}
           type="number"
@@ -148,7 +150,7 @@ export default function FormAddProducts() {
           </Button>
           <Button onClick={handleUpdate}>Update product</Button>
         </ButtonWrapper>
-      </form>
+      </Form>
     </>
   );
 }
