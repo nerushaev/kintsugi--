@@ -1,12 +1,10 @@
 import { Notify } from "notiflix";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
 import { loginSchema } from "../../../helpers/loginValidation";
 import { notifyOptions } from "../../../helpers/notifyConfig";
 import { login } from "../../../redux/auth/auth-operations";
 import { selectError } from "../../../redux/auth/auth-selectors";
-import { theme } from "../../../styles/theme";
 import AuthDynamicLink from "../AuthDynamicLink";
 import {Form, InputsWrapper, InputWrapper, Input, Label, Button} from "../AuthForm.styled";
 

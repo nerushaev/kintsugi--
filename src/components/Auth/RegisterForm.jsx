@@ -11,10 +11,10 @@ import { Link } from "react-router-dom";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import {Form, InputsWrapper, InputWrapper, Input, Label, Button} from "./AuthForm.styled";
 
-const RegisterWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
+// const RegisterWrapper = styled.div`
+//   display: flex;
+//   justify-content: center;
+// `;
 
 const HaveAccountLink = styled(Link)`
   font-size: ${theme.fontSizes.medium};

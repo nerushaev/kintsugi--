@@ -1,7 +1,6 @@
 import SharedLayout from "./components/Home/SharedLayout/SharedLayout";
 import Home from "./pages/Home";
 import { Routes, Route } from "react-router-dom";
-import BusketPage from "./pages/BusketPage";
 import AddProductsPage from "./pages/Admin/AddProductsPage";
 import Product from "./pages/Product";
 import CheckoutPage from "./components/Busket/CheckoutPage/CheckoutPage";
