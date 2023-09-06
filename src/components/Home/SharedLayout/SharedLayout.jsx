@@ -12,6 +12,7 @@ export default function SharedLayout() {
   let isTablet = window.screen.width > "768" ? true : false;
 
   return (
+    <>
     <Suspense fallback={<Loader />}>
       {isTablet ? (
         <TabletNav />
@@ -28,5 +29,6 @@ export default function SharedLayout() {
       </main>
       <Footer />
     </Suspense>
+  </>
   );
 }

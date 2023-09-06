@@ -4,7 +4,6 @@ import { theme } from "../../styles/theme";
 export const Form = styled.form`
   background-color: rgb(255, 200, 221, 0.3);
   padding: 20px;
-  width: 320px;
   margin: 0 auto;
   @media (min-width: 479px) {
       width: ${props => props.login ? "320px" : "400px"};
