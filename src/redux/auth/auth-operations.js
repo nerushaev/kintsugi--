@@ -97,6 +97,7 @@ export const refreshToken = createAsyncThunk(
     try {
       const result = await api.AuthInstance.get("/api/auth/refresh");
       // return result.data;
+      api.setToken(result.data.token);
       return result.data;
     } catch ({ responce }) {
       const error = {
