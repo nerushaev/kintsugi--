@@ -30,6 +30,13 @@ import { Navigate } from "react-router";
 import DeliveryData from "../../Auth/UserPage/UserData/DeliveryData";
 import { deliveryDataValidation } from "../../../helpers/deliveryDataValidation";
 import { selectNovaState } from "../../../redux/nova/nova-selectors";
+import styled from 'styled-components';
+
+const BusketWrapper = styled.div`
+@media (min-width: 1199px) {
+  margin-right: 50px;
+}
+`;
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
@@ -262,10 +269,12 @@ export default function CheckoutPage() {
   return (
     <>
       <OrderWrapper>
+        <BusketWrapper>
         <ProductsList>
           <Label>Ваше замовлення:</Label>
           {elements}
         </ProductsList>
+        </BusketWrapper>
         <Form checkout onSubmit={handleSubmit}>
           <Inputt
             name="email"

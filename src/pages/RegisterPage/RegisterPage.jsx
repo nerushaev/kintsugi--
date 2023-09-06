@@ -6,10 +6,9 @@ import Loader from "../../components/Loader/Loader";
 import { selectIsLoading } from "../../redux/auth/auth-selectors";
 
 const Wrapper = styled.div`
-  width: 400px;
   height: 100%;
   margin: 0 auto;
-  padding: 50px 0;
+  padding: 20px;
 `;
 
 export default function RegisterPage() {

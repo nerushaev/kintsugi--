@@ -4,6 +4,11 @@ import { theme } from "../../styles/theme";
 export const Form = styled.form`
   background-color: rgb(255, 200, 221, 0.3);
   padding: 20px;
+  width: 320px;
+  margin: 0 auto;
+  @media (min-width: 479px) {
+      width: 400px;
+  }
 `;
 
 export const InputsWrapper = styled.div`
@@ -13,9 +18,13 @@ export const InputsWrapper = styled.div`
 
 export const InputWrapper = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   margin-bottom: 10px;
+  @media (min-width: 479px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 `;
 
 export const Input = styled.input`
@@ -24,9 +33,13 @@ export const Input = styled.input`
 `;
 
 export const Label = styled.label`
+  margin-bottom: 10px;
   font-size: ${theme.fontSizes.small};
   margin-right: 5px;
   font-weight: 600;
+  @media (min-width: 479px) {
+    margin-bottom: 0;
+  }
 `;
 
 export const Button = styled.button`

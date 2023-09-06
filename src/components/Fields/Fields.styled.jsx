@@ -4,12 +4,12 @@ import { theme } from "../../styles/theme";
 export const OrderWrapper = styled.div`
   margin: 0 auto;
   max-width: 450px;
-  @media (min-width: 768px) {
-    max-width: 450px;
+  @media (min-width: 1199px) {
     margin: 0 auto;
-    // display: flex;
-    // flex-direction: row-reverse;
-    // justify-content: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 100%;
   }
 `;
 
@@ -20,7 +20,8 @@ export const Form = styled.form`
   @media (min-width: 768px) {
     margin-right: ${(props) => (props.checkout ? "30px" : "0")};
   }
-  @media (min-width: 1200px) {
+  @media (min-width: 1199px) {
+    max-width: 100%
     margin-right: ${(props) => (props.checkout ? "50px" : "0")};
   }
 `;
@@ -158,8 +159,8 @@ export const Input = styled.input`
   }
 
   @media (min-width: 1200px) {
-    height: 60px;
-    font-size: 22px;
+    height: 50px;
+    font-size: ${theme.fontSizes.medium};
   }
 `;
 
