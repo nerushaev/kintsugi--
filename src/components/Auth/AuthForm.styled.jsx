@@ -7,7 +7,7 @@ export const Form = styled.form`
   width: 320px;
   margin: 0 auto;
   @media (min-width: 479px) {
-      width: 400px;
+      width: ${props => props.login ? "320px" : "400px"};
   }
 `;
 
@@ -24,6 +24,9 @@ export const InputWrapper = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+  }
+  &:last-child {
+    margin-bottom: 20px;
   }
 `;
 

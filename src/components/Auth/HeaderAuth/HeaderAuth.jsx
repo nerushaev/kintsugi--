@@ -46,7 +46,7 @@ export default function HeaderAuth() {
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
+      <Form login onSubmit={handleSubmit}>
         <InputsWrapper>
           <InputWrapper>
             <Label>Пошта</Label>
@@ -68,10 +68,10 @@ export default function HeaderAuth() {
               value={password}
             />
           </InputWrapper>
+        </InputsWrapper>
           <Button type="submit" onSubmit={handleSubmit}>
             Вхід
           </Button>
-        </InputsWrapper>
       </Form>
       {error && (
         <AuthDynamicLink redirectTo={"/restore"} message={"Забули пароль?"} />

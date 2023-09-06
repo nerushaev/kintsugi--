@@ -20,6 +20,7 @@ export const Item = styled.li`
   transition: scale 300ms cubic-bezier(0.4, 0, 0.2, 1),
   background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
+  padding: 10px;
 
   @media (min-width: 380px) {
   flex-basis: calc((100% - 20px) / 2);
@@ -55,7 +56,7 @@ export const Title = styled.p`
   font-weight: 600;
   font-size: ${theme.fontSizes.medium};
   margin-bottom: 10px;
-  overflow: scroll;
+  overflow: hidden;
 `;
 
 export const Price = styled.p`
@@ -63,7 +64,7 @@ export const Price = styled.p`
   color: ${theme.colors.rose};
   font-size: ${theme.fontSizes.medium};
   margin-bottom: 10px;
-  overflow: scroll;
+  overflow: hidden;
 `;
 
 export const Sizes = styled.p`
@@ -71,7 +72,7 @@ font-weight: 600;
 color: ${theme.colors.black};
 font-size: ${theme.fontSizes.medium};
 margin-bottom: 10px;
-overflow: scroll;
+overflow: hidden;
 `;  
 
 export const AddButton = styled.button`

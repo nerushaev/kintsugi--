@@ -8,6 +8,7 @@ import { selectIsLoading } from "../../redux/auth/auth-selectors";
 const Wrapper = styled.div`
   height: 100%;
   margin: 0 auto;
+  vertical-align: middle;
   padding: 20px;
 `;
 
