@@ -41,7 +41,7 @@ export const selectBusketProductsId = (state) => {
   return result;
 };
 
-export const getFilteredProducts = (state) => {
+export const selectFilteredProducts = (state) => {
   const filter = getFilter(state);
   const products = getStateProducts(state);
 

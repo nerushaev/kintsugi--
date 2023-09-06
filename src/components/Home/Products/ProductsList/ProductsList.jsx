@@ -4,7 +4,7 @@ import { getProducts } from "../../../../redux/products/products-operation";
 import React, { useEffect, useRef, useState } from "react";
 import {
   getTotalPages,
-  getFilteredProducts,
+  selectFilteredProducts,
 } from "../../../../redux/products/products-selectors";
 import { getFilter } from "../../../../redux/filter/filter-selectors";
 import { List, ListWrapper } from "../List.styled";
@@ -15,7 +15,7 @@ import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 
 const ProductsList = () => {
   const dispatch = useDispatch();
-  const product = useSelector(getFilteredProducts);
+  const product = useSelector(selectFilteredProducts);
   const [page, setPage] = useState(1);
   const totalPages = useSelector(getTotalPages);
   const filter = useSelector(getFilter);

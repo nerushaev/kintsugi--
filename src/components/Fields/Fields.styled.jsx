@@ -116,7 +116,7 @@ export const ProductName = styled.h2`
 `;
 
 export const Text = styled.p`
-  font-size: 16px;
+  font-size: ${theme.fontSizes.medium};
   font-family: "Montserrat";
   font-weight: ${(props) => (props.accent ? "500" : "400")};
   line-height: 20px;
@@ -126,13 +126,13 @@ export const Text = styled.p`
     margin-bottom: 15px;
   }
   @media (min-width: 768px) {
-    font-size: 20px;
+    font-size: ${theme.fontSizes.large};
     &:not(:last-child) {
       margin-bottom: 20px;
     }
   }
   @media (min-width: 1200px) {
-    font-size: 26px;
+    font-size: ${theme.fontSizes.large};
     margin-bottom: 20px;
     line-height: 26px;
   }

@@ -1,10 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Slider from '../../Swiper/Swiper';
-import svg from '../../../../images/filterIcons.svg';
-import { ProductName, Text } from '../../../Fields/Fields.styled';
-import { ButtonWrapper, Button } from '../../../Buttons/Buttons';
+import { Button } from '../../../Buttons/Buttons';
 import React from 'react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { theme } from '../../../../styles/theme';
+import SimilarProducts from '../SimilarProducts/SimilarProducts';
 
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
@@ -16,42 +17,70 @@ const GoBackWrapper = styled.div`
   margin-bottom: 30px;
 `;
 
-const ImageWrapper = styled.div`
-
+const ProductName = styled.h2`
+  font-size: ${theme.fontSizes.medium};
+  margin-bottom: 20px;
 `;
-const TextWrapper = styled.div`
+
+const ProductWrapper = styled.div`
+  margin-bottom: 50px;
+`;
+
+const DetailsCategory = styled.p`
+  font-weight: 400;
+  font-size: ${theme.fontSizes.medium};
+  margin-bottom: 10px;
+`;
+
+const ImageWrapper = styled.div`
+  max-width: 480px;
+`;
+const DetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
+const DetailsText = styled.p`
+  font-weight: 500;
+  font-size: ${theme.fontSizes.medium};
+  margin-bottom: 20px;
+`;
+
+const Price = styled.p`
+  font-size: ${theme.fontSizes.large};
+  margin-bottom: 30px;
+`
+
 export default function ProductsDetails({ data }) {
-  const { name, image, description, price } = data;
+  const { name, image, description, price, size } = data;
+  const sizes = size && size.join(", ");
   return (
     <>
       <GoBackWrapper>
-      <svg width="21" height="16">
-        <use xlinkHref={`${svg}#icon-arrow`} />
-      </svg>
+        <ArrowBackIcon />
       <GoBackLink to="/">
-          Go back
+          Назад
       </GoBackLink>
     </GoBackWrapper>
       
-
-      <ImageWrapper>
-      {image ? <Slider images={image} /> : ""}
-        </ImageWrapper>
-      <TextWrapper>
+      <ProductWrapper>
+        <ImageWrapper>
+        {image ? <Slider images={image} /> : ""}
+      </ImageWrapper>
+      <DetailsWrapper>
       <ProductName>{name}</ProductName>
-      <Text>{description}</Text>
-        <Text accent>{price}грн.</Text>
-        <ButtonWrapper>
+      <DetailsCategory>Опис</DetailsCategory>
+      <DetailsText>{description}</DetailsText>
+      <DetailsCategory>Розміри</DetailsCategory>
+      <DetailsText>{size === "-" ? "One size" : sizes}</DetailsText>
+        <Price accent>{price}грн.</Price>
       <Button>
             Додати у кошик
       </Button>
-      </ButtonWrapper>
-      </TextWrapper>
+      </DetailsWrapper>
+      </ProductWrapper>
+      <SimilarProducts />
     </>
   )
 };

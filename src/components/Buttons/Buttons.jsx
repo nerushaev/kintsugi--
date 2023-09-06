@@ -14,7 +14,8 @@ export const Button = styled.button`
   font-family: "Montserrat";
   font-weight: 500;
   line-height: 20px;
-  padding: 10px 30px;
+  padding: 10px 0;
+  width: 100%;
   background-color: ${(props) =>
     props.delete ? theme.colors.red : theme.colors.formButton};
 

@@ -11,12 +11,12 @@ const Block = styled.div`
 
   @media screen and (min-width: 768px) {
     max-width: 1199px;
-    padding: 0 32px;
+    padding: 0 30px;
   }
 
   @media screen and (min-width: 1280px) {
     width: 1280px;
-    padding: 0 16px;
+    padding: 0 30px;
   }
 `;
 
