@@ -12,6 +12,7 @@ import Loader from "../components/Loader/Loader";
 import { List } from "../components/Home/Products/List.styled";
 import { ProductsItem } from "../components/Home/Products/ProductsItem/ProductsItem";
 import MoreInfoControlls from "../components/Home/Products/ProductsDetails/MoreInfoControlls.jsx/MoreInfoControlls";
+import Title from "../components/Home/Title/Title";
 
 export default function Product() {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ export default function Product() {
       {isLoading && <Loader />}
       <ProductsDetails data={product} />
       <MoreInfoControlls data={product} />
+      <Title text="Схожі товари" />
       <List>
         <ProductsItem data={products} id={product._id} />
       </List>
