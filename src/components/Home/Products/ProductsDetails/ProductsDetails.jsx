@@ -52,7 +52,7 @@ const Price = styled.p`
 `
 
 export default function ProductsDetails({ data }) {
-  const { name, image, description, price, size, category } = data;
+  const { name, image, description, price, size } = data;
   const sizes = size && size.join(", ");
   return (
     <>
