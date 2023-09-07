@@ -2,6 +2,7 @@ export const theme = Object.freeze({
   colors: {
     formButton: "rgba(162, 210, 255, 1)",
     formButtonAccent: "rgba(103, 181, 255, 1)",
+    formButtonDisabled: "rgba(103, 181, 255, 0.4)",
     cardButton: "rgba(103, 181, 255, 1)",
     white: "#ffffff",
     black: "#181C27",
