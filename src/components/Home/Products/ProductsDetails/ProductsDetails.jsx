@@ -5,7 +5,6 @@ import { Button } from '../../../Buttons/Buttons';
 import React from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { theme } from '../../../../styles/theme';
-import SimilarProducts from '../SimilarProducts/SimilarProducts';
 
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
@@ -53,7 +52,7 @@ const Price = styled.p`
 `
 
 export default function ProductsDetails({ data }) {
-  const { name, image, description, price, size } = data;
+  const { name, image, description, price, size, category } = data;
   const sizes = size && size.join(", ");
   return (
     <>
@@ -80,7 +79,6 @@ export default function ProductsDetails({ data }) {
       </Button>
       </DetailsWrapper>
       </ProductWrapper>
-      <SimilarProducts />
     </>
   )
 };

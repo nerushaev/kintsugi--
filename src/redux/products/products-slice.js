@@ -9,6 +9,7 @@ import {
   getProductsById,
   getProductsByName,
   orderProducts,
+  getSimilarProducts,
 } from "./products-operation";
 
 const productsInitialState = {
@@ -21,6 +22,7 @@ const productsInitialState = {
   busket: [],
   details: [],
   banners: [],
+  similarProducts: [],
 };
 
 const handlePending = (state) => {
@@ -74,6 +76,13 @@ const productsSlice = createSlice({
       state.totalPages = action.payload.totalPages;
     },
     [getProducts.rejected]: handleRejected,
+    [getSimilarProducts.pending]: handlePending,
+    [getSimilarProducts.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.similarProducts = action.payload.products;
+    },
+    [getSimilarProducts.rejected]: handleRejected,
     [getProductsByName.pending]: handlePending,
     [getProductsByName.fulfilled](state, action) {
       state.isLoading = false;

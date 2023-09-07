@@ -19,7 +19,7 @@ import { getBusket } from "../../../../redux/products/products-selectors";
 import CountButton from "./CountButton";
 import React from "react";
 
-export const ProductsItem = ({ data }) => {
+export const ProductsItem = ({ data, id }) => {
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
 
@@ -36,9 +36,13 @@ export const ProductsItem = ({ data }) => {
       return (
         <Item key={itemId}>
           <ItemBody>
-          <Link to={_id}>
+            {id === _id ? 
+            <Image src={image[0] ? image[0] : image} alt="" />
+            :
+            <Link to={`/products/${_id}`}>
             <Image src={image[0] ? image[0] : image} alt="" />
           </Link>
+          }
             <Title>{name}</Title>
             <Description>{description}</Description>
             <CardInfoWrapper>

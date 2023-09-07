@@ -39,7 +39,7 @@ function App() {
     <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<Home />} />
-        <Route path=":_id" element={<Product />} />
+        <Route path="/products/:_id" element={<Product />} />
         <Route path="/info" element={<InfoPage />} />
         {/* <Route path="/busket" element={<BusketPage />} /> */}
         <Route path="/busket" element={<CheckoutPage />} />

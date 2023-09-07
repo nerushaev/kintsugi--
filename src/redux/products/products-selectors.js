@@ -4,6 +4,8 @@ export const getStateProducts = (state) => state.products.items;
 
 export const getDetails = (state) => state.products.details;
 
+export const selectSimilarProducts = (state) => state.products.similarProducts;
+
 export const selectСomingSoonProducts = (state) =>
   state.products.comingSoonProducts;
 

@@ -21,6 +21,21 @@ export const getProducts = createAsyncThunk(
   }
 );
 
+export const getSimilarProducts = createAsyncThunk(
+  "/products/getSimilar",
+  async (requestData, ThunkAPI) => {
+    const { category } = requestData;
+      try {
+        const { data } = await instance.get(
+          `/api/products?page=1&category=${category}`
+        );
+        return data;
+      } catch (error) {
+        return ThunkAPI.rejectWithValue(error.message);
+      }
+    }
+);
+
 export const getBaners = createAsyncThunk(
   "products/getBanners",
   async (requestData, ThunkApi) => {
