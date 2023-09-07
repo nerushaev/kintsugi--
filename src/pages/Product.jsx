@@ -11,7 +11,7 @@ import {
 import Loader from "../components/Loader/Loader";
 import { List } from "../components/Home/Products/List.styled";
 import { ProductsItem } from "../components/Home/Products/ProductsItem/ProductsItem";
-import MoreInfoControlls from "../components/Home/Products/ProductsDetails/MoreInfoControlls.jsx/MoreInfoControlls";
+import MoreInfoControlls from "../components/Home/Products/ProductsDetails/MoreInfoControlls/MoreInfoControlls";
 import Title from "../components/Home/Title/Title";
 
 export default function Product() {

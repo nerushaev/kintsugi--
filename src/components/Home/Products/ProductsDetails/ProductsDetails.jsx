@@ -8,6 +8,13 @@ import { theme } from '../../../../styles/theme';
 
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
+  font-size: ${theme.fontSizes.large};
+  @media (min-width: 767px) {
+    font-size: ${theme.fontSizes.extraLarge};
+    }
+  @media (min-width: 1199px) {
+      font-size: ${theme.fontSizes.title};
+      }
 `;
 const GoBackWrapper = styled.div`
   display: flex;
@@ -19,36 +26,75 @@ const GoBackWrapper = styled.div`
 const ProductName = styled.h2`
   font-size: ${theme.fontSizes.medium};
   margin-bottom: 20px;
+  @media (min-width: 767px) {
+    font-size: ${theme.fontSizes.large};
+    }
+  @media (min-width: 1199px) {
+      font-size: ${theme.fontSizes.extraLarge};
+      }
 `;
 
 const ProductWrapper = styled.div`
   margin-bottom: 50px;
+  @media (min-width: 767px) {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
 `;
 
 const DetailsCategory = styled.p`
   font-weight: 400;
   font-size: ${theme.fontSizes.medium};
   margin-bottom: 10px;
+  @media (min-width: 767px) {
+  font-size: ${theme.fontSizes.large};
+  }
+  @media (min-width: 1199px) {
+    font-size: ${theme.fontSizes.extraLarge};
+    }
 `;
 
 const ImageWrapper = styled.div`
-  max-width: 480px;
+  max-width: 100%;
+  margin: 0 auto;
+  @media (min-width: 767px) {
+    width: 350px;
+    margin: 0;
+  }
+  @media (min-width: 1200px) {
+    width: 500px;
+    margin: 0;
+  }
 `;
 const DetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  @media (min-width: 767px) {
+    width: 320px;
+  }
 `;
 
 const DetailsText = styled.p`
   font-weight: 500;
   font-size: ${theme.fontSizes.medium};
   margin-bottom: 20px;
+  @media (min-width: 767px) {
+    font-size: ${theme.fontSizes.large};
+    }
+  @media (min-width: 1199px) {
+      font-size: ${theme.fontSizes.extraLarge};
+      }
 `;
 
 const Price = styled.p`
   font-size: ${theme.fontSizes.large};
   margin-bottom: 30px;
+  @media (min-width: 767px) {
+    font-size: ${theme.fontSizes.extraLarge};
+    }
 `
 
 export default function ProductsDetails({ data }) {
@@ -57,7 +103,7 @@ export default function ProductsDetails({ data }) {
   return (
     <>
       <GoBackWrapper>
-        <ArrowBackIcon />
+        <ArrowBackIcon fontSize="large" />
       <GoBackLink to="/">
           Назад
       </GoBackLink>
