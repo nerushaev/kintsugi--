@@ -3,21 +3,26 @@ import {
   Item,
   Image,
   Title,
-  AddButton,
   Price,
   Description,
-  CardIcon,
   CardInfoWrapper,
   ItemBody,
   Sizes
 } from "../ListItem.styled";
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { addToBusket } from "../../../../redux/products/products-slice";
 import { Link } from "react-router-dom";
-import svg from "../../../../images/filterIcons.svg";
 import { getBusket } from "../../../../redux/products/products-selectors";
 import CountButton from "./CountButton";
 import React from "react";
+import { AddButton } from "../../../Buttons/Buttons";
+import styled from 'styled-components';
+
+const IconWrapper = styled.div`
+  margin-left: 10px;
+  display: flex;
+`
 
 export const ProductsItem = ({ data, id }) => {
   const dispatch = useDispatch();
@@ -68,9 +73,9 @@ export const ProductsItem = ({ data, id }) => {
               }
             >
               Додати у кошик
-              <CardIcon width="20" height="25">
-                <use xlinkHref={`${svg}#icon-buy`} />
-              </CardIcon>
+              <IconWrapper>
+              <ShoppingCartOutlinedIcon />
+              </IconWrapper>
             </AddButton>
           )}
           </ItemBody>

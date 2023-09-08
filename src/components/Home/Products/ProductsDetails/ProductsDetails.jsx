@@ -1,10 +1,14 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Slider from '../../Swiper/Swiper';
-import { Button } from '../../../Buttons/Buttons';
+import { AddButton } from '../../../Buttons/Buttons';
 import React from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { theme } from '../../../../styles/theme';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToBusket } from '../../../../redux/products/products-slice';
+import { getBusket } from '../../../../redux/products/products-selectors';
+import CountButton from '../ProductsItem/CountButton';
 
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
@@ -98,9 +102,19 @@ const Price = styled.p`
 `
 
 export default function ProductsDetails({ data }) {
-  const { name, image, description, price, size } = data;
+  const { name, image, description, price, size, _id, amount, category } = data;
   const sizes = size && size.join(", ");
+
+  const dispatch = useDispatch();
+  const busket = useSelector(getBusket);
+  const handleClick = (newData) => {
+    dispatch(addToBusket(newData));
+  };
+
+  const isFromBusket = busket.find((item) => item._id === _id);
+
   return (
+    
     <>
       <GoBackWrapper>
         <ArrowBackIcon fontSize="large" />
@@ -120,9 +134,25 @@ export default function ProductsDetails({ data }) {
       <DetailsCategory>Розміри</DetailsCategory>
       <DetailsText>{size === "-" ? "One size" : sizes}</DetailsText>
         <Price accent>{price}грн.</Price>
-      <Button>
-            Додати у кошик
-      </Button>
+        {isFromBusket ? 
+      <AddButton>
+        <CountButton quantity={isFromBusket.amount} _id={_id} />
+      </AddButton>
+        :
+        <AddButton id={_id} onClick={() =>
+          handleClick({
+            _id,
+            name,
+            description,
+            image,
+            price,
+            amount,
+            category,
+          })
+        }>
+      Додати у кошик
+</AddButton>
+      }
       </DetailsWrapper>
       </ProductWrapper>
     </>

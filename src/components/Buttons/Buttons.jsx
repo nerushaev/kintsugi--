@@ -37,3 +37,21 @@ export const Button = styled.button`
     padding: 20px 50px;
   }
 `;
+
+export const AddButton = styled.button`
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 60px;
+  font-size: ${theme.fontSizes.medium};
+  padding: 10px 10px;
+  background-color: ${(props) =>
+    props.disabled ? "#D6B2D9" : `${theme.colors.formButton}`};
+  color: #000;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  @media (min-width: 767px) {
+    font-size: ${theme.fontSizes.large};
+  }
+`;

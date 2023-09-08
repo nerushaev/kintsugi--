@@ -6,7 +6,6 @@ export const CardInfoWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
-  padding: 10px;
 `;
 
 export const Item = styled.li`
@@ -14,15 +13,16 @@ export const Item = styled.li`
   font-family: "Montserrat";
   text-align: left;
   margin-bottom: 15px;
-  margin-left: 5px;
-  margin-right: 5px;
+  
   transform: scale(1);
   transition: scale 300ms cubic-bezier(0.4, 0, 0.2, 1),
   background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
-  padding: 10px;
+  padding: 5px;
 
-  @media (min-width: 380px) {
+  @media (min-width: 479px) {
+  margin-left: 5px;
+  margin-right: 5px;
   flex-basis: calc((100% - 20px) / 2);
   }
 
@@ -57,6 +57,11 @@ export const Title = styled.p`
   font-size: ${theme.fontSizes.medium};
   margin-bottom: 10px;
   overflow: hidden;
+  min-height: 40px;
+  @media (min-width: 767px) {
+    font-size: ${theme.fontSizes.large};
+    min-height: 50px;
+  }
 `;
 
 export const Price = styled.p`
@@ -70,34 +75,14 @@ export const Price = styled.p`
 export const Sizes = styled.p`
 font-weight: 600;
 color: ${theme.colors.black};
-font-size: ${theme.fontSizes.medium};
+font-size: ${theme.fontSizes.small};
 margin-bottom: 10px;
 overflow: hidden;
 `;  
 
-export const AddButton = styled.button`
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  min-height: 60px;
-  font-size: ${theme.fontSizes.medium};
-  padding: 10px 10px;
-  background-color: ${(props) =>
-    props.disabled ? "#D6B2D9" : `${theme.colors.formButton}`};
-  color: #000;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
-`;
-
 export const Description = styled.p`
-  // height: 45px;
-  font-size: 12px;
+  font-weight: 400;
+  font-size: ${theme.fontSizes.small};
   margin-bottom: 20px;
   overflow: scroll;
-`;
-
-export const CardIcon = styled.svg`
-  margin-left: 5px;
-  fill: currentColor;
 `;
