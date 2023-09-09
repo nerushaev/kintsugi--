@@ -10,11 +10,11 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const Button = styled.button`
-  font-size: ${theme.fontSizes.medium};
+  font-size: ${theme.fontSizes.small};
   font-family: "Montserrat";
   font-weight: 500;
   line-height: 20px;
-  padding: 10px 0;
+  padding: 10px;
   width: 100%;
   background-color: ${(props) =>
     props.delete ? theme.colors.red : theme.colors.formButton};

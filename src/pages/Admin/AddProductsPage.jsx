@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { getAllProducts } from "../../redux/products/products-operation";
 import { useDispatch } from "react-redux";
-import ProductsTable from "../../components/Admin/ProductsTable";
+import ProductsList from "../../components/Admin/Products/ProductsList";
 import { selectIsLoading } from "../../redux/products/products-selectors";
 import Loader from "../../components/Loader/Loader";
 
@@ -21,7 +21,7 @@ export default function Admin() {
     <>
       <FormAddProducts />
       {loading && <Loader />}
-      {products && <ProductsTable data={products} />}
+      {products && <ProductsList data={products} />}
     </>
   );
 }

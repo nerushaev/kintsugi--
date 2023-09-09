@@ -159,7 +159,6 @@ export const Input = styled.input`
   }
 
   @media (min-width: 1200px) {
-    height: 50px;
     font-size: ${theme.fontSizes.medium};
   }
 `;

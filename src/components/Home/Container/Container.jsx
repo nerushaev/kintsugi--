@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Block = styled.div`
-  padding: 0 20px;
+  padding: 0 10px;
   margin: 0 auto;
 
   @media screen and (min-width: 320px) {
@@ -11,7 +11,7 @@ const Block = styled.div`
 
   @media screen and (min-width: 768px) {
     max-width: 1199px;
-    padding: 0 30px;
+    padding: 0 20px;
   }
 
   @media screen and (min-width: 1280px) {

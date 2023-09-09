@@ -21,8 +21,6 @@ export const AuthInstance = axios.create({
     "Content-Type": "application/json",
   },
   baseURL: BASE_URL,
-  // url: BASE_URL,
-
   withCredentials: true,
 });
 
