@@ -21,7 +21,8 @@ export const Button = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-
+  
+  margin-bottom: ${props => props.margin ? "20px" : ""};
   &:hover,
   &:focus {
     background-color: ${(props) =>

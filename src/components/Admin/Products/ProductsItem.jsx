@@ -9,7 +9,6 @@ import { removeProduct, updateProduct } from "../../../redux/products/products-o
 import { theme } from "../../../styles/theme";
 import { Option, OptionsWrapper, OptionWrapper } from "../Form";
 import CustomTagsInput from "./CustomTagsInput";
-import ButtonWithLoader from "../../Buttons/ButtonWithLoader";
 import { selectIsLoading } from "../../../redux/products/products-selectors";
 import { Button } from "../../Buttons/Buttons";
 
@@ -80,7 +79,7 @@ const MoreButton = styled.button`
 `;
 
 export default function ProductsItem({ data }) {
-  const { name, amount, price, category, size, _id, image, tags } = data;
+  const { name, amount, price, category, size, _id, image, tags, sizeInformation = "" } = data;
   const dispatch = useDispatch();
   //MEMO
   const oldName = useMemo(() => name, [name]);
@@ -99,6 +98,8 @@ export default function ProductsItem({ data }) {
   const [priceProductChange, setPriceProductChange] = useState(false);
 
   const [sizes, setSizes] = useState(size);
+
+  const [sizeInfo, setSizeInfo] = useState(sizeInformation);
 
   const [isMoreInfoActive, setIsMoreInfoActive] = useState(true);
 
@@ -122,6 +123,9 @@ export default function ProductsItem({ data }) {
         break;
       case "categoryProduct":
         dispatch(updateProduct({ category: value, _id }));
+        break;
+      case "sizeInfo":
+        setSizeInfo(value);
         break;
       default:
         break;
@@ -181,6 +185,11 @@ export default function ProductsItem({ data }) {
   const handleSubmitSize = () => {
     dispatch(updateProduct({ size: sizes, _id }));
   };
+
+  const handleSubmitSizeInfo = () => {
+    dispatch(updateProduct({ sizeInformation: sizeInfo, _id }));
+
+  }
 
   const handleDelete = (id) => {
     dispatch(removeProduct(id));
@@ -262,13 +271,13 @@ export default function ProductsItem({ data }) {
               defaultValue={category}
               onChange={handleChange}
             >
-              <option value="wigs">Перука</option>
-              <option value="costume">Костюм</option>
+              <option value="wigs">Перуки</option>
+              <option value="costume">Костюми</option>
               <option value="accessories">Аксессури</option>
               <option value="smallStand">Маленькі стенди</option>
               <option value="bigStand">Великі стенди</option>
               <option value="pendant">Підвіски</option>
-              <option value="pin">Пін</option>
+              <option value="pin">Піни</option>
               <option value="hairpins">Шпильки</option>
               <option value="earrings">Сережки</option>
               <option value="tapestries">Гобелени</option>
@@ -359,7 +368,11 @@ export default function ProductsItem({ data }) {
                   <label>One size</label>
                 </OptionWrapper>
               </OptionsWrapper>
-              <ButtonWithLoader onClick={handleSubmitSize} loading={loading} text={"Зберегти"} />
+              <Button margin onClick={handleSubmitSize}>Зберегти</Button>
+              <InputField>
+              <Input name="sizeInfo" onChange={handleChange} value={sizeInfo} placeholder="Додаткова інформація про розміри"/>
+              </InputField>
+              <Button onClick={handleSubmitSizeInfo}>Зберегти</Button>
               <Button delete onClick={() => handleDelete(_id)}>Видалити товар</Button>
             </>
           )}

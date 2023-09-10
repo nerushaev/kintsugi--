@@ -115,13 +115,13 @@ export default function FormAddProducts() {
       <Category>Категорія</Category>
       <OptionsWrapper>
         <Select title="Перука" name="category">
-          <option name="wigs">Перука</option>
-          <option name="costume">Костюм</option>
+          <option name="wigs">Перуки</option>
+          <option name="costume">Костюми</option>
           <option name="accessories">Аксессури</option>
           <option name="smallStand">Маленькі стенди</option>
           <option name="bigStand">Великі стенди</option>
           <option name="pendant">Підвіски</option>
-          <option name="pin">Пін</option>
+          <option name="pin">Піни</option>
           <option name="hairpins">Шпильки</option>
           <option name="earrings">Сережки</option>
           <option name="tapestries">Гобелени</option>

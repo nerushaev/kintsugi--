@@ -19,7 +19,7 @@ export default function Admin() {
     <>
       <FormAddProducts />
       {/* {loading && <Loader />} */}
-      <Search />
+      {products.length > 2 &&<Search />}
       {products && <ProductsList data={products} />}
     </>
   );
