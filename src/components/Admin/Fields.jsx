@@ -10,7 +10,7 @@ export const Form = styled.form`
   margin-right: auto;
   margin-bottom: 20px;
   text-align: center;
-  max-width: 800px;
+  max-width: 500px;
 `;
 
 export const Label = styled.label`

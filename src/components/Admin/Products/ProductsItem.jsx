@@ -4,11 +4,13 @@ import styled from "styled-components";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { useMemo } from "react";
-import { useDispatch } from "react-redux";
-import { updateProduct } from "../../../redux/products/products-operation";
+import { useDispatch, useSelector } from "react-redux";
+import { removeProduct, updateProduct } from "../../../redux/products/products-operation";
 import { theme } from "../../../styles/theme";
 import { Option, OptionsWrapper, OptionWrapper } from "../Form";
 import CustomTagsInput from "./CustomTagsInput";
+import ButtonWithLoader from "../../Buttons/ButtonWithLoader";
+import { selectIsLoading } from "../../../redux/products/products-selectors";
 import { Button } from "../../Buttons/Buttons";
 
 const Title = styled.p`
@@ -18,13 +20,18 @@ const Title = styled.p`
 
 const Item = styled.li`
   padding: 20px 0;
+  max-width: 500px;
+  margin: 0 auto;
   margin-bottom: 50px;
+
 `;
 
 const Input = styled.input`
-  height: 30px;
+  height: 40px;
   padding: 5px 10px;
   width: 100%;
+  font-size: ${theme.fontSizes.small};
+  // font-family: "Montserrat";
 `;
 
 const InputField = styled.div`
@@ -34,7 +41,8 @@ const InputField = styled.div`
 `;
 
 const Image = styled.img`
-  width: 120px;
+  min-width: 120px;
+  max-width: 240px;
 `;
 
 const MainWrapper = styled.div`
@@ -46,6 +54,7 @@ const MainWrapper = styled.div`
 const MainInputsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 `;
 
 const ImageWrapper = styled.div`
@@ -57,9 +66,10 @@ const Label = styled.label`
 `;
 
 const Select = styled.select`
-  height: 30px;
+  height: 40px;
   padding: 5px 10px;
   width: 100%;
+  font-size: ${theme.fontSizes.small};
 `;
 
 const MoreButton = styled.button`
@@ -91,6 +101,9 @@ export default function ProductsItem({ data }) {
   const [sizes, setSizes] = useState(size);
 
   const [isMoreInfoActive, setIsMoreInfoActive] = useState(true);
+
+  const loading = useSelector(selectIsLoading);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -168,6 +181,10 @@ export default function ProductsItem({ data }) {
   const handleSubmitSize = () => {
     dispatch(updateProduct({ size: sizes, _id }));
   };
+
+  const handleDelete = (id) => {
+    dispatch(removeProduct(id));
+  }
 
   return (
     <Item>
@@ -266,7 +283,7 @@ export default function ProductsItem({ data }) {
       {isMoreInfoActive && (
         <>
           <Title>Теги</Title>
-          <CustomTagsInput _id={_id} oldTags={tags} />
+          <CustomTagsInput _id={_id} oldTags={tags} loading={loading}/>
           <Title>Розміри</Title>
           {size && (
             <>
@@ -342,7 +359,8 @@ export default function ProductsItem({ data }) {
                   <label>One size</label>
                 </OptionWrapper>
               </OptionsWrapper>
-              <Button onClick={handleSubmitSize}>Зберегти</Button>
+              <ButtonWithLoader onClick={handleSubmitSize} loading={loading} text={"Зберегти"} />
+              <Button delete onClick={() => handleDelete(_id)}>Видалити товар</Button>
             </>
           )}
         </>

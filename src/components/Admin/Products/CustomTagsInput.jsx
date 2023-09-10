@@ -5,7 +5,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from 'styled-components';
 import { updateProduct } from "../../../redux/products/products-operation";
-import {Button} from '../../Buttons/Buttons';
+import { Button } from "../../Buttons/Buttons";
+
 const Container = styled.div`
   display: flex;
   overflow: scroll;
@@ -39,7 +40,7 @@ const Tag = styled.div`
   background-color: orange;
   white-space: nowrap;
   color: white;
-  height: 20px;
+  height: 30px;
 `;
 
 const DeleteButton = styled.button`
@@ -51,7 +52,7 @@ const DeleteButton = styled.button`
   color: white;
 `;
 
-export default function CustomTagsInput({_id, oldTags}) {
+export default function CustomTagsInput({_id, oldTags, loading}) {
   const [input, setInput] = useState("");
   const [tags, setTags] = useState(oldTags || []);
   const [isKeyReleased, setIsKeyReleased] = useState(false);

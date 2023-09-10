@@ -5,22 +5,21 @@ import React, { useEffect } from "react";
 import { getAllProducts } from "../../redux/products/products-operation";
 import { useDispatch } from "react-redux";
 import ProductsList from "../../components/Admin/Products/ProductsList";
-import { selectIsLoading } from "../../redux/products/products-selectors";
-import Loader from "../../components/Loader/Loader";
+import Search from "../../components/Home/Search/Search";
 
 export default function Admin() {
   const products = useSelector(getStateProducts);
-  const dispatch = useDispatch();
-  const loading = useSelector(selectIsLoading);
+  const dispatch = useDispatch(); 
 
   useEffect(() => {
-    dispatch(getAllProducts());
+      dispatch(getAllProducts());
   }, [dispatch]);
 
   return (
     <>
       <FormAddProducts />
-      {loading && <Loader />}
+      {/* {loading && <Loader />} */}
+      <Search />
       {products && <ProductsList data={products} />}
     </>
   );

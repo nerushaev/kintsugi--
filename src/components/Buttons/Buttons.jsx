@@ -18,6 +18,9 @@ export const Button = styled.button`
   width: 100%;
   background-color: ${(props) =>
     props.delete ? theme.colors.red : theme.colors.formButton};
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
   &:hover,
   &:focus {

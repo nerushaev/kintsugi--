@@ -23,20 +23,19 @@ import OrdersPage from "./pages/Admin/OrdersPage";
 
 function App() {
   const dispatch = useDispatch();
-  const { token, isLoggedIn } = useAuth();
-
+  const { token, isLoggedIn, isRefreshing } = useAuth();
   useEffect(() => {
-
-    if (!isLoggedIn && token) {
+    if (token) {
       dispatch(current());
     } 
-
   }, [token, dispatch, isLoggedIn]);
 
 
 
   return (
-    <Routes>
+    <>
+    {!isRefreshing && (
+      <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<Home />} />
         <Route path="/products/:_id" element={<Product />} />
@@ -74,7 +73,10 @@ function App() {
         <Route path="/restore" element={RestorePass} />
       </Route>
     </Routes>
+    )}
+      </>
   );
+  
 }
 
 export default App;
