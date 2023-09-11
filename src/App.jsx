@@ -30,8 +30,6 @@ function App() {
     } 
   }, [token, dispatch, isLoggedIn]);
 
-
-
   return (
     <>
     {!isRefreshing && (
