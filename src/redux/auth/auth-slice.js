@@ -47,6 +47,7 @@ const authSlice = createSlice({
     [refreshToken.rejected]: (state, { error }) => {
       state.loading = false;
       state.error = error;
+      state.isLogin = false;
     },
     [register.pending]: (state) => {
       state.loading = true;
